@@ -1,10 +1,10 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 
-// Use relative URLs so the build deploys cleanly on any path —
-// `username.github.io`, `username.github.io/<repo>/`, Netlify, etc.
+// Deploys at the apex of trunkline.subhayu.in (custom domain via CNAME),
+// so absolute "/" base path is correct.
 export default defineConfig({
-  base: "./",
+  base: "/",
   plugins: [react()],
   server: {
     port: 5173,
