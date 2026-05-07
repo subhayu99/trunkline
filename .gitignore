@@ -1,0 +1,12 @@
+# Dependencies + build output
+node_modules
+dist
+.vite
+
+# Dev artifacts
+*.log
+.DS_Store
+
+# Local-only reference materials (kept out of the repo to stay light)
+screenshots/
+uploads/

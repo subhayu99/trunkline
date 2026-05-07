@@ -1,0 +1,4206 @@
+{
+  "initialBalance": 50000,
+  "entries": [
+    {
+      "id": "e1008",
+      "when": "2026-01-01T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1001",
+      "when": "2026-01-01T04:30:00.000Z",
+      "dir": "in",
+      "amount": 150000,
+      "tags": [
+        "salary"
+      ],
+      "label": "Monthly salary credited",
+      "note": "Demo Co",
+      "status": "past",
+      "kind": "income"
+    },
+    {
+      "id": "e1002",
+      "when": "2026-01-01T05:30:00.000Z",
+      "dir": "out",
+      "amount": 25000,
+      "tags": [
+        "rent"
+      ],
+      "label": "Apartment rent",
+      "note": "",
+      "status": "past",
+      "kind": "fixed"
+    },
+    {
+      "id": "e1009",
+      "when": "2026-01-02T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1010",
+      "when": "2026-01-02T07:30:00.000Z",
+      "dir": "out",
+      "amount": 346,
+      "tags": [
+        "food"
+      ],
+      "label": "Office canteen",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1011",
+      "when": "2026-01-03T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1073",
+      "when": "2026-01-03T06:30:00.000Z",
+      "dir": "out",
+      "amount": 850,
+      "tags": [
+        "cc-axis",
+        "food"
+      ],
+      "label": "Food delivery",
+      "note": "credit card",
+      "status": "past",
+      "kind": "credit"
+    },
+    {
+      "id": "e1012",
+      "when": "2026-01-03T13:30:00.000Z",
+      "dir": "out",
+      "amount": 87,
+      "tags": [
+        "transport"
+      ],
+      "label": "Bus pass",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1013",
+      "when": "2026-01-04T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1003",
+      "when": "2026-01-04T04:30:00.000Z",
+      "dir": "out",
+      "amount": 4000,
+      "tags": [
+        "insurance"
+      ],
+      "label": "Health insurance",
+      "note": "",
+      "status": "past",
+      "kind": "fixed"
+    },
+    {
+      "id": "e1014",
+      "when": "2026-01-04T07:30:00.000Z",
+      "dir": "out",
+      "amount": 279,
+      "tags": [
+        "food"
+      ],
+      "label": "Quick bite",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1015",
+      "when": "2026-01-05T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1004",
+      "when": "2026-01-05T04:30:00.000Z",
+      "dir": "out",
+      "amount": 2500,
+      "tags": [
+        "bills"
+      ],
+      "label": "Electricity bill",
+      "note": "",
+      "status": "past",
+      "kind": "fixed"
+    },
+    {
+      "id": "e1007",
+      "when": "2026-01-05T04:30:00.000Z",
+      "dir": "out",
+      "amount": 12000,
+      "tags": [
+        "loan-pl"
+      ],
+      "label": "Personal loan EMI",
+      "note": "",
+      "status": "past",
+      "kind": "loans",
+      "recur": {
+        "freq": "month",
+        "every": 1,
+        "count": 24
+      }
+    },
+    {
+      "id": "e1016",
+      "when": "2026-01-06T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1017",
+      "when": "2026-01-06T07:30:00.000Z",
+      "dir": "out",
+      "amount": 321,
+      "tags": [
+        "food"
+      ],
+      "label": "Office canteen",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1071",
+      "when": "2026-01-06T10:30:00.000Z",
+      "dir": "out",
+      "amount": 1105,
+      "tags": [
+        "cc-hdfc",
+        "shopping"
+      ],
+      "label": "Sneakers · online",
+      "note": "credit card",
+      "status": "past",
+      "kind": "credit"
+    },
+    {
+      "id": "e1018",
+      "when": "2026-01-06T13:30:00.000Z",
+      "dir": "out",
+      "amount": 126,
+      "tags": [
+        "transport"
+      ],
+      "label": "Auto ride",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1019",
+      "when": "2026-01-07T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1005",
+      "when": "2026-01-07T04:30:00.000Z",
+      "dir": "out",
+      "amount": 1000,
+      "tags": [
+        "bills"
+      ],
+      "label": "Internet bill",
+      "note": "",
+      "status": "past",
+      "kind": "fixed"
+    },
+    {
+      "id": "e1020",
+      "when": "2026-01-07T05:30:00.000Z",
+      "dir": "out",
+      "amount": 1842,
+      "tags": [
+        "groceries"
+      ],
+      "label": "Weekly groceries",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1021",
+      "when": "2026-01-08T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1022",
+      "when": "2026-01-08T07:30:00.000Z",
+      "dir": "out",
+      "amount": 253,
+      "tags": [
+        "food"
+      ],
+      "label": "Salad bar",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1023",
+      "when": "2026-01-09T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1024",
+      "when": "2026-01-09T13:30:00.000Z",
+      "dir": "out",
+      "amount": 107,
+      "tags": [
+        "transport"
+      ],
+      "label": "Auto ride",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1025",
+      "when": "2026-01-10T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1026",
+      "when": "2026-01-10T07:30:00.000Z",
+      "dir": "out",
+      "amount": 330,
+      "tags": [
+        "food"
+      ],
+      "label": "Office canteen",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1027",
+      "when": "2026-01-10T14:30:00.000Z",
+      "dir": "out",
+      "amount": 844,
+      "tags": [
+        "fun"
+      ],
+      "label": "Concert tickets",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1028",
+      "when": "2026-01-11T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1029",
+      "when": "2026-01-12T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1006",
+      "when": "2026-01-12T04:30:00.000Z",
+      "dir": "out",
+      "amount": 500,
+      "tags": [
+        "bills"
+      ],
+      "label": "Phone recharge",
+      "note": "",
+      "status": "past",
+      "kind": "fixed"
+    },
+    {
+      "id": "e1030",
+      "when": "2026-01-12T07:30:00.000Z",
+      "dir": "out",
+      "amount": 240,
+      "tags": [
+        "food"
+      ],
+      "label": "Office canteen",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1031",
+      "when": "2026-01-12T13:30:00.000Z",
+      "dir": "out",
+      "amount": 64,
+      "tags": [
+        "transport"
+      ],
+      "label": "Cab home",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1032",
+      "when": "2026-01-13T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1033",
+      "when": "2026-01-14T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1035",
+      "when": "2026-01-14T05:30:00.000Z",
+      "dir": "out",
+      "amount": 2273,
+      "tags": [
+        "groceries"
+      ],
+      "label": "Weekly groceries",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1034",
+      "when": "2026-01-14T07:30:00.000Z",
+      "dir": "out",
+      "amount": 207,
+      "tags": [
+        "food"
+      ],
+      "label": "Local cafe",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1036",
+      "when": "2026-01-15T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1037",
+      "when": "2026-01-15T13:30:00.000Z",
+      "dir": "out",
+      "amount": 88,
+      "tags": [
+        "transport"
+      ],
+      "label": "Bus pass",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1038",
+      "when": "2026-01-16T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1039",
+      "when": "2026-01-16T07:30:00.000Z",
+      "dir": "out",
+      "amount": 230,
+      "tags": [
+        "food"
+      ],
+      "label": "Office canteen",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1040",
+      "when": "2026-01-17T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1041",
+      "when": "2026-01-18T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1072",
+      "when": "2026-01-18T03:30:00.000Z",
+      "dir": "merge",
+      "amount": 2000,
+      "tags": [
+        "cc-hdfc"
+      ],
+      "label": "Credit card autopay",
+      "note": "monthly",
+      "status": "past",
+      "kind": "credit"
+    },
+    {
+      "id": "e1042",
+      "when": "2026-01-18T07:30:00.000Z",
+      "dir": "out",
+      "amount": 393,
+      "tags": [
+        "food"
+      ],
+      "label": "Office canteen",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1043",
+      "when": "2026-01-18T13:30:00.000Z",
+      "dir": "out",
+      "amount": 92,
+      "tags": [
+        "transport"
+      ],
+      "label": "Bus pass",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1044",
+      "when": "2026-01-19T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1045",
+      "when": "2026-01-20T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1046",
+      "when": "2026-01-20T07:30:00.000Z",
+      "dir": "out",
+      "amount": 242,
+      "tags": [
+        "food"
+      ],
+      "label": "Quick bite",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1047",
+      "when": "2026-01-20T14:30:00.000Z",
+      "dir": "out",
+      "amount": 994,
+      "tags": [
+        "fun"
+      ],
+      "label": "Movie night",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1048",
+      "when": "2026-01-21T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1050",
+      "when": "2026-01-21T05:30:00.000Z",
+      "dir": "out",
+      "amount": 1964,
+      "tags": [
+        "groceries"
+      ],
+      "label": "Weekly groceries",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1049",
+      "when": "2026-01-21T13:30:00.000Z",
+      "dir": "out",
+      "amount": 80,
+      "tags": [
+        "transport"
+      ],
+      "label": "Cab home",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1051",
+      "when": "2026-01-22T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1074",
+      "when": "2026-01-22T03:30:00.000Z",
+      "dir": "merge",
+      "amount": 1500,
+      "tags": [
+        "cc-axis"
+      ],
+      "label": "Credit card autopay",
+      "note": "monthly",
+      "status": "past",
+      "kind": "credit"
+    },
+    {
+      "id": "e1052",
+      "when": "2026-01-22T07:30:00.000Z",
+      "dir": "out",
+      "amount": 294,
+      "tags": [
+        "food"
+      ],
+      "label": "Salad bar",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1053",
+      "when": "2026-01-23T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1054",
+      "when": "2026-01-24T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1055",
+      "when": "2026-01-24T07:30:00.000Z",
+      "dir": "out",
+      "amount": 389,
+      "tags": [
+        "food"
+      ],
+      "label": "Office canteen",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1056",
+      "when": "2026-01-24T13:30:00.000Z",
+      "dir": "out",
+      "amount": 157,
+      "tags": [
+        "transport"
+      ],
+      "label": "Metro card",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1057",
+      "when": "2026-01-25T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1058",
+      "when": "2026-01-26T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1059",
+      "when": "2026-01-26T07:30:00.000Z",
+      "dir": "out",
+      "amount": 271,
+      "tags": [
+        "food"
+      ],
+      "label": "Office canteen",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1060",
+      "when": "2026-01-27T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1061",
+      "when": "2026-01-27T13:30:00.000Z",
+      "dir": "out",
+      "amount": 153,
+      "tags": [
+        "transport"
+      ],
+      "label": "Auto ride",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1062",
+      "when": "2026-01-28T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1064",
+      "when": "2026-01-28T05:30:00.000Z",
+      "dir": "out",
+      "amount": 1899,
+      "tags": [
+        "groceries"
+      ],
+      "label": "Weekly groceries",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1063",
+      "when": "2026-01-28T07:30:00.000Z",
+      "dir": "out",
+      "amount": 344,
+      "tags": [
+        "food"
+      ],
+      "label": "Quick bite",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1065",
+      "when": "2026-01-29T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1066",
+      "when": "2026-01-30T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1067",
+      "when": "2026-01-30T07:30:00.000Z",
+      "dir": "out",
+      "amount": 386,
+      "tags": [
+        "food"
+      ],
+      "label": "Quick bite",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1068",
+      "when": "2026-01-30T13:30:00.000Z",
+      "dir": "out",
+      "amount": 145,
+      "tags": [
+        "transport"
+      ],
+      "label": "Auto ride",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1069",
+      "when": "2026-01-30T14:30:00.000Z",
+      "dir": "out",
+      "amount": 752,
+      "tags": [
+        "fun"
+      ],
+      "label": "Movie night",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1070",
+      "when": "2026-01-31T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1082",
+      "when": "2026-02-01T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1075",
+      "when": "2026-02-01T04:30:00.000Z",
+      "dir": "in",
+      "amount": 150000,
+      "tags": [
+        "salary"
+      ],
+      "label": "Monthly salary credited",
+      "note": "Demo Co",
+      "status": "past",
+      "kind": "income"
+    },
+    {
+      "id": "e1076",
+      "when": "2026-02-01T05:30:00.000Z",
+      "dir": "out",
+      "amount": 25000,
+      "tags": [
+        "rent"
+      ],
+      "label": "Apartment rent",
+      "note": "",
+      "status": "past",
+      "kind": "fixed"
+    },
+    {
+      "id": "e1083",
+      "when": "2026-02-02T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1084",
+      "when": "2026-02-02T07:30:00.000Z",
+      "dir": "out",
+      "amount": 212,
+      "tags": [
+        "food"
+      ],
+      "label": "Office canteen",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1085",
+      "when": "2026-02-03T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1141",
+      "when": "2026-02-03T06:30:00.000Z",
+      "dir": "out",
+      "amount": 535,
+      "tags": [
+        "cc-axis",
+        "food"
+      ],
+      "label": "Food delivery",
+      "note": "credit card",
+      "status": "past",
+      "kind": "credit"
+    },
+    {
+      "id": "e1086",
+      "when": "2026-02-03T13:30:00.000Z",
+      "dir": "out",
+      "amount": 95,
+      "tags": [
+        "transport"
+      ],
+      "label": "Metro card",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1087",
+      "when": "2026-02-04T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1077",
+      "when": "2026-02-04T04:30:00.000Z",
+      "dir": "out",
+      "amount": 4000,
+      "tags": [
+        "insurance"
+      ],
+      "label": "Health insurance",
+      "note": "",
+      "status": "past",
+      "kind": "fixed"
+    },
+    {
+      "id": "e1088",
+      "when": "2026-02-04T07:30:00.000Z",
+      "dir": "out",
+      "amount": 269,
+      "tags": [
+        "food"
+      ],
+      "label": "Quick bite",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1089",
+      "when": "2026-02-05T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1078",
+      "when": "2026-02-05T04:30:00.000Z",
+      "dir": "out",
+      "amount": 2500,
+      "tags": [
+        "bills"
+      ],
+      "label": "Electricity bill",
+      "note": "",
+      "status": "past",
+      "kind": "fixed"
+    },
+    {
+      "id": "e1081",
+      "when": "2026-02-05T04:30:00.000Z",
+      "dir": "out",
+      "amount": 12000,
+      "tags": [
+        "loan-pl"
+      ],
+      "label": "Personal loan EMI",
+      "note": "",
+      "status": "past",
+      "kind": "loans"
+    },
+    {
+      "id": "e1090",
+      "when": "2026-02-06T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1091",
+      "when": "2026-02-06T07:30:00.000Z",
+      "dir": "out",
+      "amount": 399,
+      "tags": [
+        "food"
+      ],
+      "label": "Local cafe",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1139",
+      "when": "2026-02-06T10:30:00.000Z",
+      "dir": "out",
+      "amount": 975,
+      "tags": [
+        "cc-hdfc",
+        "shopping"
+      ],
+      "label": "Headphones · online",
+      "note": "credit card",
+      "status": "past",
+      "kind": "credit"
+    },
+    {
+      "id": "e1092",
+      "when": "2026-02-06T13:30:00.000Z",
+      "dir": "out",
+      "amount": 112,
+      "tags": [
+        "transport"
+      ],
+      "label": "Auto ride",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1093",
+      "when": "2026-02-07T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1079",
+      "when": "2026-02-07T04:30:00.000Z",
+      "dir": "out",
+      "amount": 1000,
+      "tags": [
+        "bills"
+      ],
+      "label": "Internet bill",
+      "note": "",
+      "status": "past",
+      "kind": "fixed"
+    },
+    {
+      "id": "e1094",
+      "when": "2026-02-07T05:30:00.000Z",
+      "dir": "out",
+      "amount": 2170,
+      "tags": [
+        "groceries"
+      ],
+      "label": "Weekly groceries",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1095",
+      "when": "2026-02-08T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1096",
+      "when": "2026-02-08T07:30:00.000Z",
+      "dir": "out",
+      "amount": 389,
+      "tags": [
+        "food"
+      ],
+      "label": "Salad bar",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1097",
+      "when": "2026-02-09T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1098",
+      "when": "2026-02-09T13:30:00.000Z",
+      "dir": "out",
+      "amount": 158,
+      "tags": [
+        "transport"
+      ],
+      "label": "Bike fuel",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1099",
+      "when": "2026-02-10T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1100",
+      "when": "2026-02-10T07:30:00.000Z",
+      "dir": "out",
+      "amount": 290,
+      "tags": [
+        "food"
+      ],
+      "label": "Local cafe",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1101",
+      "when": "2026-02-10T14:30:00.000Z",
+      "dir": "out",
+      "amount": 949,
+      "tags": [
+        "fun"
+      ],
+      "label": "Movie night",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1102",
+      "when": "2026-02-11T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1103",
+      "when": "2026-02-12T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1080",
+      "when": "2026-02-12T04:30:00.000Z",
+      "dir": "out",
+      "amount": 500,
+      "tags": [
+        "bills"
+      ],
+      "label": "Phone recharge",
+      "note": "",
+      "status": "past",
+      "kind": "fixed"
+    },
+    {
+      "id": "e1104",
+      "when": "2026-02-12T07:30:00.000Z",
+      "dir": "out",
+      "amount": 316,
+      "tags": [
+        "food"
+      ],
+      "label": "Quick bite",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1105",
+      "when": "2026-02-12T13:30:00.000Z",
+      "dir": "out",
+      "amount": 74,
+      "tags": [
+        "transport"
+      ],
+      "label": "Bus pass",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1106",
+      "when": "2026-02-13T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1107",
+      "when": "2026-02-14T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1109",
+      "when": "2026-02-14T05:30:00.000Z",
+      "dir": "out",
+      "amount": 1758,
+      "tags": [
+        "groceries"
+      ],
+      "label": "Weekly groceries",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1108",
+      "when": "2026-02-14T07:30:00.000Z",
+      "dir": "out",
+      "amount": 390,
+      "tags": [
+        "food"
+      ],
+      "label": "Office canteen",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1110",
+      "when": "2026-02-15T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1111",
+      "when": "2026-02-15T13:30:00.000Z",
+      "dir": "out",
+      "amount": 93,
+      "tags": [
+        "transport"
+      ],
+      "label": "Bus pass",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1112",
+      "when": "2026-02-16T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1113",
+      "when": "2026-02-16T07:30:00.000Z",
+      "dir": "out",
+      "amount": 352,
+      "tags": [
+        "food"
+      ],
+      "label": "Cafe lunch",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1114",
+      "when": "2026-02-17T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1115",
+      "when": "2026-02-18T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1140",
+      "when": "2026-02-18T03:30:00.000Z",
+      "dir": "merge",
+      "amount": 2000,
+      "tags": [
+        "cc-hdfc"
+      ],
+      "label": "Credit card autopay",
+      "note": "monthly",
+      "status": "past",
+      "kind": "credit"
+    },
+    {
+      "id": "e1116",
+      "when": "2026-02-18T07:30:00.000Z",
+      "dir": "out",
+      "amount": 216,
+      "tags": [
+        "food"
+      ],
+      "label": "Local cafe",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1117",
+      "when": "2026-02-18T13:30:00.000Z",
+      "dir": "out",
+      "amount": 109,
+      "tags": [
+        "transport"
+      ],
+      "label": "Metro card",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1118",
+      "when": "2026-02-19T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1119",
+      "when": "2026-02-20T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1120",
+      "when": "2026-02-20T07:30:00.000Z",
+      "dir": "out",
+      "amount": 279,
+      "tags": [
+        "food"
+      ],
+      "label": "Cafe lunch",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1121",
+      "when": "2026-02-20T14:30:00.000Z",
+      "dir": "out",
+      "amount": 560,
+      "tags": [
+        "fun"
+      ],
+      "label": "Movie night",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1122",
+      "when": "2026-02-21T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1124",
+      "when": "2026-02-21T05:30:00.000Z",
+      "dir": "out",
+      "amount": 2261,
+      "tags": [
+        "groceries"
+      ],
+      "label": "Weekly groceries",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1123",
+      "when": "2026-02-21T13:30:00.000Z",
+      "dir": "out",
+      "amount": 94,
+      "tags": [
+        "transport"
+      ],
+      "label": "Bike fuel",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1125",
+      "when": "2026-02-22T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1142",
+      "when": "2026-02-22T03:30:00.000Z",
+      "dir": "merge",
+      "amount": 1500,
+      "tags": [
+        "cc-axis"
+      ],
+      "label": "Credit card autopay",
+      "note": "monthly",
+      "status": "past",
+      "kind": "credit"
+    },
+    {
+      "id": "e1126",
+      "when": "2026-02-22T07:30:00.000Z",
+      "dir": "out",
+      "amount": 319,
+      "tags": [
+        "food"
+      ],
+      "label": "Quick bite",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1127",
+      "when": "2026-02-23T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1128",
+      "when": "2026-02-24T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1129",
+      "when": "2026-02-24T07:30:00.000Z",
+      "dir": "out",
+      "amount": 306,
+      "tags": [
+        "food"
+      ],
+      "label": "Salad bar",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1130",
+      "when": "2026-02-24T13:30:00.000Z",
+      "dir": "out",
+      "amount": 130,
+      "tags": [
+        "transport"
+      ],
+      "label": "Bike fuel",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1131",
+      "when": "2026-02-25T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1132",
+      "when": "2026-02-26T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1133",
+      "when": "2026-02-26T07:30:00.000Z",
+      "dir": "out",
+      "amount": 214,
+      "tags": [
+        "food"
+      ],
+      "label": "Office canteen",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1134",
+      "when": "2026-02-27T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1135",
+      "when": "2026-02-27T13:30:00.000Z",
+      "dir": "out",
+      "amount": 80,
+      "tags": [
+        "transport"
+      ],
+      "label": "Bus pass",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1136",
+      "when": "2026-02-28T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1138",
+      "when": "2026-02-28T05:30:00.000Z",
+      "dir": "out",
+      "amount": 2208,
+      "tags": [
+        "groceries"
+      ],
+      "label": "Weekly groceries",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1137",
+      "when": "2026-02-28T07:30:00.000Z",
+      "dir": "out",
+      "amount": 279,
+      "tags": [
+        "food"
+      ],
+      "label": "Local cafe",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1150",
+      "when": "2026-03-01T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1143",
+      "when": "2026-03-01T04:30:00.000Z",
+      "dir": "in",
+      "amount": 150000,
+      "tags": [
+        "salary"
+      ],
+      "label": "Monthly salary credited",
+      "note": "Demo Co",
+      "status": "past",
+      "kind": "income"
+    },
+    {
+      "id": "e1144",
+      "when": "2026-03-01T05:30:00.000Z",
+      "dir": "out",
+      "amount": 25000,
+      "tags": [
+        "rent"
+      ],
+      "label": "Apartment rent",
+      "note": "",
+      "status": "past",
+      "kind": "fixed"
+    },
+    {
+      "id": "e1151",
+      "when": "2026-03-02T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1152",
+      "when": "2026-03-02T07:30:00.000Z",
+      "dir": "out",
+      "amount": 283,
+      "tags": [
+        "food"
+      ],
+      "label": "Quick bite",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1153",
+      "when": "2026-03-03T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1215",
+      "when": "2026-03-03T06:30:00.000Z",
+      "dir": "out",
+      "amount": 534,
+      "tags": [
+        "cc-axis",
+        "food"
+      ],
+      "label": "Food delivery",
+      "note": "credit card",
+      "status": "past",
+      "kind": "credit"
+    },
+    {
+      "id": "e1154",
+      "when": "2026-03-03T13:30:00.000Z",
+      "dir": "out",
+      "amount": 151,
+      "tags": [
+        "transport"
+      ],
+      "label": "Cab home",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1155",
+      "when": "2026-03-04T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1145",
+      "when": "2026-03-04T04:30:00.000Z",
+      "dir": "out",
+      "amount": 4000,
+      "tags": [
+        "insurance"
+      ],
+      "label": "Health insurance",
+      "note": "",
+      "status": "past",
+      "kind": "fixed"
+    },
+    {
+      "id": "e1156",
+      "when": "2026-03-04T07:30:00.000Z",
+      "dir": "out",
+      "amount": 371,
+      "tags": [
+        "food"
+      ],
+      "label": "Salad bar",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1157",
+      "when": "2026-03-05T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1146",
+      "when": "2026-03-05T04:30:00.000Z",
+      "dir": "out",
+      "amount": 2500,
+      "tags": [
+        "bills"
+      ],
+      "label": "Electricity bill",
+      "note": "",
+      "status": "past",
+      "kind": "fixed"
+    },
+    {
+      "id": "e1149",
+      "when": "2026-03-05T04:30:00.000Z",
+      "dir": "out",
+      "amount": 12000,
+      "tags": [
+        "loan-pl"
+      ],
+      "label": "Personal loan EMI",
+      "note": "",
+      "status": "past",
+      "kind": "loans"
+    },
+    {
+      "id": "e1158",
+      "when": "2026-03-06T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1159",
+      "when": "2026-03-06T07:30:00.000Z",
+      "dir": "out",
+      "amount": 279,
+      "tags": [
+        "food"
+      ],
+      "label": "Cafe lunch",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1213",
+      "when": "2026-03-06T10:30:00.000Z",
+      "dir": "out",
+      "amount": 1838,
+      "tags": [
+        "cc-hdfc",
+        "shopping"
+      ],
+      "label": "Backpack · online",
+      "note": "credit card",
+      "status": "past",
+      "kind": "credit"
+    },
+    {
+      "id": "e1160",
+      "when": "2026-03-06T13:30:00.000Z",
+      "dir": "out",
+      "amount": 102,
+      "tags": [
+        "transport"
+      ],
+      "label": "Bike fuel",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1161",
+      "when": "2026-03-07T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1147",
+      "when": "2026-03-07T04:30:00.000Z",
+      "dir": "out",
+      "amount": 1000,
+      "tags": [
+        "bills"
+      ],
+      "label": "Internet bill",
+      "note": "",
+      "status": "past",
+      "kind": "fixed"
+    },
+    {
+      "id": "e1162",
+      "when": "2026-03-07T05:30:00.000Z",
+      "dir": "out",
+      "amount": 2205,
+      "tags": [
+        "groceries"
+      ],
+      "label": "Weekly groceries",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1163",
+      "when": "2026-03-08T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1164",
+      "when": "2026-03-08T07:30:00.000Z",
+      "dir": "out",
+      "amount": 251,
+      "tags": [
+        "food"
+      ],
+      "label": "Quick bite",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1165",
+      "when": "2026-03-09T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1166",
+      "when": "2026-03-09T13:30:00.000Z",
+      "dir": "out",
+      "amount": 68,
+      "tags": [
+        "transport"
+      ],
+      "label": "Auto ride",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1167",
+      "when": "2026-03-10T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1168",
+      "when": "2026-03-10T07:30:00.000Z",
+      "dir": "out",
+      "amount": 368,
+      "tags": [
+        "food"
+      ],
+      "label": "Office canteen",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1169",
+      "when": "2026-03-10T14:30:00.000Z",
+      "dir": "out",
+      "amount": 880,
+      "tags": [
+        "fun"
+      ],
+      "label": "Boardgame cafe",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1170",
+      "when": "2026-03-11T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1171",
+      "when": "2026-03-12T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1148",
+      "when": "2026-03-12T04:30:00.000Z",
+      "dir": "out",
+      "amount": 500,
+      "tags": [
+        "bills"
+      ],
+      "label": "Phone recharge",
+      "note": "",
+      "status": "past",
+      "kind": "fixed"
+    },
+    {
+      "id": "e1172",
+      "when": "2026-03-12T07:30:00.000Z",
+      "dir": "out",
+      "amount": 314,
+      "tags": [
+        "food"
+      ],
+      "label": "Quick bite",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1320",
+      "when": "2026-03-12T08:30:00.000Z",
+      "dir": "in",
+      "amount": 3500,
+      "tags": [
+        "reimb"
+      ],
+      "label": "Travel reimbursement",
+      "note": "expensify",
+      "status": "past",
+      "kind": "income"
+    },
+    {
+      "id": "e1173",
+      "when": "2026-03-12T13:30:00.000Z",
+      "dir": "out",
+      "amount": 116,
+      "tags": [
+        "transport"
+      ],
+      "label": "Bike fuel",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1174",
+      "when": "2026-03-13T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1175",
+      "when": "2026-03-14T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1177",
+      "when": "2026-03-14T05:30:00.000Z",
+      "dir": "out",
+      "amount": 1528,
+      "tags": [
+        "groceries"
+      ],
+      "label": "Weekly groceries",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1176",
+      "when": "2026-03-14T07:30:00.000Z",
+      "dir": "out",
+      "amount": 342,
+      "tags": [
+        "food"
+      ],
+      "label": "Local cafe",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1178",
+      "when": "2026-03-15T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1179",
+      "when": "2026-03-15T13:30:00.000Z",
+      "dir": "out",
+      "amount": 137,
+      "tags": [
+        "transport"
+      ],
+      "label": "Auto ride",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1180",
+      "when": "2026-03-16T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1181",
+      "when": "2026-03-16T07:30:00.000Z",
+      "dir": "out",
+      "amount": 370,
+      "tags": [
+        "food"
+      ],
+      "label": "Office canteen",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1182",
+      "when": "2026-03-17T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1183",
+      "when": "2026-03-18T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1214",
+      "when": "2026-03-18T03:30:00.000Z",
+      "dir": "merge",
+      "amount": 2000,
+      "tags": [
+        "cc-hdfc"
+      ],
+      "label": "Credit card autopay",
+      "note": "monthly",
+      "status": "past",
+      "kind": "credit"
+    },
+    {
+      "id": "e1184",
+      "when": "2026-03-18T07:30:00.000Z",
+      "dir": "out",
+      "amount": 258,
+      "tags": [
+        "food"
+      ],
+      "label": "Office canteen",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1185",
+      "when": "2026-03-18T13:30:00.000Z",
+      "dir": "out",
+      "amount": 155,
+      "tags": [
+        "transport"
+      ],
+      "label": "Cab home",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1186",
+      "when": "2026-03-19T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1187",
+      "when": "2026-03-20T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1188",
+      "when": "2026-03-20T07:30:00.000Z",
+      "dir": "out",
+      "amount": 210,
+      "tags": [
+        "food"
+      ],
+      "label": "Salad bar",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1189",
+      "when": "2026-03-20T14:30:00.000Z",
+      "dir": "out",
+      "amount": 471,
+      "tags": [
+        "fun"
+      ],
+      "label": "Movie night",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1190",
+      "when": "2026-03-21T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1192",
+      "when": "2026-03-21T05:30:00.000Z",
+      "dir": "out",
+      "amount": 2210,
+      "tags": [
+        "groceries"
+      ],
+      "label": "Weekly groceries",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1191",
+      "when": "2026-03-21T13:30:00.000Z",
+      "dir": "out",
+      "amount": 72,
+      "tags": [
+        "transport"
+      ],
+      "label": "Auto ride",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1193",
+      "when": "2026-03-22T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1216",
+      "when": "2026-03-22T03:30:00.000Z",
+      "dir": "merge",
+      "amount": 1500,
+      "tags": [
+        "cc-axis"
+      ],
+      "label": "Credit card autopay",
+      "note": "monthly",
+      "status": "past",
+      "kind": "credit"
+    },
+    {
+      "id": "e1194",
+      "when": "2026-03-22T07:30:00.000Z",
+      "dir": "out",
+      "amount": 220,
+      "tags": [
+        "food"
+      ],
+      "label": "Local cafe",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1195",
+      "when": "2026-03-23T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1196",
+      "when": "2026-03-24T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1197",
+      "when": "2026-03-24T07:30:00.000Z",
+      "dir": "out",
+      "amount": 366,
+      "tags": [
+        "food"
+      ],
+      "label": "Salad bar",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1198",
+      "when": "2026-03-24T13:30:00.000Z",
+      "dir": "out",
+      "amount": 97,
+      "tags": [
+        "transport"
+      ],
+      "label": "Cab home",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1199",
+      "when": "2026-03-25T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1200",
+      "when": "2026-03-26T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1201",
+      "when": "2026-03-26T07:30:00.000Z",
+      "dir": "out",
+      "amount": 231,
+      "tags": [
+        "food"
+      ],
+      "label": "Office canteen",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1202",
+      "when": "2026-03-27T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1203",
+      "when": "2026-03-27T13:30:00.000Z",
+      "dir": "out",
+      "amount": 142,
+      "tags": [
+        "transport"
+      ],
+      "label": "Metro card",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1204",
+      "when": "2026-03-28T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1206",
+      "when": "2026-03-28T05:30:00.000Z",
+      "dir": "out",
+      "amount": 2262,
+      "tags": [
+        "groceries"
+      ],
+      "label": "Weekly groceries",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1205",
+      "when": "2026-03-28T07:30:00.000Z",
+      "dir": "out",
+      "amount": 339,
+      "tags": [
+        "food"
+      ],
+      "label": "Local cafe",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1207",
+      "when": "2026-03-29T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1208",
+      "when": "2026-03-30T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1209",
+      "when": "2026-03-30T07:30:00.000Z",
+      "dir": "out",
+      "amount": 234,
+      "tags": [
+        "food"
+      ],
+      "label": "Salad bar",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1210",
+      "when": "2026-03-30T13:30:00.000Z",
+      "dir": "out",
+      "amount": 158,
+      "tags": [
+        "transport"
+      ],
+      "label": "Bike fuel",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1211",
+      "when": "2026-03-30T14:30:00.000Z",
+      "dir": "out",
+      "amount": 952,
+      "tags": [
+        "fun"
+      ],
+      "label": "Concert tickets",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1212",
+      "when": "2026-03-31T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1226",
+      "when": "2026-04-01T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1217",
+      "when": "2026-04-01T04:30:00.000Z",
+      "dir": "in",
+      "amount": 150000,
+      "tags": [
+        "salary"
+      ],
+      "label": "Monthly salary credited",
+      "note": "Demo Co",
+      "status": "past",
+      "kind": "income"
+    },
+    {
+      "id": "e1218",
+      "when": "2026-04-01T05:30:00.000Z",
+      "dir": "out",
+      "amount": 25000,
+      "tags": [
+        "rent"
+      ],
+      "label": "Apartment rent",
+      "note": "",
+      "status": "past",
+      "kind": "fixed"
+    },
+    {
+      "id": "e1227",
+      "when": "2026-04-02T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1228",
+      "when": "2026-04-02T07:30:00.000Z",
+      "dir": "out",
+      "amount": 370,
+      "tags": [
+        "food"
+      ],
+      "label": "Cafe lunch",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1229",
+      "when": "2026-04-03T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1290",
+      "when": "2026-04-03T06:30:00.000Z",
+      "dir": "out",
+      "amount": 533,
+      "tags": [
+        "cc-axis",
+        "food"
+      ],
+      "label": "Food delivery",
+      "note": "credit card",
+      "status": "past",
+      "kind": "credit"
+    },
+    {
+      "id": "e1230",
+      "when": "2026-04-03T13:30:00.000Z",
+      "dir": "out",
+      "amount": 68,
+      "tags": [
+        "transport"
+      ],
+      "label": "Metro card",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1231",
+      "when": "2026-04-04T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1219",
+      "when": "2026-04-04T04:30:00.000Z",
+      "dir": "out",
+      "amount": 4000,
+      "tags": [
+        "insurance"
+      ],
+      "label": "Health insurance",
+      "note": "",
+      "status": "past",
+      "kind": "fixed"
+    },
+    {
+      "id": "e1232",
+      "when": "2026-04-04T07:30:00.000Z",
+      "dir": "out",
+      "amount": 304,
+      "tags": [
+        "food"
+      ],
+      "label": "Quick bite",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1233",
+      "when": "2026-04-05T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1220",
+      "when": "2026-04-05T04:30:00.000Z",
+      "dir": "out",
+      "amount": 2500,
+      "tags": [
+        "bills"
+      ],
+      "label": "Electricity bill",
+      "note": "",
+      "status": "past",
+      "kind": "fixed"
+    },
+    {
+      "id": "e1223",
+      "when": "2026-04-05T04:30:00.000Z",
+      "dir": "out",
+      "amount": 12000,
+      "tags": [
+        "loan-pl"
+      ],
+      "label": "Personal loan EMI",
+      "note": "",
+      "status": "past",
+      "kind": "loans"
+    },
+    {
+      "id": "e1234",
+      "when": "2026-04-06T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1224",
+      "when": "2026-04-06T04:30:00.000Z",
+      "dir": "out",
+      "amount": 30000,
+      "tags": [
+        "rd"
+      ],
+      "label": "Recurring deposit",
+      "note": "",
+      "status": "past",
+      "kind": "savings"
+    },
+    {
+      "id": "e1235",
+      "when": "2026-04-06T07:30:00.000Z",
+      "dir": "out",
+      "amount": 221,
+      "tags": [
+        "food"
+      ],
+      "label": "Office canteen",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1288",
+      "when": "2026-04-06T10:30:00.000Z",
+      "dir": "out",
+      "amount": 1558,
+      "tags": [
+        "cc-hdfc",
+        "shopping"
+      ],
+      "label": "Headphones · online",
+      "note": "credit card",
+      "status": "past",
+      "kind": "credit"
+    },
+    {
+      "id": "e1236",
+      "when": "2026-04-06T13:30:00.000Z",
+      "dir": "out",
+      "amount": 76,
+      "tags": [
+        "transport"
+      ],
+      "label": "Auto ride",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1237",
+      "when": "2026-04-07T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1221",
+      "when": "2026-04-07T04:30:00.000Z",
+      "dir": "out",
+      "amount": 1000,
+      "tags": [
+        "bills"
+      ],
+      "label": "Internet bill",
+      "note": "",
+      "status": "past",
+      "kind": "fixed"
+    },
+    {
+      "id": "e1238",
+      "when": "2026-04-07T05:30:00.000Z",
+      "dir": "out",
+      "amount": 1756,
+      "tags": [
+        "groceries"
+      ],
+      "label": "Weekly groceries",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1239",
+      "when": "2026-04-08T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1225",
+      "when": "2026-04-08T04:30:00.000Z",
+      "dir": "out",
+      "amount": 10000,
+      "tags": [
+        "mf-sip"
+      ],
+      "label": "Index fund SIP",
+      "note": "",
+      "status": "past",
+      "kind": "savings"
+    },
+    {
+      "id": "e1240",
+      "when": "2026-04-08T07:30:00.000Z",
+      "dir": "out",
+      "amount": 262,
+      "tags": [
+        "food"
+      ],
+      "label": "Office canteen",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1241",
+      "when": "2026-04-09T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1242",
+      "when": "2026-04-09T13:30:00.000Z",
+      "dir": "out",
+      "amount": 111,
+      "tags": [
+        "transport"
+      ],
+      "label": "Bike fuel",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1243",
+      "when": "2026-04-10T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1244",
+      "when": "2026-04-10T07:30:00.000Z",
+      "dir": "out",
+      "amount": 332,
+      "tags": [
+        "food"
+      ],
+      "label": "Local cafe",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1245",
+      "when": "2026-04-10T14:30:00.000Z",
+      "dir": "out",
+      "amount": 475,
+      "tags": [
+        "fun"
+      ],
+      "label": "Drinks with friends",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1246",
+      "when": "2026-04-11T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1247",
+      "when": "2026-04-12T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1222",
+      "when": "2026-04-12T04:30:00.000Z",
+      "dir": "out",
+      "amount": 500,
+      "tags": [
+        "bills"
+      ],
+      "label": "Phone recharge",
+      "note": "",
+      "status": "past",
+      "kind": "fixed"
+    },
+    {
+      "id": "e1248",
+      "when": "2026-04-12T07:30:00.000Z",
+      "dir": "out",
+      "amount": 236,
+      "tags": [
+        "food"
+      ],
+      "label": "Quick bite",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1249",
+      "when": "2026-04-12T13:30:00.000Z",
+      "dir": "out",
+      "amount": 150,
+      "tags": [
+        "transport"
+      ],
+      "label": "Bus pass",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1250",
+      "when": "2026-04-13T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1251",
+      "when": "2026-04-14T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1253",
+      "when": "2026-04-14T05:30:00.000Z",
+      "dir": "out",
+      "amount": 2081,
+      "tags": [
+        "groceries"
+      ],
+      "label": "Weekly groceries",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1252",
+      "when": "2026-04-14T07:30:00.000Z",
+      "dir": "out",
+      "amount": 272,
+      "tags": [
+        "food"
+      ],
+      "label": "Local cafe",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1254",
+      "when": "2026-04-15T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1255",
+      "when": "2026-04-15T13:30:00.000Z",
+      "dir": "out",
+      "amount": 95,
+      "tags": [
+        "transport"
+      ],
+      "label": "Metro card",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1256",
+      "when": "2026-04-16T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1257",
+      "when": "2026-04-16T07:30:00.000Z",
+      "dir": "out",
+      "amount": 259,
+      "tags": [
+        "food"
+      ],
+      "label": "Quick bite",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1258",
+      "when": "2026-04-17T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1259",
+      "when": "2026-04-18T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1289",
+      "when": "2026-04-18T03:30:00.000Z",
+      "dir": "merge",
+      "amount": 2000,
+      "tags": [
+        "cc-hdfc"
+      ],
+      "label": "Credit card autopay",
+      "note": "monthly",
+      "status": "past",
+      "kind": "credit"
+    },
+    {
+      "id": "e1260",
+      "when": "2026-04-18T07:30:00.000Z",
+      "dir": "out",
+      "amount": 319,
+      "tags": [
+        "food"
+      ],
+      "label": "Office canteen",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1321",
+      "when": "2026-04-18T08:30:00.000Z",
+      "dir": "in",
+      "amount": 2000,
+      "tags": [
+        "split"
+      ],
+      "label": "Friend split settled",
+      "note": "",
+      "status": "past",
+      "kind": "income"
+    },
+    {
+      "id": "e1261",
+      "when": "2026-04-18T13:30:00.000Z",
+      "dir": "out",
+      "amount": 80,
+      "tags": [
+        "transport"
+      ],
+      "label": "Cab home",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1262",
+      "when": "2026-04-19T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1263",
+      "when": "2026-04-20T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1264",
+      "when": "2026-04-20T07:30:00.000Z",
+      "dir": "out",
+      "amount": 344,
+      "tags": [
+        "food"
+      ],
+      "label": "Cafe lunch",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1265",
+      "when": "2026-04-20T14:30:00.000Z",
+      "dir": "out",
+      "amount": 996,
+      "tags": [
+        "fun"
+      ],
+      "label": "Boardgame cafe",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1266",
+      "when": "2026-04-21T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1268",
+      "when": "2026-04-21T05:30:00.000Z",
+      "dir": "out",
+      "amount": 2197,
+      "tags": [
+        "groceries"
+      ],
+      "label": "Weekly groceries",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1267",
+      "when": "2026-04-21T13:30:00.000Z",
+      "dir": "out",
+      "amount": 96,
+      "tags": [
+        "transport"
+      ],
+      "label": "Bus pass",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1269",
+      "when": "2026-04-22T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1291",
+      "when": "2026-04-22T03:30:00.000Z",
+      "dir": "merge",
+      "amount": 1500,
+      "tags": [
+        "cc-axis"
+      ],
+      "label": "Credit card autopay",
+      "note": "monthly",
+      "status": "past",
+      "kind": "credit"
+    },
+    {
+      "id": "e1270",
+      "when": "2026-04-22T07:30:00.000Z",
+      "dir": "out",
+      "amount": 303,
+      "tags": [
+        "food"
+      ],
+      "label": "Quick bite",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1271",
+      "when": "2026-04-23T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1272",
+      "when": "2026-04-24T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1273",
+      "when": "2026-04-24T07:30:00.000Z",
+      "dir": "out",
+      "amount": 256,
+      "tags": [
+        "food"
+      ],
+      "label": "Cafe lunch",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1274",
+      "when": "2026-04-24T13:30:00.000Z",
+      "dir": "out",
+      "amount": 153,
+      "tags": [
+        "transport"
+      ],
+      "label": "Cab home",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1275",
+      "when": "2026-04-25T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1276",
+      "when": "2026-04-26T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1277",
+      "when": "2026-04-26T07:30:00.000Z",
+      "dir": "out",
+      "amount": 377,
+      "tags": [
+        "food"
+      ],
+      "label": "Local cafe",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1278",
+      "when": "2026-04-27T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1279",
+      "when": "2026-04-27T13:30:00.000Z",
+      "dir": "out",
+      "amount": 71,
+      "tags": [
+        "transport"
+      ],
+      "label": "Auto ride",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1280",
+      "when": "2026-04-28T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1282",
+      "when": "2026-04-28T05:30:00.000Z",
+      "dir": "out",
+      "amount": 1698,
+      "tags": [
+        "groceries"
+      ],
+      "label": "Weekly groceries",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1281",
+      "when": "2026-04-28T07:30:00.000Z",
+      "dir": "out",
+      "amount": 258,
+      "tags": [
+        "food"
+      ],
+      "label": "Salad bar",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1283",
+      "when": "2026-04-29T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1284",
+      "when": "2026-04-30T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1285",
+      "when": "2026-04-30T07:30:00.000Z",
+      "dir": "out",
+      "amount": 191,
+      "tags": [
+        "food"
+      ],
+      "label": "Cafe lunch",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1286",
+      "when": "2026-04-30T13:30:00.000Z",
+      "dir": "out",
+      "amount": 151,
+      "tags": [
+        "transport"
+      ],
+      "label": "Cab home",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1287",
+      "when": "2026-04-30T14:30:00.000Z",
+      "dir": "out",
+      "amount": 982,
+      "tags": [
+        "fun"
+      ],
+      "label": "Boardgame cafe",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1301",
+      "when": "2026-05-01T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1292",
+      "when": "2026-05-01T04:30:00.000Z",
+      "dir": "in",
+      "amount": 150000,
+      "tags": [
+        "salary"
+      ],
+      "label": "Monthly salary credited",
+      "note": "Demo Co",
+      "status": "past",
+      "kind": "income"
+    },
+    {
+      "id": "e1293",
+      "when": "2026-05-01T05:30:00.000Z",
+      "dir": "out",
+      "amount": 25000,
+      "tags": [
+        "rent"
+      ],
+      "label": "Apartment rent",
+      "note": "",
+      "status": "past",
+      "kind": "fixed"
+    },
+    {
+      "id": "e1302",
+      "when": "2026-05-02T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1303",
+      "when": "2026-05-02T07:30:00.000Z",
+      "dir": "out",
+      "amount": 289,
+      "tags": [
+        "food"
+      ],
+      "label": "Office canteen",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1304",
+      "when": "2026-05-03T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1318",
+      "when": "2026-05-03T06:30:00.000Z",
+      "dir": "out",
+      "amount": 1082,
+      "tags": [
+        "cc-axis",
+        "food"
+      ],
+      "label": "Food delivery",
+      "note": "credit card",
+      "status": "past",
+      "kind": "credit"
+    },
+    {
+      "id": "e1305",
+      "when": "2026-05-03T13:30:00.000Z",
+      "dir": "out",
+      "amount": 132,
+      "tags": [
+        "transport"
+      ],
+      "label": "Cab home",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1306",
+      "when": "2026-05-04T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1294",
+      "when": "2026-05-04T04:30:00.000Z",
+      "dir": "out",
+      "amount": 4000,
+      "tags": [
+        "insurance"
+      ],
+      "label": "Health insurance",
+      "note": "",
+      "status": "past",
+      "kind": "fixed"
+    },
+    {
+      "id": "e1307",
+      "when": "2026-05-04T07:30:00.000Z",
+      "dir": "out",
+      "amount": 397,
+      "tags": [
+        "food"
+      ],
+      "label": "Quick bite",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1308",
+      "when": "2026-05-05T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1295",
+      "when": "2026-05-05T04:30:00.000Z",
+      "dir": "out",
+      "amount": 2500,
+      "tags": [
+        "bills"
+      ],
+      "label": "Electricity bill",
+      "note": "",
+      "status": "past",
+      "kind": "fixed"
+    },
+    {
+      "id": "e1298",
+      "when": "2026-05-05T04:30:00.000Z",
+      "dir": "out",
+      "amount": 12000,
+      "tags": [
+        "loan-pl"
+      ],
+      "label": "Personal loan EMI",
+      "note": "",
+      "status": "past",
+      "kind": "loans"
+    },
+    {
+      "id": "e1309",
+      "when": "2026-05-06T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1299",
+      "when": "2026-05-06T04:30:00.000Z",
+      "dir": "out",
+      "amount": 30000,
+      "tags": [
+        "rd"
+      ],
+      "label": "Recurring deposit",
+      "note": "",
+      "status": "past",
+      "kind": "savings"
+    },
+    {
+      "id": "e1310",
+      "when": "2026-05-06T07:30:00.000Z",
+      "dir": "out",
+      "amount": 202,
+      "tags": [
+        "food"
+      ],
+      "label": "Salad bar",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1316",
+      "when": "2026-05-06T10:30:00.000Z",
+      "dir": "out",
+      "amount": 1018,
+      "tags": [
+        "cc-hdfc",
+        "shopping"
+      ],
+      "label": "T-shirts · online",
+      "note": "credit card",
+      "status": "past",
+      "kind": "credit"
+    },
+    {
+      "id": "e1311",
+      "when": "2026-05-06T13:30:00.000Z",
+      "dir": "out",
+      "amount": 93,
+      "tags": [
+        "transport"
+      ],
+      "label": "Bike fuel",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1312",
+      "when": "2026-05-07T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1296",
+      "when": "2026-05-07T04:30:00.000Z",
+      "dir": "out",
+      "amount": 1000,
+      "tags": [
+        "bills"
+      ],
+      "label": "Internet bill",
+      "note": "",
+      "status": "past",
+      "kind": "fixed"
+    },
+    {
+      "id": "e1313",
+      "when": "2026-05-07T05:30:00.000Z",
+      "dir": "out",
+      "amount": 2211,
+      "tags": [
+        "groceries"
+      ],
+      "label": "Weekly groceries",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1314",
+      "when": "2026-05-08T03:00:00.000Z",
+      "dir": "out",
+      "amount": 30,
+      "tags": [
+        "chai"
+      ],
+      "label": "Morning coffee",
+      "note": "",
+      "status": "past",
+      "kind": "extras"
+    },
+    {
+      "id": "e1300",
+      "when": "2026-05-08T04:30:00.000Z",
+      "dir": "out",
+      "amount": 10000,
+      "tags": [
+        "mf-sip"
+      ],
+      "label": "Index fund SIP",
+      "note": "",
+      "status": "past",
+      "kind": "savings"
+    },
+    {
+      "id": "e1315",
+      "when": "2026-05-08T07:30:00.000Z",
+      "dir": "out",
+      "amount": 294,
+      "tags": [
+        "food"
+      ],
+      "label": "Salad bar",
+      "note": "",
+      "status": "future",
+      "kind": "extras"
+    },
+    {
+      "id": "e1322",
+      "when": "2026-05-08T08:30:00.000Z",
+      "dir": "in",
+      "amount": 2500,
+      "tags": [
+        "split"
+      ],
+      "label": "Lunch split settled",
+      "note": "",
+      "status": "future",
+      "kind": "income"
+    },
+    {
+      "id": "e1297",
+      "when": "2026-05-12T04:30:00.000Z",
+      "dir": "out",
+      "amount": 500,
+      "tags": [
+        "bills"
+      ],
+      "label": "Phone recharge",
+      "note": "",
+      "status": "future",
+      "kind": "fixed"
+    },
+    {
+      "id": "e1317",
+      "when": "2026-05-18T03:30:00.000Z",
+      "dir": "merge",
+      "amount": 2000,
+      "tags": [
+        "cc-hdfc"
+      ],
+      "label": "Credit card autopay",
+      "note": "monthly",
+      "status": "future",
+      "kind": "credit"
+    },
+    {
+      "id": "e1319",
+      "when": "2026-05-22T03:30:00.000Z",
+      "dir": "merge",
+      "amount": 1500,
+      "tags": [
+        "cc-axis"
+      ],
+      "label": "Credit card autopay",
+      "note": "monthly",
+      "status": "future",
+      "kind": "credit"
+    }
+  ]
+}

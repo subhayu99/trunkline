@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>~/finance · git-styled tracker</title>
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<template id="__bundler_thumbnail" data-bg-color="#f6f3ec">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1200" height="800" fill="#f6f3ec"/>
+    <g stroke-linecap="round" fill="none">
+      <line x1="600" y1="120" x2="600" y2="680" stroke="#1c1a16" stroke-width="22"/>
+      <line x1="450" y1="240" x2="450" y2="560" stroke="#3a6fb5" stroke-width="14"/>
+      <line x1="380" y1="320" x2="380" y2="500" stroke="#3aa86b" stroke-width="10"/>
+      <line x1="750" y1="200" x2="750" y2="600" stroke="#d36a4a" stroke-width="12"/>
+      <line x1="830" y1="280" x2="830" y2="540" stroke="#9a5cc7" stroke-width="8"/>
+      <path d="M600 320 C 660 320, 690 320, 750 320" stroke="#d36a4a" stroke-width="9"/>
+      <path d="M600 420 C 540 420, 510 420, 450 420" stroke="#3a6fb5" stroke-width="11"/>
+      <path d="M600 500 C 540 500, 510 500, 450 500" stroke="#3aa86b" stroke-width="8"/>
+    </g>
+    <g fill="#1c1a16">
+      <circle cx="600" cy="320" r="14"/>
+      <circle cx="600" cy="420" r="14"/>
+      <circle cx="600" cy="500" r="14"/>
+    </g>
+    <g fill="#fff" stroke-width="3">
+      <circle cx="450" cy="420" r="11" stroke="#3a6fb5"/>
+      <circle cx="450" cy="500" r="9" stroke="#3aa86b"/>
+      <circle cx="750" cy="320" r="10" stroke="#d36a4a"/>
+    </g>
+    <line x1="220" y1="400" x2="980" y2="400" stroke="#1c1a16" stroke-width="2" stroke-dasharray="10 8"/>
+    <text x="240" y="392" font-family="monospace" font-size="22" font-weight="700" fill="#1c1a16">HEAD</text>
+  </svg>
+</template>
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+<script type="text/babel" src="data.jsx"></script>
+<script type="text/babel" src="graph.jsx"></script>
+<script type="text/babel" src="app.jsx"></script>
+</body>
+</html>

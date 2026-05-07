@@ -1,0 +1,64 @@
+{
+  "name": "trunkline · finance tracker",
+  "short_name": "trunkline",
+  "description": "A trunk-and-branches finance tracker. Local-first, no server.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0e1219",
+  "theme_color": "#0e1219",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ],
+  "share_target": {
+    "action": "./",
+    "method": "GET",
+    "params": {
+      "title": "share_title",
+      "text":  "share_text",
+      "url":   "share_url"
+    }
+  },
+  "shortcuts": [
+    {
+      "name": "Add entry",
+      "short_name": "Add",
+      "description": "Open the composer with the input focused",
+      "url": "./?action=add",
+      "icons": [{ "src": "icon.svg", "sizes": "any", "type": "image/svg+xml" }]
+    },
+    {
+      "name": "Ledger view",
+      "short_name": "Ledger",
+      "description": "Open the ledger view",
+      "url": "./?view=ledger",
+      "icons": [{ "src": "icon.svg", "sizes": "any", "type": "image/svg+xml" }]
+    },
+    {
+      "name": "This month",
+      "short_name": "Month",
+      "description": "Open scoped to this calendar month",
+      "url": "./?range=thisMonth",
+      "icons": [{ "src": "icon.svg", "sizes": "any", "type": "image/svg+xml" }]
+    },
+    {
+      "name": "Export backup",
+      "short_name": "Export",
+      "description": "Download a JSON backup of the ledger",
+      "url": "./?action=export",
+      "icons": [{ "src": "icon.svg", "sizes": "any", "type": "image/svg+xml" }]
+    }
+  ]
+}
