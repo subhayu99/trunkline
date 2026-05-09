@@ -881,6 +881,11 @@ export default function MoneyGraph({
           <div className="commit-card" style={{
             left: Math.min(window.innerWidth - 280, card.x + 16),
             top:  Math.min(window.innerHeight - 220, card.y + 12),
+            // .commit-card has pointer-events: none in CSS so the hover
+            // preview doesn't block hovering paths underneath. When the card
+            // is pinned (selected) it has interactive buttons, so reactivate
+            // pointer events for that case.
+            pointerEvents: isPinned ? "auto" : "none",
           }}
             onClick={(ev) => ev.stopPropagation()}>
             <div className="sha">{card.entry.id} · {card.entry.dir}</div>
