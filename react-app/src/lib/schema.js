@@ -96,7 +96,10 @@ export const DEFAULT_TWEAKS = {
   collapseFuture: false,
   locale: "lakh",
   zoom: 1,
-  rangePreset: "all",
+  // "thisMonth" is the most useful default — "all" included multi-year
+  // recurrence projections that made the topbar totals look intimidating
+  // and not actionable. Tap × on the range pill to clear back to "all time".
+  rangePreset: "thisMonth",
   rangeStart: null,
   rangeEnd: null,
   viewMode: "graph",
