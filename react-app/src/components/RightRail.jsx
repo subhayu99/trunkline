@@ -72,7 +72,7 @@ function toHex(color) {
   return "";
 }
 
-function PanelLanes({ kinds, onUpsert, onRemove }) {
+export function PanelLanes({ kinds, onUpsert, onRemove }) {
   const [editing, setEditing] = useState(null); // kind id being edited
   const [adding, setAdding] = useState(false);
   const [draft, setDraft] = useState({ id: "", label: "", groupLabel: "", color: "", side: "R" });
@@ -218,7 +218,7 @@ function PanelLanes({ kinds, onUpsert, onRemove }) {
   );
 }
 
-function PanelTags({
+export function PanelTags({
   tweaks, hoveredKind, setHoveredKind, selectedTag, setSelectedTag, entries,
   config, tagById, onAddTag, range, onEditTag, onRemoveTag,
 }) {
@@ -395,7 +395,7 @@ function PanelTags({
   );
 }
 
-function PanelInsights({ insights }) {
+export function PanelInsights({ insights }) {
   return (
     <div className="rail-panel-body">
       <div className="rail-header sticky">
@@ -419,7 +419,7 @@ function PanelInsights({ insights }) {
   );
 }
 
-function PanelLog({ log, onEditEntry, tagById, tweaks, config }) {
+export function PanelLog({ log, onEditEntry, tagById, tweaks, config }) {
   const symbol = config.currencySymbol;
   return (
     <div className="rail-panel-body">

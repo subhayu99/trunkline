@@ -2082,3 +2082,13 @@ body {
     font-family: var(--font-mono); font-size: 10px;
   }
 }
+
+@media (max-width: 768px) {
+  .more-drill {
+    height: 100%;
+    overflow-y: auto;
+    background: var(--bg);
+    padding-bottom: calc(34px + env(safe-area-inset-bottom) + 12px);
+  }
+  .more-drill .rail-panel-body { padding-top: 4px; }
+}

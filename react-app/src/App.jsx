@@ -174,6 +174,8 @@ function FinanceApp({ config, seed }) {
     (tweaksRaw.viewMode || "graph") === "ledger" ? "ledger" : "graph"
   );
 
+  const [moreScreen, setMoreScreen] = useState(null); // null | 'tags' | 'lanes' | 'insights' | 'log'
+
   // Keep mobileTab in sync with desktop view-toggle when user swaps views
   // from desktop and resizes down (or vice versa). Only sync graph/ledger
   // — "more" is a phone-only destination with no desktop equivalent.
@@ -183,6 +185,10 @@ function FinanceApp({ config, seed }) {
     if (v !== mobileTab) setMobileTab(v);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tweaks.viewMode]);
+
+  useEffect(() => {
+    if (mobileTab !== "more") setMoreScreen(null);
+  }, [mobileTab]);
 
   const onMobileTabChange = (id) => {
     setMobileTab(id);
@@ -443,6 +449,8 @@ function FinanceApp({ config, seed }) {
               config={mergedConfig} data={data} now={now}
               isMobile={isMobile}
               mobileTab={mobileTab}
+              onBack={isMobile && mobileTab === "more" && moreScreen ? () => setMoreScreen(null) : null}
+              mobileTitle={moreScreen}
               hamburger={
                 <HamburgerMenu
                   hasEntries={!isEmpty}
@@ -462,10 +470,25 @@ function FinanceApp({ config, seed }) {
             tweaks={tweaks}
             setTweak={setTweak}
             themes={config.themes}
-            onOpenTags={() => {/* wired in Task 7 */}}
-            onOpenLanes={() => {/* wired in Task 7 */}}
-            onOpenInsights={() => {/* wired in Task 7 */}}
-            onOpenLog={() => {/* wired in Task 7 */}}
+            screen={moreScreen}
+            onOpenScreen={setMoreScreen}
+            config={mergedConfig}
+            tagById={tagById}
+            hoveredKind={hoveredKind}
+            setHoveredKind={setHoveredKind}
+            selectedTag={selectedTag}
+            setSelectedTag={setSelectedTag}
+            entries={entries}
+            range={range}
+            onAddTag={addUserTag}
+            onEditTag={editTag}
+            onRemoveTag={removeTag}
+            kinds={kinds}
+            onUpsertKind={upsertKind}
+            onRemoveKind={removeKind}
+            insights={insights}
+            log={log}
+            onEditEntry={setEditing}
             onImport={() => setOverlay("import")}
             onAIPrompt={() => setOverlay("aiprompt")}
             onExport={onExport}
