@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect, useCallback } from "react";
+import React, { useState, useMemo, useEffect, useCallback, useRef } from "react";
 
 import { useStore, exportDoc } from "./hooks/useStore.js";
 import {
@@ -330,6 +330,53 @@ function FinanceApp() {
   };
 
   const [composerPrefill, setComposerPrefill] = useState(null);
+
+  // ── hardware back gesture trap ──
+  // Without this, Android's back button / edge-swipe pops the only history
+  // entry and exits the app (or PWA) immediately. We push a sentinel entry
+  // on mount and intercept popstate: each back tap closes the topmost open
+  // UI layer (overlay → edit panel → composer sheet → More drill-in →
+  // non-graph tab) and re-pushes the sentinel. Only when nothing remains
+  // open do we let the next back propagate, exiting the app cleanly.
+  //
+  // State is read through a ref so the listener doesn't need to be torn
+  // down on every state change.
+  const navStateRef = useRef({});
+  navStateRef.current = {
+    overlay, editing, composerSheetOpen, moreScreen, mobileTab,
+  };
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    window.history.pushState({ trunklineTrap: true }, "");
+    const onPop = () => {
+      const s = navStateRef.current;
+      let handled = false;
+      if (s.overlay) {
+        setOverlay(null);
+        handled = true;
+      } else if (s.editing) {
+        setEditing(null);
+        handled = true;
+      } else if (s.composerSheetOpen) {
+        setComposerSheetOpen(false);
+        setComposerPrefill(null);
+        handled = true;
+      } else if (s.moreScreen) {
+        setMoreScreen(null);
+        handled = true;
+      } else if (s.mobileTab && s.mobileTab !== "graph") {
+        setMobileTab("graph");
+        setTweak("viewMode", "graph");
+        handled = true;
+      }
+      if (handled) {
+        window.history.pushState({ trunklineTrap: true }, "");
+      }
+    };
+    window.addEventListener("popstate", onPop);
+    return () => window.removeEventListener("popstate", onPop);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // PWA shortcut handler
   useEffect(() => {
