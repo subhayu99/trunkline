@@ -57,7 +57,7 @@ export default function ComposerSheet({
              onTouchMove={onGrabMove}
              onTouchEnd={onGrabEnd}
              onMouseDown={onGrabStart}
-             onMouseMove={dragStartY.current != null ? onGrabMove : undefined}
+             onMouseMove={onGrabMove}
              onMouseUp={onGrabEnd}>
           <span className="cs-grab-bar" />
         </div>
