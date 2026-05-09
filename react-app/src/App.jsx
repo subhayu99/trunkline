@@ -409,6 +409,10 @@ function FinanceApp({ config, seed }) {
       .filter(Boolean);
     if (sharePieces.length) {
       setComposerPrefill({ text: sharePieces.join(" · "), at: Date.now() });
+      if (typeof window !== "undefined" &&
+          window.matchMedia("(max-width: 768px)").matches) {
+        setComposerSheetOpen(true);
+      }
       ["share_title", "share_text", "share_url"].forEach(k => u.searchParams.delete(k));
       consumed = true;
     }
@@ -419,11 +423,17 @@ function FinanceApp({ config, seed }) {
       consumed = true;
     }
     if (action === "add") {
-      // Composer focuses itself when ⌘K is dispatched.
-      setTimeout(() => {
-        const ev = new KeyboardEvent("keydown", { key: "k", metaKey: true, bubbles: true });
-        window.dispatchEvent(ev);
-      }, 80);
+      if (typeof window !== "undefined" &&
+          window.matchMedia("(max-width: 768px)").matches) {
+        // Mobile — open the composer sheet directly.
+        setComposerSheetOpen(true);
+      } else {
+        // Desktop — focus the anchored composer via the existing ⌘K handler.
+        setTimeout(() => {
+          const ev = new KeyboardEvent("keydown", { key: "k", metaKey: true, bubbles: true });
+          window.dispatchEvent(ev);
+        }, 80);
+      }
       u.searchParams.delete("action");
       consumed = true;
     } else if (action === "export") {
