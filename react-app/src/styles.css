@@ -1220,26 +1220,6 @@ body {
 @media (max-width: 768px) {
   body { font-size: 12px; }
 
-  /* Topbar wraps; the stats become a horizontally-scrollable strip */
-  .topbar {
-    flex-wrap: wrap;
-    gap: 6px 10px;
-    padding: 8px 10px;
-  }
-  .topbar .stats {
-    margin-left: 0;
-    flex: 1 1 100%;        /* take full row when wrapped */
-    min-width: 0;          /* allow shrink so its scroll works */
-    gap: 14px;
-    overflow-x: auto;
-    flex-wrap: nowrap;
-    padding-bottom: 2px;
-    -webkit-overflow-scrolling: touch;
-  }
-  .topbar .stats::-webkit-scrollbar { height: 0; }
-  .topbar .stat { flex-shrink: 0; }
-  .topbar .stat .v { font-size: 12px; }
-
   /* Tablet: keep the labels readable but slightly tighter padding so the
    * topbar still wraps cleanly. Labels only disappear on phones (≤480px). */
   .theme-toggle button,
@@ -1993,4 +1973,61 @@ body {
     height: 2px; border-radius: 2px;
     background: var(--ink);
   }
+}
+
+@media (max-width: 768px) {
+  .topbar.topbar-mobile {
+    flex-wrap: nowrap;
+    padding: 6px 10px;
+    gap: 10px;
+  }
+  .topbar.topbar-mobile .repo {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  /* Drop the old wrapped-stats strip on mobile — we render .stats-mobile instead. */
+  .topbar.topbar-mobile .stats { display: none; }
+
+  .stats-mobile {
+    display: flex;
+    justify-content: space-between;
+    gap: 6px;
+    padding: 6px 10px;
+    border-bottom: 1px solid var(--rule);
+    background: var(--bg-2);
+  }
+  .stats-mobile .stat { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+  .stats-mobile .stat .k {
+    font-family: var(--font-mono); font-size: 8px; text-transform: uppercase;
+    letter-spacing: .06em; color: var(--ink-3);
+  }
+  .stats-mobile .stat .v {
+    font-family: var(--font-mono); font-size: 11px; font-weight: 600; color: var(--ink);
+  }
+  .stats-mobile .stat .v.warn { color: var(--warn); }
+  .stats-mobile .stat .v.ok   { color: var(--ok); }
+
+  .topbar.topbar-drill {
+    padding: 6px 10px;
+    gap: 8px;
+  }
+  .topbar-back {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    color: var(--ink-2);
+    border-radius: 6px;
+    width: 28px; height: 28px;
+    display: inline-flex; align-items: center; justify-content: center;
+    cursor: pointer;
+  }
+  .topbar-back:hover { color: var(--ink); border-color: var(--ink-2); }
+}
+
+@media (max-width: 480px) {
+  .stats-mobile { gap: 4px; padding: 5px 8px; }
+  .stats-mobile .stat .k { font-size: 7px; }
+  .stats-mobile .stat .v { font-size: 10.5px; }
 }

@@ -440,6 +440,8 @@ function FinanceApp({ config, seed }) {
     <div className="app" style={kindStyleVars}>
       <TopBar tweaks={tweaks} setTweak={setTweak} entries={entries} range={range}
               config={mergedConfig} data={data} now={now}
+              isMobile={isMobile}
+              mobileTab={mobileTab}
               hamburger={
                 <HamburgerMenu
                   hasEntries={!isEmpty}

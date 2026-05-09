@@ -7,6 +7,8 @@ import FutureToggle from "./FutureToggle.jsx";
 
 export default function TopBar({
   tweaks, setTweak, entries, range, config, data, now, hamburger,
+  isMobile = false, mobileTab = "graph",
+  onBack = null, mobileTitle = null,
 }) {
   const initialBalance = data.initialBalance;
 
@@ -37,8 +39,9 @@ export default function TopBar({
     }
     if (opening === null) opening = bal;
     if (atNow === null) atNow = bal;
+    const committed = fixed + loans + sav;
     return {
-      totals: { inc, fixed, extras, loans, sav, spent: fixed + extras + loans + sav },
+      totals: { inc, fixed, extras, loans, sav, committed, spent: committed + extras },
       openingBal: opening, closingBal: bal, balanceAtNow: atNow,
     };
   }, [entries, range.start, range.end, initialBalance, now]);
@@ -46,6 +49,63 @@ export default function TopBar({
   const rangeIsAll = range.start === -Infinity;
   const symbol = config.currencySymbol;
 
+  // Mobile drill-in mode: just back-arrow + section title, no stats, no controls.
+  if (isMobile && onBack) {
+    return (
+      <div className="topbar topbar-mobile topbar-drill">
+        <button type="button" className="topbar-back" onClick={onBack} aria-label="back">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="15 18 9 12 15 6"/>
+          </svg>
+        </button>
+        <div className="repo"><b>{mobileTitle || ""}</b></div>
+      </div>
+    );
+  }
+
+  // Mobile (no drill-in): hamburger + title + range chip. Stats only on graph tab.
+  if (isMobile) {
+    const onMore = mobileTab === "more";
+    return (
+      <>
+        <div className="topbar topbar-mobile">
+          {hamburger}
+          <div className="repo">
+            <span><b>{onMore ? "more" : "trunkline"}</b></span>
+          </div>
+          {!onMore && (
+            <RangeChip tweaks={tweaks} setTweak={setTweak} range={range}
+                       presets={config.rangePresets} now={now} />
+          )}
+        </div>
+        {mobileTab === "graph" && (
+          <div className="stats-mobile">
+            <div className="stat">
+              <div className="k">income</div>
+              <div className="v ok">+{fmtINR(totals.inc, tweaks.locale, symbol)}</div>
+            </div>
+            <div className="stat">
+              <div className="k">committed</div>
+              <div className="v">−{fmtINR(totals.committed, tweaks.locale, symbol)}</div>
+            </div>
+            <div className="stat">
+              <div className="k">extras</div>
+              <div className="v warn">−{fmtINR(totals.extras, tweaks.locale, symbol)}</div>
+            </div>
+            <div className="stat">
+              <div className="k">{rangeIsAll ? "today" : "closing"}</div>
+              <div className="v" style={{ color: closingBal < 0 ? "var(--warn)" : "var(--ink)" }}>
+                {fmtINR(rangeIsAll ? balanceAtNow : closingBal, tweaks.locale, symbol)}
+              </div>
+            </div>
+          </div>
+        )}
+      </>
+    );
+  }
+
+  // Desktop — unchanged from before.
   return (
     <div className="topbar">
       {hamburger}
