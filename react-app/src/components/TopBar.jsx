@@ -71,6 +71,16 @@ export default function TopBar({
       <>
         <div className="topbar topbar-mobile">
           <div className="repo">
+            {!onMore && (
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                   strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ color: "var(--b-main)", flexShrink: 0 }}>
+                <circle cx="6" cy="3" r="2"></circle>
+                <circle cx="6" cy="12" r="2"></circle>
+                <circle cx="18" cy="9" r="2"></circle>
+                <path d="M6 5v14"></path>
+                <path d="M6 7h6a4 4 0 0 1 4 4v0"></path>
+              </svg>
+            )}
             <span><b>{onMore ? "more" : "trunkline"}</b></span>
           </div>
           {!onMore && (
