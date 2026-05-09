@@ -2047,3 +2047,38 @@ body {
     padding-bottom: calc(34px + env(safe-area-inset-bottom));
   }
 }
+
+@media (max-width: 768px) {
+  .more-tab {
+    display: flex; flex-direction: column;
+    background: var(--bg);
+    overflow-y: auto;
+    height: 100%;
+    padding-bottom: calc(34px + env(safe-area-inset-bottom) + 12px);
+  }
+  .more-tab .mt-section {
+    font-family: var(--font-mono); font-size: 9px;
+    text-transform: uppercase; letter-spacing: .08em;
+    color: var(--ink-3);
+    padding: 14px 14px 6px;
+  }
+  .more-tab .mt-row {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px 14px;
+    background: transparent;
+    border: none;
+    border-bottom: 1px dashed var(--rule);
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    color: var(--ink);
+    font-family: var(--font-sans); font-size: 13px;
+  }
+  .more-tab .mt-row:hover { background: var(--bg-2); }
+  .more-tab .mt-row.danger .mt-meta { color: var(--warn); }
+  .more-tab .mt-label { color: var(--ink); }
+  .more-tab .mt-meta {
+    color: var(--ink-3);
+    font-family: var(--font-mono); font-size: 10px;
+  }
+}

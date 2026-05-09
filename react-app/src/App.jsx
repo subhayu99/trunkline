@@ -22,6 +22,7 @@ import EmptyState from "./components/EmptyState.jsx";
 import ErrorBoundary from "./components/ErrorBoundary.jsx";
 import Toast from "./components/Toast.jsx";
 import BottomNav from "./components/BottomNav.jsx";
+import MoreTab from "./components/MoreTab.jsx";
 
 import { useTweaks } from "./components/tweaks/TweaksPanel.jsx";
 import { useIsMobile } from "./hooks/useIsMobile.js";
@@ -456,7 +457,29 @@ function FinanceApp({ config, seed }) {
               } />
 
       <div className={`main${activePanel && !isMobile ? " right-expanded" : ""}`}>
-        {isEmpty ? (
+        {isMobile && mobileTab === "more" ? (
+          <MoreTab
+            tweaks={tweaks}
+            setTweak={setTweak}
+            themes={config.themes}
+            onOpenTags={() => {/* wired in Task 7 */}}
+            onOpenLanes={() => {/* wired in Task 7 */}}
+            onOpenInsights={() => {/* wired in Task 7 */}}
+            onOpenLog={() => {/* wired in Task 7 */}}
+            onImport={() => setOverlay("import")}
+            onAIPrompt={() => setOverlay("aiprompt")}
+            onExport={onExport}
+            onLoadDemo={onLoadDemo}
+            onReset={onReset}
+            onAbout={() => setOverlay("about")}
+            counts={{
+              tags: mergedConfig.tags.length,
+              lanes: kinds.filter(k => !k.archived).length,
+              insights: insights.length,
+              log: log.length,
+            }}
+          />
+        ) : isEmpty ? (
           <EmptyState
             hasSeed={Array.isArray(seed?.entries) && seed.entries.length > 0}
             onLoadDemo={onLoadDemo}
