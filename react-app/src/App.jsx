@@ -11,6 +11,8 @@ import { computeInsights } from "./lib/insights.js";
 import TopBar from "./components/TopBar.jsx";
 import RightRail from "./components/RightRail.jsx";
 import Composer from "./components/Composer.jsx";
+import ComposerSheet from "./components/ComposerSheet.jsx";
+import Fab from "./components/Fab.jsx";
 import EditPanel from "./components/EditPanel.jsx";
 import MoneyGraph from "./components/MoneyGraph.jsx";
 import LedgerView from "./components/LedgerView.jsx";
@@ -175,6 +177,7 @@ function FinanceApp({ config, seed }) {
   );
 
   const [moreScreen, setMoreScreen] = useState(null); // null | 'tags' | 'lanes' | 'insights' | 'log'
+  const [composerSheetOpen, setComposerSheetOpen] = useState(false);
 
   // Keep mobileTab in sync with desktop view-toggle when user swaps views
   // from desktop and resizes down (or vice versa). Only sync graph/ledger
@@ -574,6 +577,27 @@ function FinanceApp({ config, seed }) {
                 config={mergedConfig} tagById={tagById} now={now}
                 onAddTag={addUserTag} entries={entries}
                 prefill={composerPrefill} />
+
+      {isMobile && (
+        <>
+          <Fab
+            onClick={() => setComposerSheetOpen(true)}
+            hidden={mobileTab === "more" || composerSheetOpen}
+          />
+          <ComposerSheet
+            open={composerSheetOpen}
+            onClose={() => setComposerSheetOpen(false)}
+            tweaks={tweaks}
+            onLog={onLog}
+            config={mergedConfig}
+            tagById={tagById}
+            now={now}
+            onAddTag={addUserTag}
+            entries={entries}
+            prefill={composerPrefill}
+          />
+        </>
+      )}
 
       {editing && (
         <EditPanel entry={editing}
