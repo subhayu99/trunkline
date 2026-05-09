@@ -64,13 +64,12 @@ export default function TopBar({
     );
   }
 
-  // Mobile (no drill-in): hamburger + title + range chip. Stats only on graph tab.
+  // Mobile (no drill-in): title + range chip + future + theme toggles. Stats only on graph tab.
   if (isMobile) {
     const onMore = mobileTab === "more";
     return (
       <>
         <div className="topbar topbar-mobile">
-          {hamburger}
           <div className="repo">
             <span><b>{onMore ? "more" : "trunkline"}</b></span>
           </div>
@@ -78,6 +77,11 @@ export default function TopBar({
             <RangeChip tweaks={tweaks} setTweak={setTweak} range={range}
                        presets={config.rangePresets} now={now} />
           )}
+          <FutureToggle showFuture={tweaks.showFuture}
+                        collapseFuture={!!tweaks.collapseFuture}
+                        onChange={(edits) => setTweak(edits)} />
+          <ThemeToggle compact value={tweaks.theme} themes={config.themes}
+                       onChange={v => setTweak("theme", v)} />
         </div>
         {mobileTab === "graph" && (
           <div className="stats-mobile">

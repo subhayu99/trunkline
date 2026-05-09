@@ -1221,15 +1221,6 @@ body {
 @media (max-width: 768px) {
   body { font-size: 12px; }
 
-  /* Tablet: keep the labels readable but slightly tighter padding so the
-   * topbar still wraps cleanly. Labels only disappear on phones (≤480px). */
-  .theme-toggle button,
-  .view-toggle button,
-  .future-toggle button { padding: 5px 9px; }
-  .theme-toggle .lbl,
-  .view-toggle .lbl,
-  .future-toggle .lbl { font-size: 10px; }
-
   /* Smaller expanded right rail so the chart still has room.
    * 184 panel + 36 icons = 220 */
   .main.right-expanded { grid-template-columns: 1fr 220px; }
@@ -2223,5 +2214,67 @@ body {
     flex: 1 1 auto;
     overflow-y: auto;
     padding: 14px 14px calc(14px + env(safe-area-inset-bottom));
+  }
+}
+
+@media (max-width: 768px) {
+  /* FAB clears the bottom nav (44px nav + 12px gap). */
+  .fab-wrap {
+    bottom: calc(56px + env(safe-area-inset-bottom));
+  }
+
+  /* Theme + future toggles in the mobile topbar: icon-only, tighter. */
+  .topbar.topbar-mobile .theme-toggle .lbl,
+  .topbar.topbar-mobile .future-toggle .lbl { display: none; }
+  .topbar.topbar-mobile .future-toggle button {
+    padding: 6px 8px; min-width: 32px; min-height: 32px;
+    display: inline-flex; align-items: center; justify-content: center;
+  }
+  .topbar.topbar-mobile .theme-toggle.theme-toggle-cycle {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 32px; height: 32px;
+    padding: 0;
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    color: var(--ink-2);
+    cursor: pointer;
+  }
+  .topbar.topbar-mobile .theme-toggle.theme-toggle-cycle:hover {
+    color: var(--ink); border-color: var(--ink-2);
+  }
+  .topbar.topbar-mobile .theme-toggle.theme-toggle-cycle:focus-visible {
+    outline: 2px solid var(--ink-2); outline-offset: 2px;
+  }
+  .topbar.topbar-mobile .theme-toggle.theme-toggle-cycle .ico {
+    font-size: 14px; line-height: 1;
+  }
+
+  /* Range chip: cap width with label ellipsis so it doesn't push toggles off. */
+  .topbar.topbar-mobile .range-chip {
+    max-width: 130px;
+    overflow: hidden;
+  }
+  .topbar.topbar-mobile .range-chip > span:not(.x) {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  /* Range popover: detach from chip and pin to viewport on mobile so it
+   * never overflows. */
+  .range-pop {
+    position: fixed !important;
+    top: calc(env(safe-area-inset-top) + 56px) !important;
+    left: 12px !important;
+    right: 12px !important;
+    max-width: none !important;
+    min-width: 0 !important;
+  }
+
+  /* Tighten the topbar gap so the four-element row (title + chip + future + theme)
+   * fits cleanly at 360px. */
+  .topbar.topbar-mobile {
+    gap: 6px;
   }
 }

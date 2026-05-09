@@ -60,11 +60,6 @@ export default function MoreTab({
     );
   }
 
-  const themeLabel = (() => {
-    const t = (themes || []).find(t => t.value === tweaks.theme);
-    return t ? t.label : tweaks.theme;
-  })();
-
   const Row = ({ label, meta, onClick, danger }) => (
     <button type="button"
             className={`mt-row${danger ? " danger" : ""}`}
@@ -81,18 +76,6 @@ export default function MoreTab({
       <Row label="lanes"       meta={`${counts.lanes ?? "—"} ›`}    onClick={() => onOpenScreen("lanes")} />
       <Row label="insights"    meta={`${counts.insights ?? "—"} ›`} onClick={() => onOpenScreen("insights")} />
       <Row label="recent log"  meta={`${counts.log ?? 0} ›`}        onClick={() => onOpenScreen("log")} />
-
-      <div className="mt-section">view</div>
-      <Row label="future entries"
-           meta={tweaks.showFuture ? "show" : "hide"}
-           onClick={() => setTweak("showFuture", !tweaks.showFuture)} />
-      <Row label="theme" meta={themeLabel}
-           onClick={() => {
-             const list = themes || [];
-             const i = list.findIndex(t => t.value === tweaks.theme);
-             const next = list[(i + 1) % list.length];
-             if (next) setTweak("theme", next.value);
-           }} />
 
       <div className="mt-section">data</div>
       <Row label="import JSON"     meta="›" onClick={onImport} />
