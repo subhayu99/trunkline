@@ -1,7 +1,7 @@
 # Mobile UX redesign
 
 **Date:** 2026-05-09
-**Status:** approved (pending one decision flagged in §10)
+**Status:** approved
 **Scope:** trunkline at viewports ≤768px
 
 ---
@@ -29,8 +29,8 @@ A bottom-tab shell (Graph / Ledger / More) replaces the desktop topbar+rail+anch
 ┌────────────────────────────┐
 │ ☰  trunkline   last 30d ▾ │  ~36px topbar
 ├────────────────────────────┤
-│ income  spent   balance    │  ~32px stats strip (3 KPIs, no scroll)
-│ +₹62k   −₹63k   ₹37k       │
+│ income committed extras balance │  ~32px stats strip (4 KPIs, no scroll)
+│ +₹62k  −₹54k  −₹9k  ₹37k        │
 ├────────────────────────────┤
 │                            │
 │                            │
@@ -129,7 +129,7 @@ Full-screen modal that slides up from bottom. Same form structure as desktop Edi
 - Mobile, More tab: `{hamburger, title="more"}`. RangeChip hidden (range scoping doesn't apply on More).
 - Mobile, More drill-in (tags / lanes / insights / log): `{back-arrow, title=<section name>}`. Back-arrow clears `moreScreen` state.
 - Mobile, EditPanel open: that panel renders its own topbar (see §5.5); base topbar unaffected (it's behind the modal).
-- Stats strip: 3 stats only on mobile (income / spent / balance). No horizontal scroll. Renders only when `mobileTab === 'graph'` and no drill-in is active.
+- Stats strip: 4 stats on mobile (income / committed / extras / balance). No horizontal scroll — fits at 360px via tighter gap (10–12px) and slightly smaller value font (11–12px). Renders only when `mobileTab === 'graph'` and no drill-in is active. Drops `opening` from the desktop 5-stat strip; the rest are preserved.
 - Stats hidden when `mobileTab === 'ledger'` (ledger has its own toolbar) and `mobileTab === 'more'`.
 - Desktop renders the existing 5-stat strip + all toggles unchanged.
 
@@ -230,14 +230,9 @@ Why local-only: these are ephemeral phone-shell state that resets on reload. Per
 - Verify all four More tab drill-ins render correctly and back-out clears state.
 - Verify FAB scroll-aware doesn't flicker.
 
-## 10. Open decisions
+## 10. Resolved decisions
 
-**One decision flagged:**
-
-- **Stats merge vs split**:
-  - **(default) Merge**: 3 stats — income / spent / balance. "spent" = committed + extras combined.
-  - **Alternative**: 4 stats — income / committed / extras / balance.
-  - Spec defaults to merge (matches the v2 mockup the user approved). Reviewer can flip during spec review and the implementation plan adjusts to render 4 instead of 3.
+- **Stats**: 4 stats — income / committed / extras / balance. Drops `opening` (still visible in desktop's 5-stat strip). Keeps committed and extras separate so the user can read "am I overspending on chai vs. just hitting fixed bills?" at a glance.
 
 ## 11. What's preserved
 
