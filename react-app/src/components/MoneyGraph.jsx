@@ -540,7 +540,16 @@ export default function MoneyGraph({
   const visibleYTop = scrollTop - 300;
   const visibleYBot = scrollTop + containerH + 300;
 
-  const renderEntry = (e) => {
+  // Two-pass render so dots stay tappable even when paths from neighbouring
+  // lanes overlap them. SVG draws later siblings on top, so the old single-
+  // <g>-per-entry layout meant a wide stroke from the last-rendered entry
+  // would shadow earlier dots — visible to the eye, but its hit area got
+  // stolen by the path on top. Splitting into "all paths first, all dots
+  // and labels second" puts every dot above every path.
+  //
+  // computeFlowGeometry is shared so the two passes don't drift; both passes
+  // call it with the same entry and produce the same coordinates.
+  const computeFlowGeometry = (e) => {
     if (!showFuture && e.status === "future") return null;
     const t0 = new Date(e.when).getTime();
     const y = yForTime(t0) + (entryYOffset.get(e.id) || 0);
@@ -565,55 +574,81 @@ export default function MoneyGraph({
       path = `M ${xK} ${y} C ${xK - 24} ${y}, ${xM + 24} ${y}, ${xM} ${y}`;
     }
 
-    const tagObj = tagById[e.tags[0]];
+    return { e, y, xK, xM, w, isFuture, isMerge, op, color, path };
+  };
+
+  // Tap or click → pin the details card. Tapping the same flow again
+  // dismisses it. stopPropagation prevents the SVG-level click handler
+  // from clearing the selection we just set.
+  const onEntrySelect = (e) => (ev) => {
+    ev.stopPropagation();
+    setSelected(prev =>
+      prev && prev.entry.id === e.id
+        ? null
+        : { entry: e, x: ev.clientX, y: ev.clientY }
+    );
+    setHover(null);
+  };
+
+  const renderFlowPath = (e) => {
+    const g = computeFlowGeometry(e);
+    if (!g) return null;
     const isFresh = freshEntry && freshEntry.id === e.id;
-
-    // Tap or click → pin the details card. Tapping the same flow again
-    // dismisses it. stopPropagation prevents the SVG-level click handler
-    // from clearing the selection we just set.
-    const onSelect = (ev) => {
-      ev.stopPropagation();
-      setSelected(prev =>
-        prev && prev.entry.id === e.id
-          ? null
-          : { entry: e, x: ev.clientX, y: ev.clientY }
-      );
-      setHover(null);
-    };
-
     return (
-      <g key={e.id} style={{ opacity: op }} className={isFresh ? "flow fresh" : "flow"}>
+      <g key={`p-${e.id}`} style={{ opacity: g.op }} className={isFresh ? "flow fresh" : "flow"}>
         <path
-          d={path} fill="none" stroke={color}
-          strokeWidth={w} strokeLinecap="round"
-          strokeDasharray={isFuture ? "4 5" : "0"}
-          opacity={isFuture ? 0.6 : 0.9}
+          d={g.path} fill="none" stroke={g.color}
+          strokeWidth={g.w} strokeLinecap="round"
+          strokeDasharray={g.isFuture ? "4 5" : "0"}
+          opacity={g.isFuture ? 0.6 : 0.9}
           style={{ cursor: "pointer", pointerEvents: "stroke" }}
           onMouseEnter={(ev) => { setHover({ entry: e, x: ev.clientX, y: ev.clientY }); setHoveredKind(e.kind); }}
           onMouseMove={(ev) => setHover(h => h ? { ...h, x: ev.clientX, y: ev.clientY } : null)}
           onMouseLeave={() => { setHover(null); setHoveredKind(null); }}
-          onClick={onSelect}
+          onClick={onEntrySelect(e)}
+        />
+      </g>
+    );
+  };
+
+  const renderFlowDot = (e) => {
+    const g = computeFlowGeometry(e);
+    if (!g) return null;
+    const tagObj = tagById[e.tags[0]];
+    // Merge entries put the visual marker (and the hit target) at the trunk
+    // — the diamond at xMain — rather than at xK on the lane.
+    const hitX = g.isMerge ? g.xM : g.xK;
+    const dotR = g.isMerge ? 0 : Math.max(2.2, Math.min(6, 2 + g.w * 0.22));
+    // Larger transparent hit ring so taps land reliably on touch devices and
+    // the dot isn't shadowed by overlapping paths from neighbouring lanes.
+    const hitR = Math.max(dotR + 8, 14);
+    return (
+      <g key={`d-${e.id}`} style={{ opacity: g.op }}>
+        <circle
+          cx={hitX} cy={g.y} r={hitR}
+          fill="transparent"
+          style={{ cursor: "pointer" }}
+          onClick={onEntrySelect(e)}
         />
         <circle
-          cx={xK} cy={y}
-          r={isMerge ? 0 : Math.max(2.2, Math.min(6, 2 + w * 0.22))}
-          fill={isFuture ? "var(--bg)" : color}
-          stroke={color} strokeWidth={isFuture ? 1.2 : 0.8}
-          strokeDasharray={isFuture ? "2 2" : "0"}
-          style={{ cursor: "pointer" }}
-          onClick={onSelect}
+          cx={g.xK} cy={g.y} r={dotR}
+          fill={g.isFuture ? "var(--bg)" : g.color}
+          stroke={g.color} strokeWidth={g.isFuture ? 1.2 : 0.8}
+          strokeDasharray={g.isFuture ? "2 2" : "0"}
+          pointerEvents="none"
         />
-        {isMerge && (
-          <rect x={xM - 4} y={y - 4} width={8} height={8}
-                transform={`rotate(45 ${xM} ${y})`}
-                fill={color} stroke="var(--bg)" strokeWidth="1" pointerEvents="none" />
+        {g.isMerge && (
+          <rect x={g.xM - 4} y={g.y - 4} width={8} height={8}
+                transform={`rotate(45 ${g.xM} ${g.y})`}
+                fill={g.color} stroke="var(--bg)" strokeWidth="1"
+                pointerEvents="none" />
         )}
-        {dayPx >= 60 && tagObj && !isMerge && (
+        {dayPx >= 60 && tagObj && !g.isMerge && (
           <text
-            x={xK + (e.dir === "in" || xK < xMain ? -8 : 8)}
-            y={y + 3}
+            x={g.xK + (e.dir === "in" || g.xK < xMain ? -8 : 8)}
+            y={g.y + 3}
             className="mono"
-            textAnchor={e.dir === "in" || xK < xMain ? "end" : "start"}
+            textAnchor={e.dir === "in" || g.xK < xMain ? "end" : "start"}
             fontSize="9.5"
             fill="var(--ink-2)"
             pointerEvents="none"
@@ -813,7 +848,12 @@ export default function MoneyGraph({
           );
         })}
 
-        {sortedEntries.map(renderEntry)}
+        {/* Pass 1: every flow path. Drawn first so dots in pass 2 render on
+            top and stay tappable even when paths from neighbouring lanes
+            overlap them. */}
+        {sortedEntries.map(renderFlowPath)}
+        {/* Pass 2: every dot, merge diamond, and tag label. */}
+        {sortedEntries.map(renderFlowDot)}
 
         <g>
           <line x1={leftPad - 30} x2={containerW - 8} y1={yNow} y2={yNow}
