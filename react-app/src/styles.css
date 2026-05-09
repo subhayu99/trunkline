@@ -2370,7 +2370,7 @@ body {
 .dash-lanes { display: flex; flex-direction: column; }
 .dash-lane-row {
   display: grid;
-  grid-template-columns: 8px 1fr auto auto auto;
+  grid-template-columns: 8px 1fr 60px auto auto auto;
   align-items: center;
   gap: 8px;
   padding: 8px 12px;
@@ -2383,6 +2383,9 @@ body {
   color: var(--ink);
   font-family: var(--font-mono);
 }
+.dash-lane-spark { display: inline-flex; align-items: center; justify-content: center; min-width: 0; }
+.dash-spark { display: block; opacity: 0.85; }
+.dash-spark-empty { display: inline-block; width: 60px; height: 14px; }
 .dash-lane-row:hover { background: var(--surface); }
 .dash-lane-swatch { width: 8px; height: 8px; border-radius: 2px; }
 .dash-lane-label  { font-size: 12px; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -2559,7 +2562,12 @@ body {
 .rail-panel[data-panel="dash"] .dash-kpi-v { font-size: 12px; }
 .rail-panel[data-panel="dash"] .dash-card-head { padding: 8px 10px 4px; }
 .rail-panel[data-panel="dash"] .dash-bar { margin: 4px 10px 8px; }
-.rail-panel[data-panel="dash"] .dash-lane-row { padding: 6px 10px; }
+.rail-panel[data-panel="dash"] .dash-lane-row {
+  padding: 6px 10px;
+  grid-template-columns: 8px 1fr 40px auto auto auto;
+}
+.rail-panel[data-panel="dash"] .dash-lane-spark .dash-spark { width: 40px; }
+.rail-panel[data-panel="dash"] .dash-spark-empty { width: 40px; }
 .rail-panel[data-panel="dash"] .dash-tg-head { padding: 7px 10px; }
 .rail-panel[data-panel="dash"] .dash-tag-row { padding-left: 22px; padding-right: 10px; }
 

@@ -12,6 +12,7 @@ import React, { useMemo, useState } from "react";
 import { fmtINR, fmtCompact, fmtDateShort } from "../lib/format.js";
 import {
   breakdownByLane, breakdownByTag, entriesFor, rateMetrics, deltaByLane,
+  laneSeries,
 } from "../lib/breakdown.js";
 
 function dayLabel(d) {
@@ -22,6 +23,37 @@ function dayLabel(d) {
 function dirSymbol(dir) {
   if (dir === "in") return "+";
   return "−";
+}
+
+// Tiny inline trend chart for a lane row. Renders a filled area + line.
+// Hidden when the series is empty or all-zero. Width is fixed-ish at
+// 60×14 — narrow enough to fit between label and amount on phones.
+function Sparkline({ values, color, width = 60, height = 14 }) {
+  if (!values || values.length < 2) return null;
+  let max = 0;
+  for (const v of values) if (v > max) max = v;
+  if (max <= 0) return <span className="dash-spark dash-spark-empty" aria-hidden="true" />;
+  const n = values.length;
+  const step = width / (n - 1);
+  let line = "";
+  let area = `M 0 ${height} `;
+  for (let i = 0; i < n; i++) {
+    const x = i * step;
+    const y = height - (values[i] / max) * (height - 1) - 0.5;
+    const cmd = i === 0 ? "M" : "L";
+    line += `${cmd} ${x.toFixed(1)} ${y.toFixed(1)} `;
+    area += `L ${x.toFixed(1)} ${y.toFixed(1)} `;
+  }
+  area += `L ${width} ${height} Z`;
+  return (
+    <svg className="dash-spark" width={width} height={height}
+         viewBox={`0 0 ${width} ${height}`} aria-hidden="true"
+         preserveAspectRatio="none">
+      <path d={area} fill={color} fillOpacity="0.18" />
+      <path d={line} fill="none" stroke={color} strokeWidth="1.2"
+            strokeLinejoin="round" strokeLinecap="round" />
+    </svg>
+  );
 }
 
 // Tiny ▲/▼ delta badge. `goodDir` is "down" for spend lanes (less spend
@@ -62,16 +94,20 @@ function StackedBar({ items, total }) {
   );
 }
 
-function LaneRow({ lane, kindMeta, symbol, locale, onClick, deltaPct }) {
+function LaneRow({ lane, kindMeta, symbol, locale, onClick, deltaPct, series }) {
   const isIncome = lane.side === "L";
   const sign = isIncome ? "+" : "−";
   const label = kindMeta?.vocab?.light || kindMeta?.label || lane.kind;
   const goodDir = isIncome ? "up" : "down";
+  const sparkColor = kindMeta?.color || `var(--b-${lane.kind})`;
   return (
     <button type="button" className="dash-lane-row" onClick={onClick}>
       <span className="dash-lane-swatch"
-            style={{ background: kindMeta?.color || `var(--b-${lane.kind})` }} />
+            style={{ background: sparkColor }} />
       <span className="dash-lane-label">{label}</span>
+      <span className="dash-lane-spark">
+        <Sparkline values={series} color={sparkColor} />
+      </span>
       <span className="dash-lane-count">
         {lane.count} {lane.count === 1 ? "tx" : "txs"}
       </span>
@@ -263,6 +299,10 @@ export default function Dash({
     () => deltaByLane(entries, range, kinds),
     [entries, range, kinds]
   );
+  const sparks = useMemo(
+    () => laneSeries(entries, range, kinds),
+    [entries, range, kinds]
+  );
 
   const drillEntries = useMemo(
     () => drill ? entriesFor(entries, range, drill) : null,
@@ -372,6 +412,7 @@ export default function Dash({
                      symbol={symbol}
                      locale={locale}
                      deltaPct={pop.deltas[l.kind]?.pct}
+                     series={sparks.byKind[l.kind]}
                      onClick={() => setDrill({ type: "lane", id: l.kind })} />
           ))}
         </div>

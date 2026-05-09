@@ -116,6 +116,52 @@ export function breakdownByTag(entries, range, tags, tagGroups) {
   });
 }
 
+// Per-lane time-bucketed series: one number per bucket, summed by lane.
+// `bucketCount` controls how many buckets the range is sliced into; we
+// pick the bucket size so that the series resolution scales with the
+// range duration (more buckets ≠ more useful at coarse resolutions).
+//
+// Returns: { buckets, byKind: { kindId → number[] } }
+//
+// Falls back to [earliestEntry, now] for "all time" so the buckets
+// span actual data instead of -Infinity..Infinity.
+export function laneSeries(entries, range, kinds, opts = {}) {
+  const bucketCount = Math.max(4, Math.min(opts.bucketCount || 24, 48));
+  const isAllTime = !isFinite(range.start);
+
+  let startMs = range.start, endMs = range.end;
+  if (isAllTime) {
+    let earliest = Infinity, latest = -Infinity;
+    for (const e of entries) {
+      const t = new Date(e.when).getTime();
+      if (t < earliest) earliest = t;
+      if (t > latest)   latest   = t;
+    }
+    if (!isFinite(earliest)) return { buckets: bucketCount, byKind: {} };
+    startMs = earliest;
+    endMs   = latest;
+  }
+  const span = Math.max(1, endMs - startMs);
+  const bucketSize = span / bucketCount;
+
+  const sideOf = Object.fromEntries(kinds.map(k => [k.id, k.side]));
+  const byKind = {};
+
+  for (const e of entries) {
+    if (e.dir === "merge") continue;
+    const t = new Date(e.when).getTime();
+    if (t < startMs || t > endMs) continue;
+    const k = e.kind || (e.dir === "in" ? "income" : "extras");
+    const side = sideOf[k] || "R";
+    if (side === "L" && e.dir !== "in") continue;
+    if (side === "R" && e.dir !== "out") continue;
+    const idx = Math.min(bucketCount - 1, Math.floor((t - startMs) / bucketSize));
+    if (!byKind[k]) byKind[k] = new Array(bucketCount).fill(0);
+    byKind[k][idx] += e.amount;
+  }
+  return { buckets: bucketCount, byKind };
+}
+
 // Returns the prior equivalent window for a range, or null when the
 // active range is open-ended ("all time"). Duration-based — if you're
 // looking at last 30d, prior is the 30d before that. Calendar-aware
