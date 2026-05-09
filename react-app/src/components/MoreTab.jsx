@@ -18,7 +18,8 @@ export default function MoreTab({
   // insights, log
   insights, log, onEditEntry,
   // hamburger callbacks
-  onImport, onAIPrompt, onExport, onLoadDemo, onReset, onAbout,
+  onImport, onAIPrompt, onExport, onExportCustomization,
+  onLoadDemo, onReset, onAbout,
   counts = {},
 }) {
   if (screen === "tags") {
@@ -78,11 +79,19 @@ export default function MoreTab({
       <Row label="recent log"  meta={`${counts.log ?? 0} ›`}        onClick={() => onOpenScreen("log")} />
 
       <div className="mt-section">data</div>
-      <Row label="import JSON"     meta="›" onClick={onImport} />
+      <Row label="import JSON"      meta="›" onClick={onImport} />
       <Row label="AI prompt"        meta="›" onClick={onAIPrompt} />
       <Row label="export backup"    meta="›" onClick={onExport} />
       <Row label="load demo"        meta="›" onClick={onLoadDemo} />
       <Row label="reset"            meta="›" onClick={onReset} danger />
+
+      {onExportCustomization && (
+        <>
+          <div className="mt-section">customization</div>
+          <Row label="export app customization" meta="›" onClick={onExportCustomization} />
+          <Row label="import app customization" meta="›" onClick={onImport} />
+        </>
+      )}
 
       <div className="mt-section">about</div>
       <Row label="about trunkline"  meta="›" onClick={onAbout} />

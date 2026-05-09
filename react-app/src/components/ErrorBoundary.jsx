@@ -32,7 +32,9 @@ export default class ErrorBoundary extends React.Component {
             <button onClick={() => location.reload()}>reload page</button>
             <button onClick={() => {
               try {
-                ["trunkline.ledger", "trunkline.tweaks", "trunkline.unbacked",
+                ["trunkline.user.v2", "trunkline.customization.v2",
+                 "trunkline.unbacked",
+                 "trunkline.ledger", "trunkline.tweaks",
                  "finance-tracker.ledger", "finance-tracker.tweaks",
                  "finance-tracker.unbacked", "finance-tracker.userTags"]
                  .forEach(k => localStorage.removeItem(k));
