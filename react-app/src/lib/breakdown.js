@@ -116,6 +116,55 @@ export function breakdownByTag(entries, range, tags, tagGroups) {
   });
 }
 
+// Returns the prior equivalent window for a range, or null when the
+// active range is open-ended ("all time"). Duration-based — if you're
+// looking at last 30d, prior is the 30d before that. Calendar-aware
+// matching (e.g. "this month" → "last month" with different lengths)
+// is intentionally out of scope here; the duration approximation is
+// good enough and works uniformly for custom ranges.
+export function priorRange(range) {
+  if (!isFinite(range.start) || !isFinite(range.end)) return null;
+  const dur = range.end - range.start;
+  if (dur <= 0) return null;
+  return { start: range.start - dur, end: range.start - 1 };
+}
+
+// Per-lane delta map: { kindId → { current, prior, delta, pct } }.
+// `pct` is null when prior is 0 (avoid div-by-zero — emerging lanes
+// render as "new" rather than "+∞%").
+export function deltaByLane(entries, range, kinds) {
+  const prior = priorRange(range);
+  if (!prior) return { prior: null, deltas: {} };
+  const cur = breakdownByLane(entries, range, kinds);
+  const old = breakdownByLane(entries, prior, kinds);
+  const oldByKind = Object.fromEntries(old.byLane.map(l => [l.kind, l.total]));
+  const curByKind = Object.fromEntries(cur.byLane.map(l => [l.kind, l.total]));
+  const all = new Set([...Object.keys(curByKind), ...Object.keys(oldByKind)]);
+  const deltas = {};
+  for (const k of all) {
+    const c = curByKind[k] || 0;
+    const p = oldByKind[k] || 0;
+    deltas[k] = {
+      current: c, prior: p,
+      delta: c - p,
+      pct: p > 0 ? (c - p) / p : null,
+    };
+  }
+  return {
+    prior,
+    deltas,
+    totals: {
+      income:    { current: cur.income,    prior: old.income,    pct: old.income    > 0 ? (cur.income    - old.income)    / old.income    : null },
+      committed: { current: cur.committed, prior: old.committed, pct: old.committed > 0 ? (cur.committed - old.committed) / old.committed : null },
+      extras:    { current: cur.extras,    prior: old.extras,    pct: old.extras    > 0 ? (cur.extras    - old.extras)    / old.extras    : null },
+      net:       { current: cur.net,       prior: old.income - old.totalOut,
+                   pct: (old.income - old.totalOut) !== 0
+                          ? (cur.net - (old.income - old.totalOut)) / Math.abs(old.income - old.totalOut)
+                          : null },
+    },
+  };
+}
+
 // Rate metrics for the active range: daily averages + runway.
 //
 //   days        — duration in days (max 1)

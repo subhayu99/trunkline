@@ -11,7 +11,7 @@
 import React, { useMemo, useState } from "react";
 import { fmtINR, fmtCompact, fmtDateShort } from "../lib/format.js";
 import {
-  breakdownByLane, breakdownByTag, entriesFor, rateMetrics,
+  breakdownByLane, breakdownByTag, entriesFor, rateMetrics, deltaByLane,
 } from "../lib/breakdown.js";
 
 function dayLabel(d) {
@@ -22,6 +22,24 @@ function dayLabel(d) {
 function dirSymbol(dir) {
   if (dir === "in") return "+";
   return "−";
+}
+
+// Tiny ▲/▼ delta badge. `goodDir` is "down" for spend lanes (less spend
+// is good) and "up" for income/net (more is good). `null` pct → renders
+// nothing (prior was zero — would have been "+∞%").
+function DeltaBadge({ pct, goodDir = "down" }) {
+  if (pct == null) return null;
+  if (Math.abs(pct) < 0.005) {
+    return <span className="dash-delta dash-delta-flat" title="no change">·</span>;
+  }
+  const up = pct > 0;
+  const isGood = (goodDir === "up") === up;
+  return (
+    <span className={`dash-delta ${isGood ? "good" : "bad"}`}
+          title={`${up ? "+" : ""}${(pct * 100).toFixed(0)}% vs prior period`}>
+      {up ? "▲" : "▼"}{Math.abs(pct * 100).toFixed(0)}%
+    </span>
+  );
 }
 
 function StackedBar({ items, total }) {
@@ -44,10 +62,11 @@ function StackedBar({ items, total }) {
   );
 }
 
-function LaneRow({ lane, kindMeta, symbol, locale, onClick }) {
+function LaneRow({ lane, kindMeta, symbol, locale, onClick, deltaPct }) {
   const isIncome = lane.side === "L";
   const sign = isIncome ? "+" : "−";
   const label = kindMeta?.vocab?.light || kindMeta?.label || lane.kind;
+  const goodDir = isIncome ? "up" : "down";
   return (
     <button type="button" className="dash-lane-row" onClick={onClick}>
       <span className="dash-lane-swatch"
@@ -60,7 +79,9 @@ function LaneRow({ lane, kindMeta, symbol, locale, onClick }) {
         {sign}{fmtINR(lane.total, locale, symbol)}
       </span>
       <span className="dash-lane-share">
-        {(lane.share * 100).toFixed(0)}%
+        {deltaPct !== undefined
+          ? <DeltaBadge pct={deltaPct} goodDir={goodDir} />
+          : (lane.share * 100).toFixed(0) + "%"}
       </span>
     </button>
   );
@@ -238,6 +259,10 @@ export default function Dash({
       : null,
     [entries, range, now, data, lane.totalOut, lane.income]
   );
+  const pop = useMemo(
+    () => deltaByLane(entries, range, kinds),
+    [entries, range, kinds]
+  );
 
   const drillEntries = useMemo(
     () => drill ? entriesFor(entries, range, drill) : null,
@@ -271,6 +296,7 @@ export default function Dash({
                title={`+${fmtINR(lane.income, locale, symbol)}`}>
             +{fmtCompact(lane.income, symbol)}
           </div>
+          {pop.totals && <DeltaBadge pct={pop.totals.income.pct} goodDir="up" />}
         </div>
         <div className="dash-kpi">
           <div className="dash-kpi-k">committed</div>
@@ -278,6 +304,7 @@ export default function Dash({
                title={`−${fmtINR(lane.committed, locale, symbol)}`}>
             −{fmtCompact(lane.committed, symbol)}
           </div>
+          {pop.totals && <DeltaBadge pct={pop.totals.committed.pct} goodDir="down" />}
         </div>
         <div className="dash-kpi">
           <div className="dash-kpi-k">extras</div>
@@ -285,6 +312,7 @@ export default function Dash({
                title={`−${fmtINR(lane.extras, locale, symbol)}`}>
             −{fmtCompact(lane.extras, symbol)}
           </div>
+          {pop.totals && <DeltaBadge pct={pop.totals.extras.pct} goodDir="down" />}
         </div>
         <div className="dash-kpi">
           <div className="dash-kpi-k">net</div>
@@ -292,6 +320,7 @@ export default function Dash({
                title={`${lane.net >= 0 ? "+" : "−"}${fmtINR(Math.abs(lane.net), locale, symbol)}`}>
             {lane.net >= 0 ? "+" : "−"}{fmtCompact(Math.abs(lane.net), symbol)}
           </div>
+          {pop.totals && <DeltaBadge pct={pop.totals.net.pct} goodDir="up" />}
         </div>
       </div>
 
@@ -342,6 +371,7 @@ export default function Dash({
                      kindMeta={kindById[l.kind]}
                      symbol={symbol}
                      locale={locale}
+                     deltaPct={pop.deltas[l.kind]?.pct}
                      onClick={() => setDrill({ type: "lane", id: l.kind })} />
           ))}
         </div>

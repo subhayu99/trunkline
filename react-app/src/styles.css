@@ -2389,7 +2389,23 @@ body {
 .dash-lane-count  { font-size: 10px; color: var(--ink-3); }
 .dash-lane-amt    { font-size: 12px; color: var(--ink); font-weight: 600; }
 .dash-lane-amt.ok { color: var(--ok); }
-.dash-lane-share  { font-size: 10px; color: var(--ink-3); min-width: 28px; text-align: right; }
+.dash-lane-share  { font-size: 10px; color: var(--ink-3); min-width: 32px; text-align: right; }
+
+/* Period-over-period delta badge. Subtle by default — green/red only
+ * carry meaning when the prior window had any activity (pct != null).
+ * Inside KPI cells the badge sits below the value as a third line. */
+.dash-delta {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: .02em;
+  color: var(--ink-3);
+  display: inline-block;
+  white-space: nowrap;
+}
+.dash-delta.good { color: var(--ok); }
+.dash-delta.bad  { color: var(--warn); }
+.dash-delta-flat { color: var(--ink-3); opacity: 0.6; }
+.dash-kpi .dash-delta { font-size: 9px; line-height: 1; }
 
 .dash-tags { display: flex; flex-direction: column; }
 .dash-tg + .dash-tg { border-top: 1px dashed var(--rule); }
