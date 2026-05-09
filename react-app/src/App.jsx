@@ -436,6 +436,8 @@ function FinanceApp() {
             entries={entries}
             range={range}
             tagById={tagById}
+            data={data}
+            now={now}
             drill={dashDrill}
             setDrill={setDashDrill}
             onEditEntry={setEditing}
@@ -537,6 +539,8 @@ function FinanceApp() {
             onEditTag={editTag}
             onRemoveTag={removeTag}
             range={range}
+            data={data}
+            now={now}
             dashDrill={dashDrill}
             setDashDrill={setDashDrill}
           />

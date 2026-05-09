@@ -10,7 +10,9 @@
 
 import React, { useMemo, useState } from "react";
 import { fmtINR, fmtCompact, fmtDateShort } from "../lib/format.js";
-import { breakdownByLane, breakdownByTag, entriesFor } from "../lib/breakdown.js";
+import {
+  breakdownByLane, breakdownByTag, entriesFor, rateMetrics,
+} from "../lib/breakdown.js";
 
 function dayLabel(d) {
   const wd = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"][d.getDay()];
@@ -202,6 +204,7 @@ function DrillView({ entries, selector, kinds, tagById, symbol, locale, onEditEn
 
 export default function Dash({
   tweaks, config, kinds, entries, range, tagById,
+  data, now,
   drill, setDrill,
   onEditEntry,
   // When provided, the drill view renders its own inline back button (used
@@ -223,6 +226,17 @@ export default function Dash({
   const tagGroups = useMemo(
     () => breakdownByTag(entries, range, config.tags, config.tagGroups),
     [entries, range, config.tags, config.tagGroups]
+  );
+  const rate = useMemo(
+    () => (data && now)
+      ? rateMetrics({
+          entries, range, now,
+          initialBalance: data.initialBalance,
+          totalOut: lane.totalOut,
+          income: lane.income,
+        })
+      : null,
+    [entries, range, now, data, lane.totalOut, lane.income]
   );
 
   const drillEntries = useMemo(
@@ -280,6 +294,33 @@ export default function Dash({
           </div>
         </div>
       </div>
+
+      {rate && rate.days >= 2 && (rate.dailyOut > 0 || rate.dailyIncome > 0) && (
+        <div className="dash-rate" title={`${rate.days} days in range`}>
+          <span className="dash-rate-bit">
+            <span className="dash-rate-v">{fmtCompact(rate.dailyOut, symbol)}</span>
+            <span className="dash-rate-k">/ day spend</span>
+          </span>
+          <span className="dash-rate-sep">·</span>
+          <span className="dash-rate-bit">
+            <span className={`dash-rate-v${rate.dailyNet < 0 ? " warn" : " ok"}`}>
+              {rate.dailyNet >= 0 ? "+" : "−"}{fmtCompact(Math.abs(rate.dailyNet), symbol)}
+            </span>
+            <span className="dash-rate-k">/ day net</span>
+          </span>
+          {rate.runwayDays != null && (
+            <>
+              <span className="dash-rate-sep">·</span>
+              <span className="dash-rate-bit">
+                <span className={`dash-rate-v${rate.runwayDays < 30 ? " warn" : ""}`}>
+                  {rate.runwayDays}d
+                </span>
+                <span className="dash-rate-k">runway</span>
+              </span>
+            </>
+          )}
+        </div>
+      )}
 
       <div className="dash-card">
         <div className="dash-card-head">

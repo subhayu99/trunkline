@@ -471,6 +471,7 @@ export default function RightRail({
   activePanel, onPanelChange,
   kinds, onUpsertKind, onRemoveKind,
   range,
+  data, now,
   dashDrill, setDashDrill,
 }) {
   const insights = insightsProp || config.insights || [];
@@ -505,6 +506,8 @@ export default function RightRail({
                 entries={entries}
                 range={range}
                 tagById={tagById}
+                data={data}
+                now={now}
                 drill={dashDrill}
                 setDrill={setDashDrill}
                 onEditEntry={onEditEntry}

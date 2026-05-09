@@ -2319,6 +2319,26 @@ body {
 .dash-kpi-v.warn { color: var(--warn); }
 .dash-kpi-v.ok   { color: var(--ok); }
 
+/* Daily averages + runway. Sits between the KPI strip and the by-lane card.
+ * Hidden when the range is < 2 days (the avg adds no signal there). */
+.dash-rate {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 6px 12px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--ink-2);
+  background: transparent;
+}
+.dash-rate-bit { display: inline-flex; align-items: baseline; gap: 4px; }
+.dash-rate-v   { color: var(--ink); font-weight: 600; }
+.dash-rate-v.ok   { color: var(--ok); }
+.dash-rate-v.warn { color: var(--warn); }
+.dash-rate-k   { color: var(--ink-3); font-size: 10px; text-transform: uppercase; letter-spacing: .04em; }
+.dash-rate-sep { color: var(--ink-3); }
+
 .dash-card {
   background: var(--bg-2);
   border: 1px solid var(--rule);
