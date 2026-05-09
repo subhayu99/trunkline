@@ -33,15 +33,16 @@ const ICONS = {
   ),
 };
 
+const ITEMS = [
+  { id: "graph",  label: "graph"  },
+  { id: "ledger", label: "ledger" },
+  { id: "more",   label: "more"   },
+];
+
 export default function BottomNav({ active, onChange }) {
-  const items = [
-    { id: "graph",  label: "graph"  },
-    { id: "ledger", label: "ledger" },
-    { id: "more",   label: "more"   },
-  ];
   return (
-    <nav className="bottom-nav" role="tablist" aria-label="primary">
-      {items.map(it => (
+    <nav className="bottom-nav" role="tablist" aria-label="app tabs">
+      {ITEMS.map(it => (
         <button key={it.id}
                 type="button"
                 role="tab"
