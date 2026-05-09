@@ -93,7 +93,7 @@ export default function TopBar({
           <ThemeToggle compact value={tweaks.theme} themes={config.themes}
                        onChange={v => setTweak("theme", v)} />
         </div>
-        {mobileTab === "graph" && (
+        {mobileTab === "graph" && entries.length > 0 && (
           <div className="stats-mobile">
             <div className="stat">
               <div className="k">income</div>
@@ -145,32 +145,34 @@ export default function TopBar({
       <ThemeToggle value={tweaks.theme} themes={config.themes}
                    onChange={v => setTweak("theme", v)} />
 
-      <div className="stats">
-        {!rangeIsAll && (
+      {entries.length > 0 && (
+        <div className="stats">
+          {!rangeIsAll && (
+            <div className="stat">
+              <div className="k">opening</div>
+              <div className="v" style={{ color: "var(--ink-2)" }}>{fmtINR(openingBal, tweaks.locale, symbol)}</div>
+            </div>
+          )}
           <div className="stat">
-            <div className="k">opening</div>
-            <div className="v" style={{ color: "var(--ink-2)" }}>{fmtINR(openingBal, tweaks.locale, symbol)}</div>
+            <div className="k">income · in range</div>
+            <div className="v ok">+{fmtINR(totals.inc, tweaks.locale, symbol)}</div>
           </div>
-        )}
-        <div className="stat">
-          <div className="k">income · in range</div>
-          <div className="v ok">+{fmtINR(totals.inc, tweaks.locale, symbol)}</div>
-        </div>
-        <div className="stat">
-          <div className="k">committed</div>
-          <div className="v">−{fmtINR(totals.spent, tweaks.locale, symbol)}</div>
-        </div>
-        <div className="stat">
-          <div className="k">extras</div>
-          <div className="v warn">−{fmtINR(totals.extras, tweaks.locale, symbol)}</div>
-        </div>
-        <div className="stat">
-          <div className="k">{rangeIsAll ? "balance · today" : "closing balance"}</div>
-          <div className="v" style={{ color: closingBal < 0 ? "var(--warn)" : "var(--ink)" }}>
-            {fmtINR(rangeIsAll ? balanceAtNow : closingBal, tweaks.locale, symbol)}
+          <div className="stat">
+            <div className="k">committed</div>
+            <div className="v">−{fmtINR(totals.spent, tweaks.locale, symbol)}</div>
+          </div>
+          <div className="stat">
+            <div className="k">extras</div>
+            <div className="v warn">−{fmtINR(totals.extras, tweaks.locale, symbol)}</div>
+          </div>
+          <div className="stat">
+            <div className="k">{rangeIsAll ? "balance · today" : "closing balance"}</div>
+            <div className="v" style={{ color: closingBal < 0 ? "var(--warn)" : "var(--ink)" }}>
+              {fmtINR(rangeIsAll ? balanceAtNow : closingBal, tweaks.locale, symbol)}
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }
