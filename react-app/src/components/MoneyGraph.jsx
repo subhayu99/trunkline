@@ -491,6 +491,10 @@ export default function MoneyGraph({
 
   const [hover, setHover] = useState(null);
   const [laneHover, setLaneHover] = useState(null);
+  // `selected` is the pinned details card after a click/tap. Without this,
+  // tapping a flow on mobile (no hover) jumped straight to the edit panel.
+  // Now: tap → preview card with explicit edit / close actions.
+  const [selected, setSelected] = useState(null);
 
   const onLaneMove = useCallback((ev, kind) => {
     const svg = ev.currentTarget.ownerSVGElement;
@@ -564,6 +568,19 @@ export default function MoneyGraph({
     const tagObj = tagById[e.tags[0]];
     const isFresh = freshEntry && freshEntry.id === e.id;
 
+    // Tap or click → pin the details card. Tapping the same flow again
+    // dismisses it. stopPropagation prevents the SVG-level click handler
+    // from clearing the selection we just set.
+    const onSelect = (ev) => {
+      ev.stopPropagation();
+      setSelected(prev =>
+        prev && prev.entry.id === e.id
+          ? null
+          : { entry: e, x: ev.clientX, y: ev.clientY }
+      );
+      setHover(null);
+    };
+
     return (
       <g key={e.id} style={{ opacity: op }} className={isFresh ? "flow fresh" : "flow"}>
         <path
@@ -575,7 +592,7 @@ export default function MoneyGraph({
           onMouseEnter={(ev) => { setHover({ entry: e, x: ev.clientX, y: ev.clientY }); setHoveredKind(e.kind); }}
           onMouseMove={(ev) => setHover(h => h ? { ...h, x: ev.clientX, y: ev.clientY } : null)}
           onMouseLeave={() => { setHover(null); setHoveredKind(null); }}
-          onClick={() => onEditEntry && onEditEntry(e)}
+          onClick={onSelect}
         />
         <circle
           cx={xK} cy={y}
@@ -584,7 +601,7 @@ export default function MoneyGraph({
           stroke={color} strokeWidth={isFuture ? 1.2 : 0.8}
           strokeDasharray={isFuture ? "2 2" : "0"}
           style={{ cursor: "pointer" }}
-          onClick={() => onEditEntry && onEditEntry(e)}
+          onClick={onSelect}
         />
         {isMerge && (
           <rect x={xM - 4} y={y - 4} width={8} height={8}
@@ -679,7 +696,8 @@ export default function MoneyGraph({
 
       <svg className="graph-svg"
            width={Math.max(containerW, leftPad + rightPad + mainLaneW + sideLaneW * (lanes.length - 1))}
-           height={totalH}>
+           height={totalH}
+           onClick={() => setSelected(null)}>
         {monthBands.map((b, i) => {
           const yTop = yForTime(b.endMs);
           const yBot = yForTime(b.startMs);
@@ -812,39 +830,69 @@ export default function MoneyGraph({
         </g>
       </svg>
 
-      {hover && hover.entry && (
-        <div className="commit-card" style={{
-          left: Math.min(window.innerWidth - 280, hover.x + 16),
-          top:  Math.min(window.innerHeight - 200, hover.y + 12),
-        }}>
-          <div className="sha">{hover.entry.id} · {hover.entry.dir}</div>
-          <div className="title">{hover.entry.label}</div>
-          <div className="meta">
-            {hover.entry.tags.map(tid => {
-              const ti = tagById[tid];
-              if (!ti) return null;
-              return <span key={tid} className="tag-chip"
-                           style={{ color: `var(--b-${ti.kind})`, borderColor: `var(--b-${ti.kind})` }}>
-                       #{ti.label}
-                     </span>;
-            })}
+      {(() => {
+        // Pinned (selected) takes precedence over hover preview so the two
+        // never compete. Pinned shows explicit edit/close buttons; hover
+        // keeps the lightweight "tap to view" hint.
+        const card = selected || hover;
+        if (!card || !card.entry) return null;
+        const isPinned = !!selected;
+        return (
+          <div className="commit-card" style={{
+            left: Math.min(window.innerWidth - 280, card.x + 16),
+            top:  Math.min(window.innerHeight - 220, card.y + 12),
+          }}
+            onClick={(ev) => ev.stopPropagation()}>
+            <div className="sha">{card.entry.id} · {card.entry.dir}</div>
+            <div className="title">{card.entry.label}</div>
+            <div className="meta">
+              {card.entry.tags.map(tid => {
+                const ti = tagById[tid];
+                if (!ti) return null;
+                return <span key={tid} className="tag-chip"
+                             style={{ color: `var(--b-${ti.kind})`, borderColor: `var(--b-${ti.kind})` }}>
+                         #{ti.label}
+                       </span>;
+              })}
+            </div>
+            {card.entry.note && <div className="meta" style={{ marginTop: 4, color: "var(--ink-3)" }}>{card.entry.note}</div>}
+            <div className="meta" style={{ marginTop: 4, color: "var(--ink-3)" }}>
+              {fmtDateTime(new Date(card.entry.when))}
+            </div>
+            <div className="amt">
+              {card.entry.dir === "in" ? "+" : card.entry.dir === "merge" ? "↺ " : "−"}
+              {fmtINR(card.entry.amount, locale, config.currencySymbol).replace("-", "")}
+            </div>
+            {isPinned ? (
+              <div style={{ display: "flex", gap: 6, marginTop: 8 }}>
+                <button type="button"
+                  onClick={() => { onEditEntry && onEditEntry(selected.entry); setSelected(null); }}
+                  style={{
+                    flex: 1, minHeight: 32, padding: "6px 10px",
+                    border: "1px solid var(--rule)", borderRadius: 6,
+                    background: "var(--surface)", color: "var(--ink)",
+                    font: "inherit", fontSize: 11, cursor: "pointer",
+                  }}>edit</button>
+                <button type="button"
+                  onClick={() => setSelected(null)}
+                  style={{
+                    minHeight: 32, padding: "6px 12px",
+                    border: "1px solid var(--rule)", borderRadius: 6,
+                    background: "transparent", color: "var(--ink-2)",
+                    font: "inherit", fontSize: 11, cursor: "pointer",
+                  }}>close</button>
+              </div>
+            ) : (
+              <div className="meta" style={{ marginTop: 4, color: "var(--ink-3)", fontSize: 10 }}>
+                tap to view
+              </div>
+            )}
           </div>
-          {hover.entry.note && <div className="meta" style={{ marginTop: 4, color: "var(--ink-3)" }}>{hover.entry.note}</div>}
-          <div className="meta" style={{ marginTop: 4, color: "var(--ink-3)" }}>
-            {fmtDateTime(new Date(hover.entry.when))}
-          </div>
-          <div className="amt">
-            {hover.entry.dir === "in" ? "+" : hover.entry.dir === "merge" ? "↺ " : "−"}
-            {fmtINR(hover.entry.amount, locale, config.currencySymbol).replace("-", "")}
-          </div>
-          <div className="meta" style={{ marginTop: 4, color: "var(--ink-3)", fontSize: 10 }}>
-            click to edit
-          </div>
-        </div>
-      )}
+        );
+      })()}
 
       {/* lane cumulative tooltip — shown only when not hovering an entry */}
-      {laneHover && !(hover && hover.entry) && (
+      {laneHover && !(hover && hover.entry) && !selected && (
         <div className="lane-hud-tip" style={{
           left: Math.min(window.innerWidth - 240, laneHover.x + 16),
           top:  Math.min(window.innerHeight - 110, laneHover.y + 12),
