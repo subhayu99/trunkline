@@ -258,13 +258,19 @@ export function rateMetrics({ entries, range, now, initialBalance, totalOut, inc
   return { days, dailyOut, dailyIncome, dailyNet, balanceAtNow, runwayDays, isAllTime };
 }
 
-// Filter entries to drill into a specific lane or tag in the active range.
+// Filter entries to drill into a specific lane or tag.
 // `selector` is { type: "lane", id } or { type: "tag", id }.
+//
+// Lane drills are scoped to the active range — they answer "where did
+// this lane go in the window I'm looking at". Tag drills ignore the
+// range and return the full history (so users can see how a tag has
+// behaved across time, not just inside the current chip).
 export function entriesFor(entries, range, selector) {
   const out = [];
+  const ignoreRange = selector.type === "tag";
   for (const e of entries) {
-    if (!inRange(e, range)) continue;
     if (e.dir === "merge") continue;
+    if (!ignoreRange && !inRange(e, range)) continue;
     if (selector.type === "lane" && e.kind !== selector.id) continue;
     if (selector.type === "tag"  && !e.tags.includes(selector.id)) continue;
     out.push(e);

@@ -2518,6 +2518,54 @@ body {
   font-family: var(--font-mono);
 }
 .dash-drill-row:hover { background: var(--surface); }
+
+/* Tag-drill: subtotal for the active range, shown under the lifetime
+ * line so users can compare "this window" vs "ever". */
+.dash-drill-sub {
+  display: flex; align-items: baseline; justify-content: space-between;
+  font-family: var(--font-mono); font-size: 10px;
+  color: var(--ink-3);
+  padding: 2px 2px 6px;
+  border-bottom: 1px dashed var(--rule);
+}
+
+/* Tag-drill: density timeline. Each entry is a 1px tick on a horizontal
+ * track; the active range is highlighted; "now" is a vertical line. */
+.dash-tg-line {
+  display: flex; flex-direction: column; gap: 4px;
+  padding: 8px 2px 4px;
+}
+.dash-tg-track {
+  position: relative;
+  height: 22px;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.dash-tg-range {
+  position: absolute; top: 0; bottom: 0;
+  background: var(--tg-color, var(--ink-3));
+  opacity: 0.12;
+}
+.dash-tg-tick {
+  position: absolute; top: 4px; bottom: 4px;
+  width: 1px;
+  background: var(--tg-color, var(--ink));
+  opacity: 0.7;
+  pointer-events: auto;
+}
+.dash-tg-now {
+  position: absolute; top: -2px; bottom: -2px;
+  width: 1px;
+  background: var(--ink);
+  opacity: 0.8;
+}
+.dash-tg-labels {
+  display: flex; justify-content: space-between;
+  font-family: var(--font-mono); font-size: 9px;
+  color: var(--ink-3);
+}
 .dash-dr-label { display: flex; flex-direction: column; min-width: 0; gap: 2px; }
 .dash-dr-title { font-size: 12px; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .dash-dr-note  { font-size: 10px; color: var(--ink-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }

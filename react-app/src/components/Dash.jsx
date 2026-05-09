@@ -174,7 +174,46 @@ function TagGroup({ group, kindMeta, symbol, locale, onTagClick, defaultOpen }) 
   );
 }
 
-function DrillView({ entries, selector, kinds, tagById, symbol, locale, onEditEntry, onBack }) {
+// For tag drills: a horizontal density strip showing every entry in
+// history as a tick on a timeline, with the active range highlighted
+// and a "now" marker. Lets users see at a glance whether the tag's
+// activity is concentrated in this window or distributed across time.
+function TagTimeline({ entries, range, now, color }) {
+  if (!entries.length) return null;
+  const times = entries.map(e => new Date(e.when).getTime());
+  let min = Math.min(...times);
+  let max = Math.max(...times);
+  if (now) max = Math.max(max, now.getTime());
+  if (range && isFinite(range.end)) max = Math.max(max, range.end);
+  const span = max - min;
+  if (span < 60_000) return null;
+  const pos = (t) => Math.max(0, Math.min(100, ((t - min) / span) * 100));
+  const rangeStart = range && isFinite(range.start) ? pos(range.start) : 0;
+  const rangeEnd   = range && isFinite(range.end)   ? pos(range.end)   : 100;
+  const nowPct = now ? pos(now.getTime()) : null;
+  return (
+    <div className="dash-tg-line" style={{ "--tg-color": color }}>
+      <div className="dash-tg-track">
+        <div className="dash-tg-range"
+             style={{ left: rangeStart + "%", width: (rangeEnd - rangeStart) + "%" }} />
+        {entries.map(e => (
+          <div key={e.id} className="dash-tg-tick"
+               style={{ left: pos(new Date(e.when).getTime()) + "%" }}
+               title={`${e.label} · ${fmtDateShort(new Date(e.when))}`} />
+        ))}
+        {nowPct != null && (
+          <div className="dash-tg-now" style={{ left: nowPct + "%" }} />
+        )}
+      </div>
+      <div className="dash-tg-labels">
+        <span>{fmtDateShort(new Date(min))}</span>
+        <span>{fmtDateShort(new Date(max))}</span>
+      </div>
+    </div>
+  );
+}
+
+function DrillView({ entries, selector, kinds, tagById, symbol, locale, onEditEntry, onBack, range, now }) {
   const grouped = useMemo(() => {
     const out = [];
     let curKey = null, cur = null;
@@ -201,6 +240,26 @@ function DrillView({ entries, selector, kinds, tagById, symbol, locale, onEditEn
     ? (meta.vocab?.light || meta.label || selector.id)
     : `#${meta.label || selector.id}`;
   const total = entries.reduce((s, e) => s + (e.dir === "in" ? e.amount : e.dir === "out" ? -e.amount : 0), 0);
+  const isTagDrill = selector.type === "tag";
+
+  // For tag drills: also compute the in-range subtotal so the user sees
+  // both "lifetime" and "in current window" at a glance.
+  const inRangeStats = useMemo(() => {
+    if (!isTagDrill || !range) return null;
+    let count = 0, sum = 0;
+    for (const e of entries) {
+      const t = new Date(e.when).getTime();
+      if (!isFinite(range.start) || !isFinite(range.end)) {
+        count += 1;
+        sum += e.dir === "in" ? e.amount : -e.amount;
+        continue;
+      }
+      if (t < range.start || t > range.end) continue;
+      count += 1;
+      sum += e.dir === "in" ? e.amount : -e.amount;
+    }
+    return { count, sum };
+  }, [entries, range, isTagDrill]);
 
   return (
     <div className="dash-drill">
@@ -212,10 +271,24 @@ function DrillView({ entries, selector, kinds, tagById, symbol, locale, onEditEn
       <div className="dash-drill-head" style={{ color: titleColor }}>
         <span className="dash-drill-title">{title}</span>
         <span className="dash-drill-meta">
+          {isTagDrill ? "lifetime · " : ""}
           {entries.length} {entries.length === 1 ? "entry" : "entries"} ·{" "}
           {total >= 0 ? "+" : "−"}{fmtINR(Math.abs(total), locale, symbol)}
         </span>
       </div>
+      {isTagDrill && inRangeStats && (
+        <div className="dash-drill-sub">
+          <span>in current range</span>
+          <span>
+            {inRangeStats.count} {inRangeStats.count === 1 ? "entry" : "entries"} ·{" "}
+            {inRangeStats.sum >= 0 ? "+" : "−"}{fmtINR(Math.abs(inRangeStats.sum), locale, symbol)}
+          </span>
+        </div>
+      )}
+      {isTagDrill && (
+        <TagTimeline entries={entries} range={range} now={now}
+                     color={titleColor} />
+      )}
       {grouped.length === 0 ? (
         <div className="dash-empty">no entries in this range</div>
       ) : grouped.map(g => (
@@ -318,6 +391,8 @@ export default function Dash({
                    tagById={tagById}
                    symbol={symbol}
                    locale={locale}
+                   range={range}
+                   now={now}
                    onEditEntry={onEditEntry}
                    onBack={drillBackInline ? () => setDrill(null) : null} />
       </div>
