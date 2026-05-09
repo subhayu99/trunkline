@@ -10,3 +10,4 @@ dist
 # Local-only reference materials (kept out of the repo to stay light)
 screenshots/
 uploads/
+.superpowers/
