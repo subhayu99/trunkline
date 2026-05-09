@@ -119,7 +119,7 @@ export default function ComposerForm({
       el.setSelectionRange(el.value.length, el.value.length);
       el.scrollIntoView({ block: "center", behavior: "smooth" });
     });
-  }, [prefill && prefill.at]);
+  }, [prefill?.at]);
 
   useEffect(() => {
     if (autoFocus && inputRef.current) inputRef.current.focus();

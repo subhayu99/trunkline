@@ -592,11 +592,11 @@ function FinanceApp({ config, seed }) {
         <>
           <Fab
             onClick={() => setComposerSheetOpen(true)}
-            hidden={mobileTab === "more" || composerSheetOpen}
+            hidden={mobileTab === "more" || composerSheetOpen || !!editing}
           />
           <ComposerSheet
             open={composerSheetOpen}
-            onClose={() => setComposerSheetOpen(false)}
+            onClose={() => { setComposerSheetOpen(false); setComposerPrefill(null); }}
             tweaks={tweaks}
             onLog={onLog}
             config={mergedConfig}
