@@ -2032,3 +2032,18 @@ body {
   .stats-mobile .stat .k { font-size: 7px; }
   .stats-mobile .stat .v { font-size: 10.5px; }
 }
+
+@media (max-width: 768px) {
+  .main {
+    grid-template-columns: 1fr !important;  /* drop the rail track */
+  }
+  .main.right-expanded {
+    grid-template-columns: 1fr !important;
+  }
+  /* Make the body of ledger/more scrollable. The graph is a fixed SVG so
+   * it doesn't need scroll. We pad bottom by the nav (34px) + safe-area
+   * so content doesn't sit under the bottom nav. */
+  .ledger {
+    padding-bottom: calc(34px + env(safe-area-inset-bottom));
+  }
+}

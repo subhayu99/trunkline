@@ -455,7 +455,7 @@ function FinanceApp({ config, seed }) {
                 />
               } />
 
-      <div className={`main${activePanel ? " right-expanded" : ""}`}>
+      <div className={`main${activePanel && !isMobile ? " right-expanded" : ""}`}>
         {isEmpty ? (
           <EmptyState
             hasSeed={Array.isArray(seed?.entries) && seed.entries.length > 0}
@@ -493,28 +493,30 @@ function FinanceApp({ config, seed }) {
             kinds={kinds}
           />
         )}
-        <RightRail
-          tweaks={tweaks}
-          log={log}
-          activePanel={activePanel}
-          onPanelChange={setActivePanel}
-          onEditEntry={setEditing}
-          config={mergedConfig}
-          tagById={tagById}
-          insights={insights}
-          selectedTag={selectedTag}
-          setSelectedTag={setSelectedTag}
-          hoveredKind={hoveredKind}
-          setHoveredKind={setHoveredKind}
-          entries={entries}
-          kinds={kinds}
-          onUpsertKind={upsertKind}
-          onRemoveKind={removeKind}
-          onAddTag={addUserTag}
-          onEditTag={editTag}
-          onRemoveTag={removeTag}
-          range={range}
-        />
+        {!isMobile && (
+          <RightRail
+            tweaks={tweaks}
+            log={log}
+            activePanel={activePanel}
+            onPanelChange={setActivePanel}
+            onEditEntry={setEditing}
+            config={mergedConfig}
+            tagById={tagById}
+            insights={insights}
+            selectedTag={selectedTag}
+            setSelectedTag={setSelectedTag}
+            hoveredKind={hoveredKind}
+            setHoveredKind={setHoveredKind}
+            entries={entries}
+            kinds={kinds}
+            onUpsertKind={upsertKind}
+            onRemoveKind={removeKind}
+            onAddTag={addUserTag}
+            onEditTag={editTag}
+            onRemoveTag={removeTag}
+            range={range}
+          />
+        )}
       </div>
 
       {isMobile && (
