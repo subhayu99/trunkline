@@ -1218,7 +1218,7 @@ body {
 /* ============================================================
    MOBILE / TABLET — fits down to 320px wide
    ============================================================ */
-@media (max-width: 768px) {
+@media (max-width: 768px), (hover: none) and (pointer: coarse) and (max-height: 600px) and (orientation: landscape) {
   body { font-size: 12px; }
 
   /* Smaller expanded right rail so the chart still has room.
@@ -1934,7 +1934,7 @@ body {
 
 .bottom-nav { display: none; }
 
-@media (max-width: 768px) {
+@media (max-width: 768px), (hover: none) and (pointer: coarse) and (max-height: 600px) and (orientation: landscape) {
   .bottom-nav {
     display: flex;
     position: fixed;
@@ -1970,7 +1970,7 @@ body {
   .ep-close { display: none; }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 768px), (hover: none) and (pointer: coarse) and (max-height: 600px) and (orientation: landscape) {
   .topbar.topbar-mobile {
     flex-wrap: nowrap;
     padding: 6px 10px;
@@ -2028,7 +2028,7 @@ body {
   .stats-mobile .stat .v { font-size: 10.5px; }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 768px), (hover: none) and (pointer: coarse) and (max-height: 600px) and (orientation: landscape) {
   .main {
     grid-template-columns: 1fr !important;  /* drop the rail track */
   }
@@ -2043,7 +2043,7 @@ body {
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 768px), (hover: none) and (pointer: coarse) and (max-height: 600px) and (orientation: landscape) {
   .more-tab {
     display: flex; flex-direction: column;
     background: var(--bg);
@@ -2078,7 +2078,7 @@ body {
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 768px), (hover: none) and (pointer: coarse) and (max-height: 600px) and (orientation: landscape) {
   .more-drill {
     height: 100%;
     overflow-y: auto;
@@ -2088,7 +2088,7 @@ body {
   .more-drill .rail-panel-body { padding-top: 4px; }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 768px), (hover: none) and (pointer: coarse) and (max-height: 600px) and (orientation: landscape) {
   /* Hide the desktop anchored composer on phones — replaced by ComposerSheet. */
   .composer { display: none; }
 
@@ -2176,7 +2176,7 @@ body {
   @keyframes cs-rise { from { transform: translateY(100%); } to { transform: translateY(0); } }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 768px), (hover: none) and (pointer: coarse) and (max-height: 600px) and (orientation: landscape) {
   .edit-overlay {
     /* On mobile the overlay = the panel. No centered card; full-screen. */
     align-items: stretch;
@@ -2217,7 +2217,7 @@ body {
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 768px), (hover: none) and (pointer: coarse) and (max-height: 600px) and (orientation: landscape) {
   /* FAB clears the bottom nav (44px nav + 12px gap). */
   .fab-wrap {
     bottom: calc(56px + env(safe-area-inset-bottom));

@@ -4,6 +4,7 @@
 
 import React, { useEffect } from "react";
 import ComposerForm from "./ComposerForm.jsx";
+import { isMobileNow } from "../hooks/useIsMobile.js";
 
 export default function Composer({
   tweaks, onLog, zoom, setZoom, config, tagById, now, onAddTag, entries,
@@ -12,8 +13,7 @@ export default function Composer({
   useEffect(() => {
     const handler = (e) => {
       // Desktop-only ⌘K — gated by viewport so phones don't grab the key.
-      if (typeof window !== "undefined" &&
-          window.matchMedia("(max-width: 768px)").matches) return;
+      if (isMobileNow()) return;
       if ((e.metaKey || e.ctrlKey) && e.key === "k") {
         e.preventDefault();
         // Re-focus the topmost text input inside the form.

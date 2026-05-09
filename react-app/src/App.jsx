@@ -27,7 +27,7 @@ import BottomNav from "./components/BottomNav.jsx";
 import MoreTab from "./components/MoreTab.jsx";
 
 import { useTweaks } from "./components/tweaks/TweaksPanel.jsx";
-import { useIsMobile } from "./hooks/useIsMobile.js";
+import { useIsMobile, isMobileNow } from "./hooks/useIsMobile.js";
 
 function Loading({ children }) {
   return (
@@ -409,8 +409,7 @@ function FinanceApp({ config, seed }) {
       .filter(Boolean);
     if (sharePieces.length) {
       setComposerPrefill({ text: sharePieces.join(" · "), at: Date.now() });
-      if (typeof window !== "undefined" &&
-          window.matchMedia("(max-width: 768px)").matches) {
+      if (isMobileNow()) {
         setComposerSheetOpen(true);
       }
       ["share_title", "share_text", "share_url"].forEach(k => u.searchParams.delete(k));
@@ -423,8 +422,7 @@ function FinanceApp({ config, seed }) {
       consumed = true;
     }
     if (action === "add") {
-      if (typeof window !== "undefined" &&
-          window.matchMedia("(max-width: 768px)").matches) {
+      if (isMobileNow()) {
         // Mobile — open the composer sheet directly.
         setComposerSheetOpen(true);
       } else {
