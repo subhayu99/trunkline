@@ -314,6 +314,8 @@ body {
   overflow-y: auto;
   overflow-x: hidden;
   background: var(--bg);
+  /* Vertical pan still scrolls; pinch is claimed by our handler below. */
+  touch-action: pan-y;
 }
 
 /* Lane headers — sticky overlay above the SVG. The negative margin (set
