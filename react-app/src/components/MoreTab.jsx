@@ -23,7 +23,7 @@ export default function MoreTab({
 }) {
   if (screen === "tags") {
     return (
-      <div className="more-drill">
+      <div className="more-drill" data-scroll-host>
         <PanelTags
           tweaks={tweaks}
           hoveredKind={hoveredKind} setHoveredKind={setHoveredKind}
@@ -37,7 +37,7 @@ export default function MoreTab({
   }
   if (screen === "lanes") {
     return (
-      <div className="more-drill">
+      <div className="more-drill" data-scroll-host>
         <PanelLanes kinds={kinds || []}
                     onUpsert={onUpsertKind}
                     onRemove={onRemoveKind} />
@@ -46,14 +46,14 @@ export default function MoreTab({
   }
   if (screen === "insights") {
     return (
-      <div className="more-drill">
+      <div className="more-drill" data-scroll-host>
         <PanelInsights insights={insights || []} />
       </div>
     );
   }
   if (screen === "log") {
     return (
-      <div className="more-drill">
+      <div className="more-drill" data-scroll-host>
         <PanelLog log={log} onEditEntry={onEditEntry}
                   tagById={tagById} tweaks={tweaks} config={config} />
       </div>
@@ -75,7 +75,7 @@ export default function MoreTab({
   );
 
   return (
-    <div className="more-tab">
+    <div className="more-tab" data-scroll-host>
       <div className="mt-section">browse</div>
       <Row label="tags"        meta={`${counts.tags ?? "—"} ›`}     onClick={() => onOpenScreen("tags")} />
       <Row label="lanes"       meta={`${counts.lanes ?? "—"} ›`}    onClick={() => onOpenScreen("lanes")} />
