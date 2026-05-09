@@ -395,6 +395,61 @@ export default function MoneyGraph({
     return () => el.removeEventListener("wheel", onWheel);
   }, []);
 
+  // ----- pinch-zoom (touch) -----
+  // Two-finger pinch on the graph dispatches incremental graph-zoom events
+  // so the existing zoom slider/handler in App.jsx stays the single source
+  // of truth. CSS sets touch-action: pan-y on .graph-wrap, so the browser
+  // doesn't fight us for the gesture.
+  useEffect(() => {
+    const el = wrapRef.current;
+    if (!el) return;
+
+    let startDist = null;
+    let lastDelta = 0;
+
+    const dist = (touches) => {
+      const dx = touches[1].clientX - touches[0].clientX;
+      const dy = touches[1].clientY - touches[0].clientY;
+      return Math.hypot(dx, dy);
+    };
+
+    const onStart = (e) => {
+      if (e.touches.length === 2) {
+        startDist = dist(e.touches);
+        lastDelta = 0;
+        e.preventDefault();
+      }
+    };
+    const onMove = (e) => {
+      if (e.touches.length !== 2 || startDist == null) return;
+      e.preventDefault();
+      const ratio = dist(e.touches) / startDist;
+      // Target cumulative delta from start of gesture.
+      const target = ratio - 1;
+      // Dispatch only the increment since last event so the global handler
+      // (which adds delta to current zoom) integrates correctly.
+      const inc = target - lastDelta;
+      if (Math.abs(inc) > 0.005) {
+        window.dispatchEvent(new CustomEvent("graph-zoom", { detail: inc }));
+        lastDelta = target;
+      }
+    };
+    const onEnd = (e) => {
+      if (e.touches.length < 2) { startDist = null; lastDelta = 0; }
+    };
+
+    el.addEventListener("touchstart", onStart, { passive: false });
+    el.addEventListener("touchmove", onMove, { passive: false });
+    el.addEventListener("touchend", onEnd);
+    el.addEventListener("touchcancel", onEnd);
+    return () => {
+      el.removeEventListener("touchstart", onStart);
+      el.removeEventListener("touchmove", onMove);
+      el.removeEventListener("touchend", onEnd);
+      el.removeEventListener("touchcancel", onEnd);
+    };
+  }, []);
+
   // ----- visibility of "now" -----
   // Tracks where NOW sits relative to the viewport so we can show a
   // "jump to now" button only when the user has scrolled past it.

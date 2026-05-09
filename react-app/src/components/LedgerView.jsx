@@ -98,7 +98,7 @@ export default function LedgerView({
         </span>
       </div>
 
-      <div className="ledger">
+      <div className="ledger" data-scroll-host>
         <div className="ledger-head">
           <div className="lh-time">time</div>
           <div className="lh-dir" />

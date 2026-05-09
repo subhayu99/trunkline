@@ -314,6 +314,8 @@ body {
   overflow-y: auto;
   overflow-x: hidden;
   background: var(--bg);
+  /* Vertical pan still scrolls; pinch is claimed by our handler below. */
+  touch-action: pan-y;
 }
 
 /* Lane headers — sticky overlay above the SVG. The negative margin (set
@@ -755,6 +757,7 @@ body {
   max-height: calc(100vh - 64px); overflow: auto;
   box-shadow: 0 24px 60px rgba(0,0,0,.32);
 }
+.ep-back { display: none; }
 .ep-head {
   display: flex; align-items: center; gap: 12px; padding: 14px 18px;
   border-bottom: 1px solid var(--rule);
@@ -1217,37 +1220,8 @@ body {
 /* ============================================================
    MOBILE / TABLET — fits down to 320px wide
    ============================================================ */
-@media (max-width: 768px) {
+@media (max-width: 768px), (hover: none) and (pointer: coarse) and (max-height: 600px) and (orientation: landscape) {
   body { font-size: 12px; }
-
-  /* Topbar wraps; the stats become a horizontally-scrollable strip */
-  .topbar {
-    flex-wrap: wrap;
-    gap: 6px 10px;
-    padding: 8px 10px;
-  }
-  .topbar .stats {
-    margin-left: 0;
-    flex: 1 1 100%;        /* take full row when wrapped */
-    min-width: 0;          /* allow shrink so its scroll works */
-    gap: 14px;
-    overflow-x: auto;
-    flex-wrap: nowrap;
-    padding-bottom: 2px;
-    -webkit-overflow-scrolling: touch;
-  }
-  .topbar .stats::-webkit-scrollbar { height: 0; }
-  .topbar .stat { flex-shrink: 0; }
-  .topbar .stat .v { font-size: 12px; }
-
-  /* Tablet: keep the labels readable but slightly tighter padding so the
-   * topbar still wraps cleanly. Labels only disappear on phones (≤480px). */
-  .theme-toggle button,
-  .view-toggle button,
-  .future-toggle button { padding: 5px 9px; }
-  .theme-toggle .lbl,
-  .view-toggle .lbl,
-  .future-toggle .lbl { font-size: 10px; }
 
   /* Smaller expanded right rail so the chart still has room.
    * 184 panel + 36 icons = 220 */
@@ -1952,4 +1926,357 @@ body {
   background: var(--warn, #c0392b);
   color: var(--bg, #fff);
   border-color: var(--warn, #c0392b);
+}
+
+/* ============================================================
+ * MOBILE SHELL (≤768px)
+ * Bottom-tab nav + FAB + composer sheet + more-tab drill-ins.
+ * Desktop is unaffected — every rule below is gated by media query.
+ * ============================================================ */
+
+.bottom-nav { display: none; }
+
+@media (max-width: 768px), (hover: none) and (pointer: coarse) and (max-height: 600px) and (orientation: landscape) {
+  .bottom-nav {
+    display: flex;
+    position: fixed;
+    left: 0; right: 0; bottom: 0;
+    z-index: 40;
+    background: var(--bg-2);
+    border-top: 1px solid var(--rule);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .bn-item {
+    flex: 1; position: relative;
+    min-height: 44px;
+    padding: 7px 0 6px;
+    background: transparent; border: none;
+    color: var(--ink-3);
+    cursor: pointer;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px;
+    font-family: var(--font-mono); font-size: 8px;
+  }
+  .bn-item .bn-ic {
+    width: 18px; height: 18px;
+    display: inline-flex; align-items: center; justify-content: center;
+  }
+  .bn-item.active { color: var(--ink); }
+  .bn-item.active::after {
+    content: ""; position: absolute;
+    left: 38%; right: 38%; bottom: 0;
+    height: 2px; border-radius: 2px;
+    background: var(--ink);
+  }
+  .bn-item:focus-visible { outline: 2px solid var(--ink-2); outline-offset: -2px; border-radius: 4px; }
+  /* Hide the desktop "esc ×" close button on mobile — back-arrow replaces it. */
+  .ep-close { display: none; }
+}
+
+@media (max-width: 768px), (hover: none) and (pointer: coarse) and (max-height: 600px) and (orientation: landscape) {
+  .topbar.topbar-mobile {
+    flex-wrap: nowrap;
+    padding: 6px 10px;
+    gap: 10px;
+  }
+  .topbar.topbar-mobile .repo {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  /* Drop the old wrapped-stats strip on mobile — we render .stats-mobile instead. */
+  .topbar.topbar-mobile .stats { display: none; }
+
+  .stats-mobile {
+    display: flex;
+    justify-content: space-between;
+    gap: 6px;
+    padding: 6px 10px;
+    border-bottom: 1px solid var(--rule);
+    background: var(--bg-2);
+  }
+  .stats-mobile .stat { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+  .stats-mobile .stat .k {
+    font-family: var(--font-mono); font-size: 8px; text-transform: uppercase;
+    letter-spacing: .06em; color: var(--ink-3);
+  }
+  .stats-mobile .stat .v {
+    font-family: var(--font-mono); font-size: 11px; font-weight: 600; color: var(--ink);
+  }
+  .stats-mobile .stat .v.warn { color: var(--warn); }
+  .stats-mobile .stat .v.ok   { color: var(--ok); }
+
+  .topbar.topbar-drill {
+    padding: 6px 10px;
+    gap: 8px;
+  }
+  .topbar-back {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    color: var(--ink-2);
+    border-radius: 6px;
+    width: 28px; height: 28px;
+    display: inline-flex; align-items: center; justify-content: center;
+    cursor: pointer;
+  }
+  .topbar-back:hover { color: var(--ink); border-color: var(--ink-2); }
+  .topbar-back:focus-visible { outline: 2px solid var(--ink-2); outline-offset: 2px; }
+}
+
+@media (max-width: 480px) {
+  .stats-mobile { gap: 4px; padding: 5px 8px; }
+  .stats-mobile .stat .k { font-size: 7px; }
+  .stats-mobile .stat .v { font-size: 10.5px; }
+}
+
+@media (max-width: 768px), (hover: none) and (pointer: coarse) and (max-height: 600px) and (orientation: landscape) {
+  .main {
+    grid-template-columns: 1fr !important;  /* drop the rail track */
+  }
+  .main.right-expanded {
+    grid-template-columns: 1fr !important;
+  }
+  /* Make the body of ledger/more scrollable. The graph is a fixed SVG so
+   * it doesn't need scroll. We pad bottom by the nav (34px) + safe-area
+   * so content doesn't sit under the bottom nav. */
+  .ledger {
+    padding-bottom: calc(34px + env(safe-area-inset-bottom));
+  }
+}
+
+@media (max-width: 768px), (hover: none) and (pointer: coarse) and (max-height: 600px) and (orientation: landscape) {
+  .more-tab {
+    display: flex; flex-direction: column;
+    background: var(--bg);
+    overflow-y: auto;
+    height: 100%;
+    padding-bottom: calc(34px + env(safe-area-inset-bottom) + 12px);
+  }
+  .more-tab .mt-section {
+    font-family: var(--font-mono); font-size: 9px;
+    text-transform: uppercase; letter-spacing: .08em;
+    color: var(--ink-3);
+    padding: 14px 14px 6px;
+  }
+  .more-tab .mt-row {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px 14px;
+    background: transparent;
+    border: none;
+    border-bottom: 1px dashed var(--rule);
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    color: var(--ink);
+    font-family: var(--font-sans); font-size: 13px;
+  }
+  .more-tab .mt-row:hover { background: var(--bg-2); }
+  .more-tab .mt-row.danger .mt-meta { color: var(--warn); }
+  .more-tab .mt-label { color: var(--ink); }
+  .more-tab .mt-meta {
+    color: var(--ink-3);
+    font-family: var(--font-mono); font-size: 10px;
+  }
+}
+
+@media (max-width: 768px), (hover: none) and (pointer: coarse) and (max-height: 600px) and (orientation: landscape) {
+  .more-drill {
+    height: 100%;
+    overflow-y: auto;
+    background: var(--bg);
+    padding-bottom: calc(34px + env(safe-area-inset-bottom) + 12px);
+  }
+  .more-drill .rail-panel-body { padding-top: 4px; }
+}
+
+@media (max-width: 768px), (hover: none) and (pointer: coarse) and (max-height: 600px) and (orientation: landscape) {
+  /* Hide the desktop anchored composer on phones — replaced by ComposerSheet. */
+  .composer { display: none; }
+
+  /* FAB */
+  .fab-wrap {
+    position: fixed;
+    right: 8px;
+    bottom: calc(38px + env(safe-area-inset-bottom));
+    z-index: 35;
+    width: 44px; height: 44px;
+    padding: 2px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: transform .18s ease, opacity .18s ease;
+  }
+  .fab-wrap.hidden {
+    transform: translateY(72px);
+    opacity: 0;
+    pointer-events: none;
+  }
+  .fab-wrap .fab {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: var(--ink); color: var(--bg);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; line-height: 1;
+    box-shadow: 0 4px 12px rgba(0,0,0,.28);
+  }
+
+  /* Composer sheet */
+  .cs-root {
+    position: fixed; inset: 0;
+    z-index: 40;
+    display: flex; flex-direction: column; justify-content: flex-end;
+  }
+  .cs-backdrop {
+    position: absolute; inset: 0;
+    background: rgba(0,0,0,.45);
+    animation: cs-fade .18s ease;
+  }
+  .cs-sheet {
+    position: relative;
+    background: var(--bg);
+    border-top: 1px solid var(--rule);
+    border-radius: 14px 14px 0 0;
+    box-shadow: 0 -8px 24px rgba(0,0,0,.18);
+    padding: 8px 12px calc(12px + env(safe-area-inset-bottom));
+    max-height: 100dvh;
+    animation: cs-rise .22s ease;
+    transition: transform .14s ease;
+  }
+  .cs-grab {
+    padding: 6px 0 8px;
+    display: flex; justify-content: center;
+    cursor: grab;
+    touch-action: none;
+  }
+  .cs-grab-bar {
+    width: 36px; height: 4px;
+    border-radius: 2px;
+    background: var(--rule);
+  }
+  .cs-body { display: flex; flex-direction: column; gap: 8px; }
+  .cs-body .chips { gap: 4px; }
+  .cs-body .composer-row {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    grid-template-areas:
+      "dir field add"
+      "tag tag tag"
+      "when when when";
+    gap: 6px;
+  }
+  .cs-body .composer-row .prompt { display: none; }
+  .cs-body .composer-row .dir-toggle { grid-area: dir; }
+  .cs-body .composer-row .field { grid-area: field; min-width: 0; }
+  .cs-body .composer-row .commit-btn { grid-area: add; padding: 8px 12px; }
+  .cs-body .composer-row .tag-select { grid-area: tag; min-width: 0; width: 100%; }
+  .cs-body .composer-row .branch-select { grid-area: tag; min-width: 0; width: 100%; }
+  .cs-body .composer-row .when-wrap { grid-area: when; }
+  .cs-body .composer-row .when-btn { width: 100%; text-align: left; }
+
+  @keyframes cs-fade { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes cs-rise { from { transform: translateY(100%); } to { transform: translateY(0); } }
+}
+
+@media (max-width: 768px), (hover: none) and (pointer: coarse) and (max-height: 600px) and (orientation: landscape) {
+  .edit-overlay {
+    /* On mobile the overlay = the panel. No centered card; full-screen. */
+    align-items: stretch;
+    padding: 0;
+    background: var(--bg);
+  }
+  .edit-panel {
+    width: 100% !important;
+    max-width: none !important;
+    max-height: 100dvh !important;
+    height: 100dvh;
+    border-radius: 0;
+    border: none;
+    box-shadow: none;
+    display: flex; flex-direction: column;
+  }
+  .ep-head {
+    position: sticky; top: 0; z-index: 2;
+    background: var(--bg-2);
+    padding: 8px 10px;
+  }
+  .ep-back {
+    display: inline-flex;
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    color: var(--ink-2);
+    border-radius: 6px;
+    width: 28px; height: 28px;
+    align-items: center; justify-content: center;
+    cursor: pointer;
+  }
+  .ep-back:hover { color: var(--ink); border-color: var(--ink-2); }
+  .ep-back:focus-visible { outline: 2px solid var(--ink-2); outline-offset: 2px; }
+  .ep-grid {
+    flex: 1 1 auto;
+    overflow-y: auto;
+    padding: 14px 14px calc(14px + env(safe-area-inset-bottom));
+  }
+}
+
+@media (max-width: 768px), (hover: none) and (pointer: coarse) and (max-height: 600px) and (orientation: landscape) {
+  /* FAB clears the bottom nav (44px nav + 12px gap). */
+  .fab-wrap {
+    bottom: calc(56px + env(safe-area-inset-bottom));
+  }
+
+  /* Theme + future toggles in the mobile topbar: icon-only, tighter. */
+  .topbar.topbar-mobile .theme-toggle .lbl,
+  .topbar.topbar-mobile .future-toggle .lbl { display: none; }
+  .topbar.topbar-mobile .future-toggle button {
+    padding: 6px 8px; min-width: 32px; min-height: 32px;
+    display: inline-flex; align-items: center; justify-content: center;
+  }
+  .topbar.topbar-mobile .theme-toggle.theme-toggle-cycle {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 32px; height: 32px;
+    padding: 0;
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    color: var(--ink-2);
+    cursor: pointer;
+  }
+  .topbar.topbar-mobile .theme-toggle.theme-toggle-cycle:hover {
+    color: var(--ink); border-color: var(--ink-2);
+  }
+  .topbar.topbar-mobile .theme-toggle.theme-toggle-cycle:focus-visible {
+    outline: 2px solid var(--ink-2); outline-offset: 2px;
+  }
+  .topbar.topbar-mobile .theme-toggle.theme-toggle-cycle .ico {
+    font-size: 14px; line-height: 1;
+  }
+
+  /* Range chip: cap width with label ellipsis so it doesn't push toggles off. */
+  .topbar.topbar-mobile .range-chip {
+    max-width: 130px;
+    overflow: hidden;
+  }
+  .topbar.topbar-mobile .range-chip > span:not(.x) {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  /* Range popover: detach from chip and pin to viewport on mobile so it
+   * never overflows. */
+  .range-pop {
+    position: fixed !important;
+    top: calc(env(safe-area-inset-top) + 56px) !important;
+    left: 12px !important;
+    right: 12px !important;
+    max-width: none !important;
+    min-width: 0 !important;
+  }
+
+  /* Tighten the topbar gap so the four-element row (title + chip + future + theme)
+   * fits cleanly at 360px. */
+  .topbar.topbar-mobile {
+    gap: 6px;
+  }
 }

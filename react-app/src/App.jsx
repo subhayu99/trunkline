@@ -11,6 +11,8 @@ import { computeInsights } from "./lib/insights.js";
 import TopBar from "./components/TopBar.jsx";
 import RightRail from "./components/RightRail.jsx";
 import Composer from "./components/Composer.jsx";
+import ComposerSheet from "./components/ComposerSheet.jsx";
+import Fab from "./components/Fab.jsx";
 import EditPanel from "./components/EditPanel.jsx";
 import MoneyGraph from "./components/MoneyGraph.jsx";
 import LedgerView from "./components/LedgerView.jsx";
@@ -21,8 +23,11 @@ import AboutPanel from "./components/AboutPanel.jsx";
 import EmptyState from "./components/EmptyState.jsx";
 import ErrorBoundary from "./components/ErrorBoundary.jsx";
 import Toast from "./components/Toast.jsx";
+import BottomNav from "./components/BottomNav.jsx";
+import MoreTab from "./components/MoreTab.jsx";
 
 import { useTweaks } from "./components/tweaks/TweaksPanel.jsx";
+import { useIsMobile, isMobileNow } from "./hooks/useIsMobile.js";
 
 function Loading({ children }) {
   return (
@@ -158,12 +163,40 @@ function FinanceApp({ config, seed }) {
   }, [now, config.graph]);
 
   const [tweaksRaw, setTweak] = useTweaks(config.defaults);
+
   const tweaks = useMemo(() => ({
     ...tweaksRaw,
     vocabIntensity: "light",
     thicknessScale: "linear",
     locale: "lakh",
   }), [tweaksRaw]);
+
+  const isMobile = useIsMobile();
+  const [mobileTab, setMobileTab] = useState(
+    (tweaksRaw.viewMode || "graph") === "ledger" ? "ledger" : "graph"
+  );
+
+  const [moreScreen, setMoreScreen] = useState(null); // null | 'tags' | 'lanes' | 'insights' | 'log'
+  const [composerSheetOpen, setComposerSheetOpen] = useState(false);
+
+  // Keep mobileTab in sync with desktop view-toggle when user swaps views
+  // from desktop and resizes down (or vice versa). Only sync graph/ledger
+  // — "more" is a phone-only destination with no desktop equivalent.
+  useEffect(() => {
+    if (mobileTab === "more") return;
+    const v = tweaks.viewMode || "graph";
+    if (v !== mobileTab) setMobileTab(v);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tweaks.viewMode]);
+
+  useEffect(() => {
+    if (mobileTab !== "more") setMoreScreen(null);
+  }, [mobileTab]);
+
+  const onMobileTabChange = (id) => {
+    setMobileTab(id);
+    if (id === "graph" || id === "ledger") setTweak("viewMode", id);
+  };
 
   const range = useMemo(
     () => rangeFromPreset(tweaks.rangePreset, tweaks.rangeStart, tweaks.rangeEnd, now),
@@ -376,6 +409,9 @@ function FinanceApp({ config, seed }) {
       .filter(Boolean);
     if (sharePieces.length) {
       setComposerPrefill({ text: sharePieces.join(" · "), at: Date.now() });
+      if (isMobileNow()) {
+        setComposerSheetOpen(true);
+      }
       ["share_title", "share_text", "share_url"].forEach(k => u.searchParams.delete(k));
       consumed = true;
     }
@@ -386,11 +422,16 @@ function FinanceApp({ config, seed }) {
       consumed = true;
     }
     if (action === "add") {
-      // Composer focuses itself when ⌘K is dispatched.
-      setTimeout(() => {
-        const ev = new KeyboardEvent("keydown", { key: "k", metaKey: true, bubbles: true });
-        window.dispatchEvent(ev);
-      }, 80);
+      if (isMobileNow()) {
+        // Mobile — open the composer sheet directly.
+        setComposerSheetOpen(true);
+      } else {
+        // Desktop — focus the anchored composer via the existing ⌘K handler.
+        setTimeout(() => {
+          const ev = new KeyboardEvent("keydown", { key: "k", metaKey: true, bubbles: true });
+          window.dispatchEvent(ev);
+        }, 80);
+      }
       u.searchParams.delete("action");
       consumed = true;
     } else if (action === "export") {
@@ -417,6 +458,10 @@ function FinanceApp({ config, seed }) {
     <div className="app" style={kindStyleVars}>
       <TopBar tweaks={tweaks} setTweak={setTweak} entries={entries} range={range}
               config={mergedConfig} data={data} now={now}
+              isMobile={isMobile}
+              mobileTab={mobileTab}
+              onBack={isMobile && mobileTab === "more" && moreScreen ? () => setMoreScreen(null) : null}
+              mobileTitle={moreScreen}
               hamburger={
                 <HamburgerMenu
                   hasEntries={!isEmpty}
@@ -430,8 +475,45 @@ function FinanceApp({ config, seed }) {
                 />
               } />
 
-      <div className={`main${activePanel ? " right-expanded" : ""}`}>
-        {isEmpty ? (
+      <div className={`main${activePanel && !isMobile ? " right-expanded" : ""}`}>
+        {isMobile && mobileTab === "more" ? (
+          <MoreTab
+            tweaks={tweaks}
+            setTweak={setTweak}
+            themes={config.themes}
+            screen={moreScreen}
+            onOpenScreen={setMoreScreen}
+            config={mergedConfig}
+            tagById={tagById}
+            hoveredKind={hoveredKind}
+            setHoveredKind={setHoveredKind}
+            selectedTag={selectedTag}
+            setSelectedTag={setSelectedTag}
+            entries={entries}
+            range={range}
+            onAddTag={addUserTag}
+            onEditTag={editTag}
+            onRemoveTag={removeTag}
+            kinds={kinds}
+            onUpsertKind={upsertKind}
+            onRemoveKind={removeKind}
+            insights={insights}
+            log={log}
+            onEditEntry={setEditing}
+            onImport={() => setOverlay("import")}
+            onAIPrompt={() => setOverlay("aiprompt")}
+            onExport={onExport}
+            onLoadDemo={onLoadDemo}
+            onReset={onReset}
+            onAbout={() => setOverlay("about")}
+            counts={{
+              tags: mergedConfig.tags.length,
+              lanes: kinds.filter(k => !k.archived).length,
+              insights: insights.length,
+              log: log.length,
+            }}
+          />
+        ) : isEmpty ? (
           <EmptyState
             hasSeed={Array.isArray(seed?.entries) && seed.entries.length > 0}
             onLoadDemo={onLoadDemo}
@@ -468,35 +550,62 @@ function FinanceApp({ config, seed }) {
             kinds={kinds}
           />
         )}
-        <RightRail
-          tweaks={tweaks}
-          log={log}
-          activePanel={activePanel}
-          onPanelChange={setActivePanel}
-          onEditEntry={setEditing}
-          config={mergedConfig}
-          tagById={tagById}
-          insights={insights}
-          selectedTag={selectedTag}
-          setSelectedTag={setSelectedTag}
-          hoveredKind={hoveredKind}
-          setHoveredKind={setHoveredKind}
-          entries={entries}
-          kinds={kinds}
-          onUpsertKind={upsertKind}
-          onRemoveKind={removeKind}
-          onAddTag={addUserTag}
-          onEditTag={editTag}
-          onRemoveTag={removeTag}
-          range={range}
-        />
+        {!isMobile && (
+          <RightRail
+            tweaks={tweaks}
+            log={log}
+            activePanel={activePanel}
+            onPanelChange={setActivePanel}
+            onEditEntry={setEditing}
+            config={mergedConfig}
+            tagById={tagById}
+            insights={insights}
+            selectedTag={selectedTag}
+            setSelectedTag={setSelectedTag}
+            hoveredKind={hoveredKind}
+            setHoveredKind={setHoveredKind}
+            entries={entries}
+            kinds={kinds}
+            onUpsertKind={upsertKind}
+            onRemoveKind={removeKind}
+            onAddTag={addUserTag}
+            onEditTag={editTag}
+            onRemoveTag={removeTag}
+            range={range}
+          />
+        )}
       </div>
+
+      {isMobile && (
+        <BottomNav active={mobileTab} onChange={onMobileTabChange} />
+      )}
 
       <Composer tweaks={tweaks} onLog={onLog}
                 zoom={tweaks.zoom} setZoom={setZoom}
                 config={mergedConfig} tagById={tagById} now={now}
                 onAddTag={addUserTag} entries={entries}
                 prefill={composerPrefill} />
+
+      {isMobile && (
+        <>
+          <Fab
+            onClick={() => setComposerSheetOpen(true)}
+            hidden={mobileTab === "more" || composerSheetOpen || !!editing}
+          />
+          <ComposerSheet
+            open={composerSheetOpen}
+            onClose={() => { setComposerSheetOpen(false); setComposerPrefill(null); }}
+            tweaks={tweaks}
+            onLog={onLog}
+            config={mergedConfig}
+            tagById={tagById}
+            now={now}
+            onAddTag={addUserTag}
+            entries={entries}
+            prefill={composerPrefill}
+          />
+        </>
+      )}
 
       {editing && (
         <EditPanel entry={editing}
