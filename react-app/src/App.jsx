@@ -21,8 +21,10 @@ import AboutPanel from "./components/AboutPanel.jsx";
 import EmptyState from "./components/EmptyState.jsx";
 import ErrorBoundary from "./components/ErrorBoundary.jsx";
 import Toast from "./components/Toast.jsx";
+import BottomNav from "./components/BottomNav.jsx";
 
 import { useTweaks } from "./components/tweaks/TweaksPanel.jsx";
+import { useIsMobile } from "./hooks/useIsMobile.js";
 
 function Loading({ children }) {
   return (
@@ -158,12 +160,33 @@ function FinanceApp({ config, seed }) {
   }, [now, config.graph]);
 
   const [tweaksRaw, setTweak] = useTweaks(config.defaults);
+
   const tweaks = useMemo(() => ({
     ...tweaksRaw,
     vocabIntensity: "light",
     thicknessScale: "linear",
     locale: "lakh",
   }), [tweaksRaw]);
+
+  const isMobile = useIsMobile();
+  const [mobileTab, setMobileTab] = useState(
+    (tweaksRaw.viewMode || "graph") === "ledger" ? "ledger" : "graph"
+  );
+
+  // Keep mobileTab in sync with desktop view-toggle when user swaps views
+  // from desktop and resizes down (or vice versa). Only sync graph/ledger
+  // — "more" is a phone-only destination with no desktop equivalent.
+  useEffect(() => {
+    if (mobileTab === "more") return;
+    const v = tweaks.viewMode || "graph";
+    if (v !== mobileTab) setMobileTab(v);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tweaks.viewMode]);
+
+  const onMobileTabChange = (id) => {
+    setMobileTab(id);
+    if (id === "graph" || id === "ledger") setTweak("viewMode", id);
+  };
 
   const range = useMemo(
     () => rangeFromPreset(tweaks.rangePreset, tweaks.rangeStart, tweaks.rangeEnd, now),
@@ -491,6 +514,10 @@ function FinanceApp({ config, seed }) {
           range={range}
         />
       </div>
+
+      {isMobile && (
+        <BottomNav active={mobileTab} onChange={onMobileTabChange} />
+      )}
 
       <Composer tweaks={tweaks} onLog={onLog}
                 zoom={tweaks.zoom} setZoom={setZoom}

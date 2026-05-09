@@ -1953,3 +1953,43 @@ body {
   color: var(--bg, #fff);
   border-color: var(--warn, #c0392b);
 }
+
+/* ============================================================
+ * MOBILE SHELL (≤768px)
+ * Bottom-tab nav + FAB + composer sheet + more-tab drill-ins.
+ * Desktop is unaffected — every rule below is gated by media query.
+ * ============================================================ */
+
+.bottom-nav { display: none; }
+
+@media (max-width: 768px) {
+  .bottom-nav {
+    display: flex;
+    position: fixed;
+    left: 0; right: 0; bottom: 0;
+    z-index: 30;
+    background: var(--bg-2);
+    border-top: 1px solid var(--rule);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .bn-item {
+    flex: 1; position: relative;
+    padding: 7px 0 6px;
+    background: transparent; border: none;
+    color: var(--ink-3);
+    cursor: pointer;
+    display: flex; flex-direction: column; align-items: center; gap: 1px;
+    font-family: var(--font-mono); font-size: 8px;
+  }
+  .bn-item .bn-ic {
+    width: 18px; height: 18px;
+    display: inline-flex; align-items: center; justify-content: center;
+  }
+  .bn-item.active { color: var(--ink); }
+  .bn-item.active::after {
+    content: ""; position: absolute;
+    left: 38%; right: 38%; bottom: 0;
+    height: 2px; border-radius: 2px;
+    background: var(--ink);
+  }
+}
