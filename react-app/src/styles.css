@@ -2024,6 +2024,7 @@ body {
     cursor: pointer;
   }
   .topbar-back:hover { color: var(--ink); border-color: var(--ink-2); }
+  .topbar-back:focus-visible { outline: 2px solid var(--ink-2); outline-offset: 2px; }
 }
 
 @media (max-width: 480px) {
