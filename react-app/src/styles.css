@@ -755,6 +755,7 @@ body {
   max-height: calc(100vh - 64px); overflow: auto;
   box-shadow: 0 24px 60px rgba(0,0,0,.32);
 }
+.ep-back { display: none; }
 .ep-head {
   display: flex; align-items: center; gap: 12px; padding: 14px 18px;
   border-bottom: 1px solid var(--rule);
@@ -2179,4 +2180,45 @@ body {
 
   @keyframes cs-fade { from { opacity: 0; } to { opacity: 1; } }
   @keyframes cs-rise { from { transform: translateY(100%); } to { transform: translateY(0); } }
+}
+
+@media (max-width: 768px) {
+  .edit-overlay {
+    /* On mobile the overlay = the panel. No centered card; full-screen. */
+    align-items: stretch;
+    padding: 0;
+    background: var(--bg);
+  }
+  .edit-panel {
+    width: 100% !important;
+    max-width: none !important;
+    max-height: 100dvh !important;
+    height: 100dvh;
+    border-radius: 0;
+    border: none;
+    box-shadow: none;
+    display: flex; flex-direction: column;
+  }
+  .ep-head {
+    position: sticky; top: 0; z-index: 2;
+    background: var(--bg-2);
+    padding: 8px 10px;
+  }
+  .ep-back {
+    display: inline-flex;
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    color: var(--ink-2);
+    border-radius: 6px;
+    width: 28px; height: 28px;
+    align-items: center; justify-content: center;
+    cursor: pointer;
+  }
+  .ep-back:hover { color: var(--ink); border-color: var(--ink-2); }
+  .ep-back:focus-visible { outline: 2px solid var(--ink-2); outline-offset: 2px; }
+  .ep-grid {
+    flex: 1 1 auto;
+    overflow-y: auto;
+    padding: 14px 14px calc(14px + env(safe-area-inset-bottom));
+  }
 }
