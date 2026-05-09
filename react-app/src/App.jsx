@@ -27,6 +27,7 @@ import ErrorBoundary from "./components/ErrorBoundary.jsx";
 import Toast from "./components/Toast.jsx";
 import BottomNav from "./components/BottomNav.jsx";
 import MoreTab from "./components/MoreTab.jsx";
+import Dash from "./components/Dash.jsx";
 
 import { useIsMobile, isMobileNow } from "./hooks/useIsMobile.js";
 
@@ -95,10 +96,11 @@ function FinanceApp() {
   );
 
   const [moreScreen, setMoreScreen] = useState(null);
+  const [dashDrill, setDashDrill] = useState(null);
   const [composerSheetOpen, setComposerSheetOpen] = useState(false);
 
   useEffect(() => {
-    if (mobileTab === "more") return;
+    if (mobileTab === "more" || mobileTab === "dash") return;
     const v = tweaks.viewMode || "graph";
     if (v !== mobileTab) setMobileTab(v);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -106,6 +108,7 @@ function FinanceApp() {
 
   useEffect(() => {
     if (mobileTab !== "more") setMoreScreen(null);
+    if (mobileTab !== "dash") setDashDrill(null);
   }, [mobileTab]);
 
   const onMobileTabChange = (id) => {
@@ -440,8 +443,23 @@ function FinanceApp() {
               config={config} data={data} now={now}
               isMobile={isMobile}
               mobileTab={mobileTab}
-              onBack={isMobile && mobileTab === "more" && moreScreen ? () => setMoreScreen(null) : null}
-              mobileTitle={moreScreen}
+              onBack={
+                isMobile && mobileTab === "more" && moreScreen
+                  ? () => setMoreScreen(null)
+                : isMobile && mobileTab === "dash" && dashDrill
+                  ? () => setDashDrill(null)
+                  : null
+              }
+              mobileTitle={
+                mobileTab === "more" ? moreScreen
+                : mobileTab === "dash" && dashDrill
+                  ? (dashDrill.type === "tag"
+                      ? `#${tagById[dashDrill.id]?.label || dashDrill.id}`
+                      : (kinds.find(k => k.id === dashDrill.id)?.vocab?.light
+                         || kinds.find(k => k.id === dashDrill.id)?.label
+                         || dashDrill.id))
+                : null
+              }
               hamburger={
                 <HamburgerMenu
                   hasEntries={!isEmpty}
@@ -457,7 +475,21 @@ function FinanceApp() {
               } />
 
       <div className={`main${activePanel && !isMobile ? " right-expanded" : ""}`}>
-        {isMobile && mobileTab === "more" ? (
+        {isMobile && mobileTab === "dash" ? (
+          <Dash
+            tweaks={tweaks}
+            config={config}
+            kinds={kinds}
+            entries={entries}
+            range={range}
+            tagById={tagById}
+            data={data}
+            now={now}
+            drill={dashDrill}
+            setDrill={setDashDrill}
+            onEditEntry={setEditing}
+          />
+        ) : isMobile && mobileTab === "more" ? (
           <MoreTab
             tweaks={tweaks}
             setTweak={setTweak}
@@ -554,6 +586,10 @@ function FinanceApp() {
             onEditTag={editTag}
             onRemoveTag={removeTag}
             range={range}
+            data={data}
+            now={now}
+            dashDrill={dashDrill}
+            setDashDrill={setDashDrill}
           />
         )}
       </div>

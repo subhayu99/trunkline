@@ -2280,3 +2280,342 @@ body {
     gap: 6px;
   }
 }
+
+/* ============================================================
+ * DASH VIEW
+ * Scannable spend breakdown for the active range. Lives as a 4th
+ * mobile tab and as a right-rail panel on desktop. Reuses lane
+ * colors from var(--b-{kind}) so it stays in sync with the chart.
+ * ============================================================ */
+
+.dash-wrap {
+  height: 100%;
+  overflow-y: auto;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px 12px 24px;
+}
+
+.dash-kpis {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 6px;
+  background: var(--bg-2);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  padding: 10px 12px;
+}
+.dash-kpi { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.dash-kpi-k {
+  font-family: var(--font-mono); font-size: 9px; text-transform: uppercase;
+  letter-spacing: .08em; color: var(--ink-3);
+}
+.dash-kpi-v {
+  font-family: var(--font-mono); font-size: 13px; font-weight: 600; color: var(--ink);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.dash-kpi-v.warn { color: var(--warn); }
+.dash-kpi-v.ok   { color: var(--ok); }
+
+/* Daily averages + runway. Sits between the KPI strip and the by-lane card.
+ * Hidden when the range is < 2 days (the avg adds no signal there). */
+.dash-rate {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 6px 12px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--ink-2);
+  background: transparent;
+}
+.dash-rate-bit { display: inline-flex; align-items: baseline; gap: 4px; }
+.dash-rate-v   { color: var(--ink); font-weight: 600; }
+.dash-rate-v.ok   { color: var(--ok); }
+.dash-rate-v.warn { color: var(--warn); }
+.dash-rate-k   { color: var(--ink-3); font-size: 10px; text-transform: uppercase; letter-spacing: .04em; }
+.dash-rate-sep { color: var(--ink-3); }
+
+.dash-card {
+  background: var(--bg-2);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  overflow: hidden;
+}
+.dash-card-head {
+  display: flex; align-items: baseline; justify-content: space-between;
+  padding: 10px 12px 6px;
+  font-family: var(--font-mono); font-size: 10px;
+  text-transform: uppercase; letter-spacing: .08em;
+  color: var(--ink-3);
+}
+.dash-card-meta { color: var(--ink-3); font-size: 10px; text-transform: none; letter-spacing: 0; }
+
+.dash-bar {
+  display: flex;
+  height: 8px;
+  margin: 4px 12px 10px;
+  border-radius: 3px;
+  overflow: hidden;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+}
+.dash-bar-empty { background: var(--surface); }
+.dash-bar-seg { height: 100%; }
+.dash-bar-seg + .dash-bar-seg { border-left: 1px solid var(--bg-2); }
+
+.dash-lanes { display: flex; flex-direction: column; }
+.dash-lane-row {
+  display: grid;
+  grid-template-columns: 8px 1fr 60px auto auto auto;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: transparent;
+  border: none;
+  border-top: 1px dashed var(--rule);
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+  color: var(--ink);
+  font-family: var(--font-mono);
+}
+.dash-lane-spark { display: inline-flex; align-items: center; justify-content: center; min-width: 0; }
+.dash-spark { display: block; opacity: 0.85; }
+.dash-spark-empty { display: inline-block; width: 60px; height: 14px; }
+.dash-lane-row:hover { background: var(--surface); }
+.dash-lane-swatch { width: 8px; height: 8px; border-radius: 2px; }
+.dash-lane-label  { font-size: 12px; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.dash-lane-count  { font-size: 10px; color: var(--ink-3); }
+.dash-lane-amt    { font-size: 12px; color: var(--ink); font-weight: 600; }
+.dash-lane-amt.ok { color: var(--ok); }
+.dash-lane-share  { font-size: 10px; color: var(--ink-3); min-width: 32px; text-align: right; }
+
+/* Period-over-period delta badge. Subtle by default — green/red only
+ * carry meaning when the prior window had any activity (pct != null).
+ * Inside KPI cells the badge sits below the value as a third line. */
+.dash-delta {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: .02em;
+  color: var(--ink-3);
+  display: inline-block;
+  white-space: nowrap;
+}
+.dash-delta.good { color: var(--ok); }
+.dash-delta.bad  { color: var(--warn); }
+.dash-delta-flat { color: var(--ink-3); opacity: 0.6; }
+.dash-kpi .dash-delta { font-size: 9px; line-height: 1; }
+
+.dash-tags { display: flex; flex-direction: column; }
+.dash-tg + .dash-tg { border-top: 1px dashed var(--rule); }
+.dash-tg-head {
+  display: grid;
+  grid-template-columns: 12px 1fr auto;
+  gap: 8px;
+  align-items: center;
+  width: 100%;
+  background: transparent;
+  border: none;
+  padding: 9px 12px;
+  cursor: pointer;
+  text-align: left;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+.dash-tg-head:hover { background: var(--surface); }
+.dash-tg-caret { color: var(--ink-3); font-size: 10px; }
+.dash-tg-label { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.dash-tg-amt   { color: var(--ink); font-weight: 600; }
+.dash-tg-body  { padding: 2px 0 8px; }
+.dash-tag-row {
+  display: grid;
+  grid-template-columns: 1fr auto auto auto;
+  gap: 8px;
+  align-items: center;
+  width: 100%;
+  background: transparent;
+  border: none;
+  padding: 5px 12px 5px 28px;
+  cursor: pointer;
+  text-align: left;
+  color: var(--ink);
+  font-family: var(--font-mono);
+}
+.dash-tag-row:hover { background: var(--surface); }
+.dash-tag-row:disabled { cursor: default; opacity: 0.5; }
+.dash-tag-row:disabled:hover { background: transparent; }
+.dash-tag-chip {
+  font-size: 10px;
+  padding: 1px 6px;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  display: inline-block;
+  line-height: 14px;
+}
+.dash-tag-count { font-size: 10px; color: var(--ink-3); min-width: 18px; text-align: right; }
+.dash-tag-amt   { font-size: 11px; color: var(--ink); }
+.dash-tag-share { font-size: 10px; color: var(--ink-3); min-width: 28px; text-align: right; }
+
+.dash-empty {
+  font-family: var(--font-mono); font-size: 11px;
+  color: var(--ink-3);
+  padding: 14px 12px;
+  text-align: center;
+}
+
+/* Drill view — entry list for a specific lane or tag. */
+.dash-drill { display: flex; flex-direction: column; gap: 8px; }
+.dash-drill-back {
+  align-self: flex-start;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  color: var(--ink-2);
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-family: var(--font-mono); font-size: 11px;
+  cursor: pointer;
+}
+.dash-drill-back:hover { color: var(--ink); border-color: var(--ink-2); }
+.dash-drill-head {
+  display: flex; align-items: baseline; justify-content: space-between;
+  font-family: var(--font-mono);
+  padding: 4px 2px;
+  border-bottom: 1px solid var(--rule);
+}
+.dash-drill-title { font-size: 13px; font-weight: 600; }
+.dash-drill-meta  { font-size: 10px; color: var(--ink-3); }
+.dash-drill-day   { display: flex; flex-direction: column; }
+.dash-drill-day-head {
+  font-family: var(--font-mono); font-size: 10px;
+  text-transform: uppercase; letter-spacing: .08em;
+  color: var(--ink-3);
+  padding: 8px 2px 4px;
+}
+.dash-drill-row {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 8px;
+  align-items: center;
+  background: var(--bg-2);
+  border: 1px solid var(--rule);
+  border-left-width: 3px;
+  border-radius: 4px;
+  padding: 8px 10px;
+  margin-bottom: 4px;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  font-family: var(--font-mono);
+}
+.dash-drill-row:hover { background: var(--surface); }
+
+/* Tag-drill: subtotal for the active range, shown under the lifetime
+ * line so users can compare "this window" vs "ever". */
+.dash-drill-sub {
+  display: flex; align-items: baseline; justify-content: space-between;
+  font-family: var(--font-mono); font-size: 10px;
+  color: var(--ink-3);
+  padding: 2px 2px 6px;
+  border-bottom: 1px dashed var(--rule);
+}
+
+/* Tag-drill: density timeline. Each entry is a 1px tick on a horizontal
+ * track; the active range is highlighted; "now" is a vertical line. */
+.dash-tg-line {
+  display: flex; flex-direction: column; gap: 4px;
+  padding: 8px 2px 4px;
+}
+.dash-tg-track {
+  position: relative;
+  height: 22px;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.dash-tg-range {
+  position: absolute; top: 0; bottom: 0;
+  background: var(--tg-color, var(--ink-3));
+  opacity: 0.12;
+}
+.dash-tg-tick {
+  position: absolute; top: 4px; bottom: 4px;
+  width: 1px;
+  background: var(--tg-color, var(--ink));
+  opacity: 0.7;
+  pointer-events: auto;
+}
+.dash-tg-now {
+  position: absolute; top: -2px; bottom: -2px;
+  width: 1px;
+  background: var(--ink);
+  opacity: 0.8;
+}
+.dash-tg-labels {
+  display: flex; justify-content: space-between;
+  font-family: var(--font-mono); font-size: 9px;
+  color: var(--ink-3);
+}
+.dash-dr-label { display: flex; flex-direction: column; min-width: 0; gap: 2px; }
+.dash-dr-title { font-size: 12px; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.dash-dr-note  { font-size: 10px; color: var(--ink-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.dash-dr-tags  { display: flex; gap: 4px; flex-wrap: wrap; justify-content: flex-end; max-width: 50%; }
+.dash-dr-tag {
+  font-size: 9px;
+  padding: 0 5px;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  line-height: 13px;
+  white-space: nowrap;
+}
+.dash-dr-amt { font-size: 12px; font-weight: 600; }
+
+/* Mobile: pad bottom for the bottom nav, slim KPI sizing. */
+@media (max-width: 768px), (hover: none) and (pointer: coarse) and (max-height: 600px) and (orientation: landscape) {
+  .dash-wrap {
+    padding: 10px 10px 0;
+    padding-bottom: calc(34px + env(safe-area-inset-bottom) + 12px);
+  }
+  .dash-kpis { padding: 8px 10px; gap: 4px; }
+  .dash-kpi-k { font-size: 8px; }
+  .dash-kpi-v { font-size: 11px; }
+  .dash-card-head { padding: 8px 10px 4px; font-size: 9px; }
+  .dash-bar { margin: 4px 10px 8px; }
+  .dash-lane-row { padding: 7px 10px; }
+  .dash-lane-label { font-size: 11px; }
+  .dash-lane-amt   { font-size: 11px; }
+  .dash-tg-head   { padding: 8px 10px; font-size: 10px; }
+  .dash-tag-row    { padding-left: 24px; padding-right: 10px; }
+}
+
+@media (max-width: 360px) {
+  .dash-kpi-v { font-size: 10px; }
+  .dash-kpi-k { font-size: 7px; }
+}
+
+/* In the right-rail panel, drop the outer padding so the dash sections
+ * use the panel's full width (the rail already provides chrome). */
+.rail-panel[data-panel="dash"] .dash-wrap { padding: 8px; gap: 8px; }
+.rail-panel[data-panel="dash"] .dash-kpis { padding: 8px; gap: 4px; }
+.rail-panel[data-panel="dash"] .dash-kpi-v { font-size: 12px; }
+.rail-panel[data-panel="dash"] .dash-card-head { padding: 8px 10px 4px; }
+.rail-panel[data-panel="dash"] .dash-bar { margin: 4px 10px 8px; }
+.rail-panel[data-panel="dash"] .dash-lane-row {
+  padding: 6px 10px;
+  grid-template-columns: 8px 1fr 40px auto auto auto;
+}
+.rail-panel[data-panel="dash"] .dash-lane-spark .dash-spark { width: 40px; }
+.rail-panel[data-panel="dash"] .dash-spark-empty { width: 40px; }
+.rail-panel[data-panel="dash"] .dash-tg-head { padding: 7px 10px; }
+.rail-panel[data-panel="dash"] .dash-tag-row { padding-left: 22px; padding-right: 10px; }
+

@@ -6,6 +6,7 @@
 import React, { useMemo, useState } from "react";
 import { fmtINR } from "../lib/format.js";
 import { totalsByTag } from "../lib/data.js";
+import Dash from "./Dash.jsx";
 
 function slugify(s) {
   return String(s).toLowerCase().trim()
@@ -48,6 +49,15 @@ const ICONS = {
       <line x1="3" y1="6"  x2="3.01" y2="6"/>
       <line x1="3" y1="12" x2="3.01" y2="12"/>
       <line x1="3" y1="18" x2="3.01" y2="18"/>
+    </svg>
+  ),
+  dash: (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+         strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <line x1="4" y1="20" x2="4" y2="13"/>
+      <line x1="10" y1="20" x2="10" y2="9"/>
+      <line x1="16" y1="20" x2="16" y2="15"/>
+      <line x1="22" y1="20" x2="22" y2="6"/>
     </svg>
   ),
 };
@@ -461,9 +471,12 @@ export default function RightRail({
   activePanel, onPanelChange,
   kinds, onUpsertKind, onRemoveKind,
   range,
+  data, now,
+  dashDrill, setDashDrill,
 }) {
   const insights = insightsProp || config.insights || [];
   const panels = [
+    { id: "dash",     label: "Dash",         icon: ICONS.dash },
     { id: "tags",     label: "Tags",         icon: ICONS.tags },
     { id: "lanes",    label: "Lanes",        icon: ICONS.lanes },
     { id: "insights", label: "Insights",     icon: ICONS.insights },
@@ -477,7 +490,7 @@ export default function RightRail({
   return (
     <aside className={`right-rail-stack${activePanel ? " open" : ""}`}>
       {activePanel && (
-        <div className="rail-panel">
+        <div className="rail-panel" data-panel={activePanel}>
           <div className="rail-panel-head">
             <span>{activeMeta?.label}</span>
             <button type="button" className="rail-panel-close"
@@ -485,6 +498,22 @@ export default function RightRail({
                     title="close panel">×</button>
           </div>
           <div className="rail-panel-scroll">
+            {activePanel === "dash" && (
+              <Dash
+                tweaks={tweaks}
+                config={config}
+                kinds={kinds || []}
+                entries={entries}
+                range={range}
+                tagById={tagById}
+                data={data}
+                now={now}
+                drill={dashDrill}
+                setDrill={setDashDrill}
+                onEditEntry={onEditEntry}
+                drillBackInline
+              />
+            )}
             {activePanel === "tags" && (
               <PanelTags
                 tweaks={tweaks}

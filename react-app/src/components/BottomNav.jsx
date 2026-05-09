@@ -1,4 +1,4 @@
-// Phone-only bottom tab bar: graph / ledger / more.
+// Phone-only bottom tab bar: graph / ledger / dash / more.
 // Active state shown by a 2px accent bar at the bottom of the active item.
 // Hidden on desktop via CSS.
 
@@ -23,6 +23,15 @@ const ICONS = {
       <line x1="3" y1="18" x2="3.01" y2="18" />
     </svg>
   ),
+  dash: (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+         strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <line x1="4" y1="20" x2="4" y2="13" />
+      <line x1="10" y1="20" x2="10" y2="9" />
+      <line x1="16" y1="20" x2="16" y2="15" />
+      <line x1="22" y1="20" x2="22" y2="6" />
+    </svg>
+  ),
   more: (
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
          strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -36,6 +45,7 @@ const ICONS = {
 const ITEMS = [
   { id: "graph",  label: "graph"  },
   { id: "ledger", label: "ledger" },
+  { id: "dash",   label: "dash"   },
   { id: "more",   label: "more"   },
 ];
 
