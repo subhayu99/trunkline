@@ -150,6 +150,13 @@ export default function MoneyGraph({
   const mainLaneW = Math.min(120, usableW * (isNarrow ? 0.20 : 0.16));
   const sideLaneW = (usableW - mainLaneW) / (lanes.length - 1);
   const xForLane = (i) => {
+    // Unknown kind (i = -1) would otherwise dereference lanes[-1].kind and
+    // crash the whole chart. Anchor it to the main lane as a safe fallback.
+    if (i < 0 || i >= lanes.length) {
+      const mi = lanes.findIndex(l => l.kind === "main");
+      if (mi < 0) return leftPad;
+      i = mi;
+    }
     let x = leftPad;
     for (let k = 0; k < i; k++) x += (lanes[k].kind === "main" ? mainLaneW : sideLaneW);
     x += (lanes[i].kind === "main" ? mainLaneW : sideLaneW) / 2;

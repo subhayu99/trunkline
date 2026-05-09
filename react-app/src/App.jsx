@@ -1,7 +1,9 @@
 import React, { useState, useMemo, useEffect, useCallback } from "react";
 
-import { useConfigAndData } from "./hooks/useConfigAndData.js";
-import { useLedger, exportLedger } from "./hooks/useLedger.js";
+import { useStore, exportDoc } from "./hooks/useStore.js";
+import {
+  projectConfig, projectData, importUserDoc,
+} from "./lib/schema.js";
 import { rangeFromPreset } from "./lib/range.js";
 import {
   materializeRecurring, statusFor, refreshStatus, MS_PER_DAY,
@@ -26,162 +28,75 @@ import Toast from "./components/Toast.jsx";
 import BottomNav from "./components/BottomNav.jsx";
 import MoreTab from "./components/MoreTab.jsx";
 
-import { useTweaks } from "./components/tweaks/TweaksPanel.jsx";
 import { useIsMobile, isMobileNow } from "./hooks/useIsMobile.js";
 
-function Loading({ children }) {
-  return (
-    <div style={{
-      height: "100vh", display: "flex", alignItems: "center", justifyContent: "center",
-      fontFamily: "ui-monospace, monospace", fontSize: 12, color: "var(--ink-2, #555)",
-    }}>{children}</div>
-  );
-}
-
 export default function App() {
-  const { config, data, error } = useConfigAndData();
-
-  if (error) return <Loading>error loading config/data: {error}</Loading>;
-  if (!config || !data) return <Loading>loading…</Loading>;
-
   return (
     <ErrorBoundary>
-      <FinanceApp config={config} seed={data} />
+      <FinanceApp />
     </ErrorBoundary>
   );
 }
 
-function FinanceApp({ config, seed }) {
-  const now = useMemo(
-    () => config.now ? new Date(config.now) : new Date(),
-    [config.now]
-  );
-
-  // Ledger lives in localStorage. `seed` (data.json) is only a demo source.
+function FinanceApp() {
+  // ── store ──
+  // The whole app reads/writes through the unified store. Two docs:
+  //   user           — entries, kinds, tags, quickAdd, tweaks, currency
+  //   customization  — graph dimensions + picker enums (themes, locales, …)
   const {
-    ledger, data, isEmpty,
-    kinds: storedKinds,
-    tagOverrides, deletedTagIds,
+    user, customization, isEmpty,
     unbackedCount, markBackedUp,
     setEntries, addUserTag, editTag, removeTag,
-    replaceLedger, loadDemo, resetLedger,
-    upsertKind, removeKind, setKinds,
-  } = useLedger(seed);
+    upsertKind, removeKind,
+    setTweak,
+    replaceUser, resetUser, replaceCustomization,
+  } = useStore();
 
-  // ---- kinds ----
-  // Truth = ledger.kinds when non-empty; otherwise seed from config.
-  // The seed merges branchKinds order + branchLabels vocab + tagGroups
-  // labels into the rich kind shape so the UI can edit them all.
-  const seedKinds = useMemo(() => {
-    const order = config.branchKinds || [];
-    const labels = config.branchLabels || {};
-    const groups = config.tagGroups || [];
-    // Mirror MoneyGraph's lane layout: income → L, main → C, the rest → R.
-    const sideOf = (id) => {
-      if (id === "main") return "C";
-      if (id === "income") return "L";
-      return "R";
-    };
-    return order.map((id, i) => {
-      const lbl = labels[id] || {};
-      const grp = groups.find(g => g.key === id);
-      return {
-        id,
-        label: lbl.light || id,
-        vocab: {
-          heavy: lbl.heavy || `${id}/*`,
-          medium: lbl.medium || id,
-          light: lbl.light || id,
-        },
-        groupLabel: grp?.label || id,
-        color: null,
-        side: sideOf(id),
-        order: i,
-        archived: false,
-      };
-    });
-  }, [config.branchKinds, config.branchLabels, config.tagGroups]);
+  // ── projections ──
+  // The rest of the app was built against `config` + `data` props with a
+  // specific shape. Project the store back into that shape so components
+  // don't need any changes.
+  const config = useMemo(() => projectConfig(user, customization),
+    [user, customization]);
+  const data = useMemo(() => projectData(user), [user]);
+  const tweaks = user.tweaks;
+  const kinds = user.kinds;
 
-  const kinds = useMemo(
-    () => (storedKinds && storedKinds.length ? storedKinds : seedKinds),
-    [storedKinds, seedKinds]
-  );
-
-  // Project kinds back into the legacy config shape so existing components
-  // keep working without changes. Archived kinds are hidden everywhere.
-  const liveBranchKinds = useMemo(
-    () => kinds.slice().sort((a, b) => a.order - b.order)
-                .filter(k => !k.archived).map(k => k.id),
-    [kinds]
-  );
-  const liveBranchLabels = useMemo(
-    () => Object.fromEntries(kinds.map(k => [k.id, k.vocab])),
-    [kinds]
-  );
-  const liveTagGroups = useMemo(
-    () => kinds.filter(k => !k.archived && k.id !== "main")
-                .sort((a, b) => a.order - b.order)
-                .map(k => ({ key: k.id, label: k.groupLabel })),
-    [kinds]
+  // Tag lookup map — used everywhere a tag id needs to be resolved.
+  const tagById = useMemo(
+    () => Object.fromEntries(user.tags.map(t => [t.id, t])),
+    [user.tags]
   );
 
   // Inline CSS variables for any kind that has a custom color set, so the
   // chart picks up the override without us touching CSS.
   const kindStyleVars = useMemo(() => {
     const s = {};
-    for (const k of kinds) {
+    for (const k of user.kinds) {
       if (k.color) s[`--b-${k.id}`] = k.color;
     }
     return s;
-  }, [kinds]);
+  }, [user.kinds]);
 
-  const allTags = useMemo(() => {
-    const deleted = new Set(deletedTagIds);
-    const seedTagsLive = config.tags
-      .filter(t => !deleted.has(t.id))
-      .map(t => ({ ...t, ...(tagOverrides[t.id] || {}) }));
-    const userTagsLive = ledger.userTags
-      .filter(t => !deleted.has(t.id))
-      .map(t => ({ ...t, ...(tagOverrides[t.id] || {}) }));
-    return [...seedTagsLive, ...userTagsLive];
-  }, [config.tags, ledger.userTags, tagOverrides, deletedTagIds]);
-  const mergedConfig = useMemo(() => ({
-    ...config,
-    tags: allTags,
-    branchKinds: liveBranchKinds,
-    branchLabels: liveBranchLabels,
-    tagGroups: liveTagGroups,
-  }), [config, allTags, liveBranchKinds, liveBranchLabels, liveTagGroups]);
-  const tagById = useMemo(
-    () => Object.fromEntries(allTags.map(t => [t.id, t])),
-    [allTags]
+  const now = useMemo(
+    () => customization.now ? new Date(customization.now) : new Date(),
+    [customization.now]
   );
 
   const horizonMs = useMemo(() => {
-    const years = config.graph?.horizonYears ?? 2;
+    const years = customization.graph?.horizonYears ?? 2;
     return now.getTime() + years * 365 * MS_PER_DAY;
-  }, [now, config.graph]);
+  }, [now, customization.graph]);
 
-  const [tweaksRaw, setTweak] = useTweaks(config.defaults);
-
-  const tweaks = useMemo(() => ({
-    ...tweaksRaw,
-    vocabIntensity: "light",
-    thicknessScale: "linear",
-    locale: "lakh",
-  }), [tweaksRaw]);
-
+  // ── mobile / view tab state ──
   const isMobile = useIsMobile();
   const [mobileTab, setMobileTab] = useState(
-    (tweaksRaw.viewMode || "graph") === "ledger" ? "ledger" : "graph"
+    (tweaks.viewMode || "graph") === "ledger" ? "ledger" : "graph"
   );
 
-  const [moreScreen, setMoreScreen] = useState(null); // null | 'tags' | 'lanes' | 'insights' | 'log'
+  const [moreScreen, setMoreScreen] = useState(null);
   const [composerSheetOpen, setComposerSheetOpen] = useState(false);
 
-  // Keep mobileTab in sync with desktop view-toggle when user swaps views
-  // from desktop and resizes down (or vice versa). Only sync graph/ledger
-  // — "more" is a phone-only destination with no desktop equivalent.
   useEffect(() => {
     if (mobileTab === "more") return;
     const v = tweaks.viewMode || "graph";
@@ -203,10 +118,7 @@ function FinanceApp({ config, seed }) {
     [tweaks.rangePreset, tweaks.rangeStart, tweaks.rangeEnd, now]
   );
 
-  // ----- URL <-> range sync -----
-  // On first mount, hydrate from ?range / ?start / ?end so a shared link
-  // restores the same view. After that, mirror tweaks back to the URL
-  // (replaceState — no history pollution).
+  // ── URL <-> range sync ──
   const allowedPresets = useMemo(
     () => new Set((config.rangePresets || []).map(p => p.value).concat("custom")),
     [config.rangePresets]
@@ -258,13 +170,24 @@ function FinanceApp({ config, seed }) {
     document.documentElement.setAttribute("data-theme", tweaks.theme);
   }, [tweaks.theme]);
 
-  // Refresh statuses when `now` changes (config.now or first mount).
+  // Refresh statuses when `now` changes.
   useEffect(() => {
     setEntries(es => es.map(e => ({ ...e, status: statusFor(e.when, now) })));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [now]);
 
-  const rawEntries = useMemo(() => refreshStatus(data.entries, now), [data.entries, now]);
+  // Imported JSON / older snapshots may not carry `kind` on each entry.
+  // schema.importUserDoc derives it on import, but defend anyway in case
+  // an entry slips through (e.g. legacy in-memory data) — avoids crashing
+  // MoneyGraph's lane lookup.
+  const rawEntries = useMemo(() => {
+    const refreshed = refreshStatus(data.entries, now);
+    return refreshed.map(e => {
+      if (e.kind) return e;
+      const primary = e.tags && e.tags.length ? tagById[e.tags[0]] : null;
+      return { ...e, kind: primary ? primary.kind : "extras" };
+    });
+  }, [data.entries, now, tagById]);
   const entries = useMemo(
     () => materializeRecurring(rawEntries, now, horizonMs),
     [rawEntries, now, horizonMs]
@@ -276,11 +199,9 @@ function FinanceApp({ config, seed }) {
   const [freshEntry, setFreshEntry] = useState(null);
   const [editing, setEditing] = useState(null);
 
-  // Overlay state — only one at a time
-  const [overlay, setOverlay] = useState(null); // null | 'import' | 'aiprompt' | 'about'
+  const [overlay, setOverlay] = useState(null); // null | 'import' | 'aiprompt' | 'about' | 'customization'
   const closeOverlay = () => setOverlay(null);
 
-  // Toast state — single toast at a time. Newer toasts replace older ones.
   const [toast, setToast] = useState(null);
   const showToast = useCallback((data) => {
     setToast({ id: Date.now() + Math.random(), ...data });
@@ -289,12 +210,10 @@ function FinanceApp({ config, seed }) {
     setToast(t => (t && t.id === id ? null : t));
   }, []);
 
-  // VS-Code-style sidebar: which panel (if any) is currently open.
-  // null = collapsed (icon strip only). Defaults to closed on narrow screens.
   const initialW = typeof window !== "undefined" ? window.innerWidth : 1280;
   const [activePanel, setActivePanel] = useState(initialW < 1024 ? null : "tags");
 
-  // ctrl-wheel zoom (debounced via rAF)
+  // ctrl-wheel zoom
   useEffect(() => {
     let raf = null;
     const onZoom = (e) => {
@@ -336,12 +255,6 @@ function FinanceApp({ config, seed }) {
 
   const onDeleteEntry = useCallback((entry) => {
     const targetId = entry.recurParentId || entry.id;
-    // Snapshot the entry being removed (the parent, since we delete the
-    // whole recurrence series when a child is selected) so undo can
-    // restore exactly what was there. We capture from `data.entries`
-    // directly (the canonical raw list) instead of the setEntries updater
-    // closure — that way the snapshot is available before the toast's
-    // action callback closes over it.
     const removed = data.entries.find(e => e.id === targetId) || null;
     setEntries(es => es.filter(e => e.id !== targetId));
     setLog(l => l.filter(e => e.id !== entry.id));
@@ -368,28 +281,57 @@ function FinanceApp({ config, seed }) {
     [entries, now, data.initialBalance, tagById, config.currencySymbol]
   );
 
-  // Hamburger handlers
-  const onExport = () => {
-    exportLedger(ledger);
+  // ── exports ──
+  // Two flows:
+  //   onExport            — main "your data" download (user doc).
+  //   onExportCustomization — hidden in More, downloads the customization doc.
+  const onExport = useCallback(() => {
+    exportDoc(user, "user");
     markBackedUp();
-  };
+  }, [user, markBackedUp]);
+  const onExportCustomization = useCallback(() => {
+    exportDoc(customization, "customization");
+  }, [customization]);
+
+  // ── imports ──
+  // Single entry-point: route by detected doc type. The ImportPanel's
+  // user-facing copy still says "Import data" but it transparently handles
+  // a customization file too (with a confirmation and a different toast).
+  const onApplyImport = useCallback((parsed, kind) => {
+    if (kind === "customization") {
+      replaceCustomization(parsed);
+      showToast({ message: "Customization applied" });
+      return;
+    }
+    replaceUser(parsed);
+    setLog([]);
+    showToast({ message: `Imported · ${parsed.ledger.entries.length} entries` });
+  }, [replaceCustomization, replaceUser, showToast]);
+
+  // ── reset / load demo ──
   const onReset = () => {
     if (confirm("This wipes all your entries and tags. Continue?")) {
-      resetLedger();
+      resetUser();
       setLog([]);
     }
   };
-  const onLoadDemo = () => {
+  const onLoadDemo = async () => {
     if (!isEmpty && !confirm("Load demo data? This replaces your current entries.")) return;
-    loadDemo();
-    setLog([]);
+    try {
+      const r = await fetch("demo.json", { cache: "no-cache" });
+      if (!r.ok) throw new Error("demo.json: " + r.status);
+      const raw = await r.json();
+      const parsed = importUserDoc(raw);
+      replaceUser(parsed);
+      setLog([]);
+    } catch (err) {
+      showToast({ message: `Failed to load demo: ${err.message}` });
+    }
   };
 
-  // Optional prefill text fed into the composer (used by Web Share Target).
   const [composerPrefill, setComposerPrefill] = useState(null);
 
-  // PWA shortcut handler: read ?action= / ?view= once, dispatch, then strip
-  // the param from the URL so refresh doesn't re-trigger.
+  // PWA shortcut handler
   useEffect(() => {
     if (typeof window === "undefined") return;
     const u = new URL(window.location.href);
@@ -397,21 +339,14 @@ function FinanceApp({ config, seed }) {
     const view = u.searchParams.get("view");
     let consumed = false;
 
-    // Web Share Target: when the user shares text from another app to
-    // trunkline, the OS forwards us share_title / share_text / share_url
-    // as query params. Drop them straight into the composer's input.
     const shareTitle = u.searchParams.get("share_title");
     const shareText  = u.searchParams.get("share_text");
     const shareUrl   = u.searchParams.get("share_url");
     const sharePieces = [shareTitle, shareText, shareUrl]
-      .filter(Boolean)
-      .map(s => s.trim())
-      .filter(Boolean);
+      .filter(Boolean).map(s => s.trim()).filter(Boolean);
     if (sharePieces.length) {
       setComposerPrefill({ text: sharePieces.join(" · "), at: Date.now() });
-      if (isMobileNow()) {
-        setComposerSheetOpen(true);
-      }
+      if (isMobileNow()) setComposerSheetOpen(true);
       ["share_title", "share_text", "share_url"].forEach(k => u.searchParams.delete(k));
       consumed = true;
     }
@@ -423,10 +358,8 @@ function FinanceApp({ config, seed }) {
     }
     if (action === "add") {
       if (isMobileNow()) {
-        // Mobile — open the composer sheet directly.
         setComposerSheetOpen(true);
       } else {
-        // Desktop — focus the anchored composer via the existing ⌘K handler.
         setTimeout(() => {
           const ev = new KeyboardEvent("keydown", { key: "k", metaKey: true, bubbles: true });
           window.dispatchEvent(ev);
@@ -457,7 +390,7 @@ function FinanceApp({ config, seed }) {
   return (
     <div className="app" style={kindStyleVars}>
       <TopBar tweaks={tweaks} setTweak={setTweak} entries={entries} range={range}
-              config={mergedConfig} data={data} now={now}
+              config={config} data={data} now={now}
               isMobile={isMobile}
               mobileTab={mobileTab}
               onBack={isMobile && mobileTab === "more" && moreScreen ? () => setMoreScreen(null) : null}
@@ -467,6 +400,7 @@ function FinanceApp({ config, seed }) {
                   hasEntries={!isEmpty}
                   unbackedCount={unbackedCount}
                   onExport={onExport}
+                  onExportCustomization={onExportCustomization}
                   onImport={() => setOverlay("import")}
                   onAIPrompt={() => setOverlay("aiprompt")}
                   onLoadDemo={onLoadDemo}
@@ -483,7 +417,7 @@ function FinanceApp({ config, seed }) {
             themes={config.themes}
             screen={moreScreen}
             onOpenScreen={setMoreScreen}
-            config={mergedConfig}
+            config={config}
             tagById={tagById}
             hoveredKind={hoveredKind}
             setHoveredKind={setHoveredKind}
@@ -503,11 +437,12 @@ function FinanceApp({ config, seed }) {
             onImport={() => setOverlay("import")}
             onAIPrompt={() => setOverlay("aiprompt")}
             onExport={onExport}
+            onExportCustomization={onExportCustomization}
             onLoadDemo={onLoadDemo}
             onReset={onReset}
             onAbout={() => setOverlay("about")}
             counts={{
-              tags: mergedConfig.tags.length,
+              tags: config.tags.length,
               lanes: kinds.filter(k => !k.archived).length,
               insights: insights.length,
               log: log.length,
@@ -515,7 +450,7 @@ function FinanceApp({ config, seed }) {
           />
         ) : isEmpty ? (
           <EmptyState
-            hasSeed={Array.isArray(seed?.entries) && seed.entries.length > 0}
+            hasSeed={true}
             onLoadDemo={onLoadDemo}
             onImport={() => setOverlay("import")}
             onAIPrompt={() => setOverlay("aiprompt")}
@@ -528,7 +463,7 @@ function FinanceApp({ config, seed }) {
             selectedTag={selectedTag}
             onEditEntry={setEditing}
             entries={entries}
-            config={mergedConfig}
+            config={config}
             data={data}
             now={now}
             tagById={tagById}
@@ -543,7 +478,7 @@ function FinanceApp({ config, seed }) {
             selectedTag={selectedTag}
             onEditEntry={setEditing}
             entries={entries}
-            config={mergedConfig}
+            config={config}
             data={data}
             now={now}
             tagById={tagById}
@@ -557,7 +492,7 @@ function FinanceApp({ config, seed }) {
             activePanel={activePanel}
             onPanelChange={setActivePanel}
             onEditEntry={setEditing}
-            config={mergedConfig}
+            config={config}
             tagById={tagById}
             insights={insights}
             selectedTag={selectedTag}
@@ -582,7 +517,7 @@ function FinanceApp({ config, seed }) {
 
       <Composer tweaks={tweaks} onLog={onLog}
                 zoom={tweaks.zoom} setZoom={setZoom}
-                config={mergedConfig} tagById={tagById} now={now}
+                config={config} tagById={tagById} now={now}
                 onAddTag={addUserTag} entries={entries}
                 prefill={composerPrefill} />
 
@@ -597,7 +532,7 @@ function FinanceApp({ config, seed }) {
             onClose={() => { setComposerSheetOpen(false); setComposerPrefill(null); }}
             tweaks={tweaks}
             onLog={onLog}
-            config={mergedConfig}
+            config={config}
             tagById={tagById}
             now={now}
             onAddTag={addUserTag}
@@ -612,7 +547,7 @@ function FinanceApp({ config, seed }) {
                    onClose={() => setEditing(null)}
                    onSave={onSaveEdit}
                    onDelete={onDeleteEntry}
-                   config={mergedConfig}
+                   config={config}
                    tagById={tagById}
                    now={now} />
       )}
@@ -620,13 +555,13 @@ function FinanceApp({ config, seed }) {
       {overlay === "import" && (
         <ImportPanel onClose={closeOverlay}
                      hasExistingData={!isEmpty}
-                     onApply={(snap) => { replaceLedger(snap); setLog([]); }} />
+                     onApply={onApplyImport} />
       )}
       {overlay === "aiprompt" && (
         <AIPromptPanel onClose={closeOverlay}
-                       config={mergedConfig}
+                       config={config}
                        hasExistingData={!isEmpty}
-                       onApply={(snap) => { replaceLedger(snap); setLog([]); }} />
+                       onApply={(parsed) => onApplyImport(parsed, "user")} />
       )}
       {overlay === "about" && <AboutPanel onClose={closeOverlay} />}
 

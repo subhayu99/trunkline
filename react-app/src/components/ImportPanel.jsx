@@ -1,24 +1,37 @@
 import React, { useState, useRef } from "react";
-import { importLedgerJson } from "../hooks/useLedger.js";
+import {
+  importUserDoc, importCustomizationDoc, detectDocType,
+} from "../lib/schema.js";
 
-// Full-screen overlay for importing a ledger. Two paths: paste JSON or
-// upload a .json file. Validates before applying; the user has to confirm
-// when there's already data to overwrite.
+// Full-screen overlay for importing JSON. Two paths: paste JSON or upload
+// a .json file. The same panel transparently accepts either a user doc or
+// a customization doc — the file's `doc` field decides where it lands.
+//
+// onApply(parsed, kind) where kind is "user" | "customization".
 export default function ImportPanel({ onClose, onApply, hasExistingData }) {
   const [text, setText] = useState("");
   const [error, setError] = useState(null);
+  // parsed = { kind: "user" | "customization", value: <doc> }
   const [parsed, setParsed] = useState(null);
   const fileRef = useRef(null);
 
   const tryParse = (raw) => {
     setError(null); setParsed(null);
     let json;
-    try { json = JSON.parse(raw); }
+    // Tolerate the LLM wrapping the JSON in ```json ... ``` fences.
+    const stripped = raw.trim().replace(/^```(?:json)?\s*/i, "").replace(/\s*```$/, "");
+    try { json = JSON.parse(stripped); }
     catch (e) { setError("not valid JSON: " + e.message); return; }
-    try {
-      const snap = importLedgerJson(json);
-      setParsed(snap);
-    } catch (e) { setError(e.message); }
+    const kind = detectDocType(json);
+    if (kind === "customization") {
+      try { setParsed({ kind, value: importCustomizationDoc(json) }); }
+      catch (e) { setError(e.message); }
+      return;
+    }
+    // Default to user doc — covers explicit "user", legacy snapshots, and
+    // bare {initialBalance, entries} shapes.
+    try { setParsed({ kind: "user", value: importUserDoc(json) }); }
+    catch (e) { setError(e.message); }
   };
 
   const onFileChosen = (e) => {
@@ -35,11 +48,11 @@ export default function ImportPanel({ onClose, onApply, hasExistingData }) {
 
   const apply = () => {
     if (!parsed) return;
-    if (hasExistingData &&
-        !confirm("This replaces all your current entries. Continue?")) {
-      return;
-    }
-    onApply(parsed);
+    if (parsed.kind === "user" && hasExistingData &&
+        !confirm("This replaces all your current entries. Continue?")) return;
+    if (parsed.kind === "customization" &&
+        !confirm("Apply customization (graph dimensions + picker enums)? Your data is unaffected.")) return;
+    onApply(parsed.value, parsed.kind);
     onClose();
   };
 
@@ -53,9 +66,9 @@ export default function ImportPanel({ onClose, onApply, hasExistingData }) {
         <div className="op-body">
           <p className="op-help">
             Paste a JSON ledger below, or upload a previously-exported file.
-            The shape can be either a full snapshot
-            (<code className="mono">{`{ initialBalance, entries, userTags }`}</code>)
-            or just <code className="mono">{`{ initialBalance, entries }`}</code>.
+            The panel accepts <strong>user</strong> docs (your data) or{" "}
+            <strong>customization</strong> docs (graph + picker enums) and
+            routes them automatically.
           </p>
 
           <div className="op-row">
@@ -69,18 +82,28 @@ export default function ImportPanel({ onClose, onApply, hasExistingData }) {
 
           <textarea
             className="op-text mono"
-            placeholder='{ "initialBalance": 0, "entries": [ ... ] }'
+            placeholder='{ "schema": 2, "doc": "user", "ledger": { ... } }'
             value={text}
             onChange={e => setText(e.target.value)}
             onBlur={() => text.trim() && tryParse(text)}
           />
 
           {error && <div className="op-error">⚠ {error}</div>}
-          {parsed && (
+          {parsed && parsed.kind === "user" && (
             <div className="op-summary">
-              ✓ valid · {parsed.entries.length} entries · initial balance{" "}
-              <span className="mono">₹{parsed.initialBalance.toLocaleString("en-IN")}</span>
-              {parsed.userTags.length > 0 && <> · {parsed.userTags.length} user tags</>}
+              ✓ user doc · {parsed.value.ledger.entries.length} entries · initial balance{" "}
+              <span className="mono">
+                {parsed.value.currencySymbol}
+                {parsed.value.ledger.initialBalance.toLocaleString("en-IN")}
+              </span>
+              {parsed.value.tags.length > 0 && <> · {parsed.value.tags.length} tags</>}
+            </div>
+          )}
+          {parsed && parsed.kind === "customization" && (
+            <div className="op-summary">
+              ✓ customization doc · {parsed.value.enums.themes.length} themes ·{" "}
+              {parsed.value.enums.locales.length} locales ·{" "}
+              {parsed.value.enums.rangePresets.length} range presets
             </div>
           )}
         </div>
@@ -89,7 +112,7 @@ export default function ImportPanel({ onClose, onApply, hasExistingData }) {
           <button className="op-btn primary"
                   disabled={!parsed}
                   onClick={apply}>
-            replace ledger
+            {parsed?.kind === "customization" ? "apply customization" : "replace ledger"}
           </button>
         </div>
       </div>

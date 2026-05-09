@@ -8,6 +8,7 @@ const URGENT_UNBACKED = 25;
 
 export default function HamburgerMenu({
   onExport, onImport, onAIPrompt, onLoadDemo, onReset, onAbout,
+  onExportCustomization,
   hasEntries, unbackedCount = 0,
 }) {
   const [open, setOpen] = useState(false);
@@ -59,6 +60,12 @@ export default function HamburgerMenu({
           {item("ai prompt → json", onAIPrompt)}
           {!hasEntries && item("load demo data", onLoadDemo)}
           {item("about", onAbout)}
+          {onExportCustomization && (
+            <>
+              <div className="hm-divider" />
+              {item("export customization", onExportCustomization)}
+            </>
+          )}
           <div className="hm-divider" />
           {item("reset all data", onReset, { danger: true })}
         </div>
