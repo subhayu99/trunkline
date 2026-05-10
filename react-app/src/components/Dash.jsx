@@ -198,8 +198,7 @@ function TagTimeline({ entries, range, now, color }) {
              style={{ left: rangeStart + "%", width: (rangeEnd - rangeStart) + "%" }} />
         {entries.map(e => (
           <div key={e.id} className="dash-tg-tick"
-               style={{ left: pos(new Date(e.when).getTime()) + "%" }}
-               title={`${e.label} · ${fmtDateShort(new Date(e.when))}`} />
+               style={{ left: pos(new Date(e.when).getTime()) + "%" }} />
         ))}
         {nowPct != null && (
           <div className="dash-tg-now" style={{ left: nowPct + "%" }} />

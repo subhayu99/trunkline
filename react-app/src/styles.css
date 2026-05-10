@@ -1230,33 +1230,39 @@ body {
   .branch-row { padding: 7px 12px; }
   .insight { margin: 6px 10px; padding: 10px; }
 
-  /* Composer: stack onto two rows */
+  /* Composer on mobile: stack vertically so the text field gets the
+   * full row width (it's the primary input — being squeezed between
+   * dir-toggle and add-button made it ~40% of the row).
+   *
+   *   row 1: [    field (full width)    ]
+   *   row 2: [ dir ] [   tag-select     ]
+   *   row 3: [    when-btn (full)       ]
+   *   row 4: [    add (full, primary)   ]
+   */
   .composer { padding: 8px 10px 10px; gap: 6px; }
   .composer-row {
-    grid-template-columns: auto 1fr auto !important;
+    grid-template-columns: auto 1fr !important;
     grid-template-areas:
-      "dir field add"
-      "when when tag";
+      "field field"
+      "dir   tag"
+      "when  when"
+      "add   add" !important;
     gap: 6px;
   }
   .composer .prompt { display: none; }
   .composer .dir-toggle { grid-area: dir; }
-  .composer .field { grid-area: field; min-width: 0; }
-  .composer .commit-btn { grid-area: add; padding: 7px 10px; }
-  .composer .when-wrap { grid-area: when; }
-  /* Three-row stack so the tag-select gets its own row instead of sharing
-   * a column with the ADD button (which used to inherit tag-select's
-   * 130px min-width and balloon to ~170px). */
-  .composer-row {
-    grid-template-columns: auto 1fr auto !important;
-    grid-template-areas:
-      "dir field add"
-      "tag tag tag"
-      "when when when" !important;
-  }
+  .composer .field { grid-area: field; min-width: 0; width: 100%; }
+  .composer .when-wrap { grid-area: when; min-width: 0; }
   .composer .branch-select,
   .composer .tag-select { grid-area: tag; min-width: 0; width: 100%; }
   .composer .tag-select > input { min-width: 0; width: 100%; }
+  .composer .commit-btn {
+    grid-area: add;
+    width: 100%;
+    padding: 9px 10px;
+    font-size: 13px;
+    font-weight: 600;
+  }
 
   /* Anchor the date picker popup to the left edge of its container so it
    * cannot push off-screen when the trigger sits near the right edge. */
@@ -1270,7 +1276,6 @@ body {
     left: 0 !important;
     right: auto !important;
   }
-  .composer .branch-select { grid-area: tag; min-width: 0; }
   .composer .when-btn { width: 100%; text-align: left; }
   .composer input { font-size: 12px; }
 
@@ -1347,9 +1352,18 @@ body {
     padding: 7px 10px 7px 10px;
     font-size: 11.5px;
   }
+  /* Drop the column-header row — TIME/LABEL/AMOUNT is obvious from the
+   * first entry below and saves a precious ~30px of vertical real estate. */
+  .ledger-head { display: none; }
   .ledger-head .lh-tags, .ledger-row .lr-tags { display: none; }
   .ledger-day .ld-head { padding: 8px 10px 4px; }
-  .ledger-toolbar { padding: 6px 10px; gap: 8px; }
+  .ledger-toolbar {
+    padding: 5px 10px;
+    gap: 8px;
+    font-size: 9.5px;
+    min-height: 0;
+  }
+  .ledger-order button { padding: 3px 7px; font-size: 9.5px; }
   .lr-label .lr-title { font-size: 12px; }
 }
 
@@ -2534,6 +2548,8 @@ body {
 .dash-tg-line {
   display: flex; flex-direction: column; gap: 4px;
   padding: 8px 2px 4px;
+  /* Pure visual context — taps should pass through to the entry list. */
+  pointer-events: none;
 }
 .dash-tg-track {
   position: relative;
