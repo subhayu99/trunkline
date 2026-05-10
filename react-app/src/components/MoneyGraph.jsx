@@ -744,11 +744,28 @@ export default function MoneyGraph({
             <g key={`band-${b.year}-${b.month}`}>
               <rect x={leftPad - 28} y={yTop} width={containerW} height={yBot - yTop}
                     fill={i % 2 ? bandColors[1] : bandColors[0]} opacity={0.6} />
-              <text x={leftPad - 12} y={yTop + 14} className="mono" fontSize="10"
-                    fill="var(--ink-3)" fontWeight="600" textAnchor="end"
-                    style={{ textTransform: "uppercase", letterSpacing: ".12em" }}>
-                {MONTH_NAMES[b.month]} '{String(b.year).slice(-2)}
-              </text>
+              {isNarrow ? (
+                // Narrow: stack month and year vertically, left-anchored at
+                // x=2 so they fit in the 32px leftPad without clipping.
+                <>
+                  <text x={2} y={yTop + 12} className="mono" fontSize="9"
+                        fill="var(--ink-3)" fontWeight="600" textAnchor="start"
+                        style={{ textTransform: "uppercase", letterSpacing: ".08em" }}>
+                    {MONTH_NAMES[b.month]}
+                  </text>
+                  <text x={2} y={yTop + 23} className="mono" fontSize="8"
+                        fill="var(--ink-3)" textAnchor="start"
+                        style={{ letterSpacing: ".04em" }}>
+                    '{String(b.year).slice(-2)}
+                  </text>
+                </>
+              ) : (
+                <text x={leftPad - 12} y={yTop + 14} className="mono" fontSize="10"
+                      fill="var(--ink-3)" fontWeight="600" textAnchor="end"
+                      style={{ textTransform: "uppercase", letterSpacing: ".12em" }}>
+                  {MONTH_NAMES[b.month]} '{String(b.year).slice(-2)}
+                </text>
+              )}
             </g>
           );
         })}
