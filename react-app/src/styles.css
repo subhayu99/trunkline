@@ -1355,8 +1355,12 @@ body {
   /* Drop the column-header row — TIME/LABEL/AMOUNT is obvious from the
    * first entry below and saves a precious ~30px of vertical real estate. */
   .ledger-head { display: none; }
+  /* The day-header `.ld-head` is sticky at top: 33px (the column-header's
+   * height). With that row hidden, anchor it to the top instead so it
+   * doesn't appear to float mid-list with previous entries scrolling
+   * behind it in dead space. */
+  .ledger-day .ld-head { padding: 8px 10px 4px; top: 0; }
   .ledger-head .lh-tags, .ledger-row .lr-tags { display: none; }
-  .ledger-day .ld-head { padding: 8px 10px 4px; }
   .ledger-toolbar {
     padding: 5px 10px;
     gap: 8px;
