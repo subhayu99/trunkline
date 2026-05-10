@@ -20,7 +20,9 @@ export function fmtCompact(n, symbol = "₹") {
   if (abs >= 1e7) return symbol + (n / 1e7).toFixed(1) + "Cr";
   if (abs >= 1e5) return symbol + (n / 1e5).toFixed(1) + "L";
   if (abs >= 1e3) return symbol + (n / 1e3).toFixed(1) + "k";
-  return symbol + n;
+  // Sub-thousand: round to integer. Compact format is at-a-glance, so the
+  // raw float (e.g. -239.7165384615431 from a daily-net calc) reads as noise.
+  return symbol + Math.round(n);
 }
 
 export const MONTH_NAMES = ["jan","feb","mar","apr","may","jun","jul","aug","sep","oct","nov","dec"];
