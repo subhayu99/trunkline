@@ -561,7 +561,7 @@ function FinanceApp() {
         <>
           <Fab
             onClick={() => setComposerSheetOpen(true)}
-            hidden={mobileTab === "more" || composerSheetOpen || !!editing}
+            hidden={mobileTab === "more" || mobileTab === "dash" || composerSheetOpen || !!editing}
           />
           <ComposerSheet
             open={composerSheetOpen}

@@ -2290,13 +2290,13 @@ body {
 
 .dash-wrap {
   height: 100%;
+  min-height: 0;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
   background: var(--bg);
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
   padding: 12px 12px 24px;
 }
+.dash-wrap > * + * { margin-top: 10px; }
 
 .dash-kpis {
   display: grid;
@@ -2605,7 +2605,8 @@ body {
 
 /* In the right-rail panel, drop the outer padding so the dash sections
  * use the panel's full width (the rail already provides chrome). */
-.rail-panel[data-panel="dash"] .dash-wrap { padding: 8px; gap: 8px; }
+.rail-panel[data-panel="dash"] .dash-wrap { padding: 8px; }
+.rail-panel[data-panel="dash"] .dash-wrap > * + * { margin-top: 8px; }
 .rail-panel[data-panel="dash"] .dash-kpis { padding: 8px; gap: 4px; }
 .rail-panel[data-panel="dash"] .dash-kpi-v { font-size: 12px; }
 .rail-panel[data-panel="dash"] .dash-card-head { padding: 8px 10px 4px; }
