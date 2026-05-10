@@ -362,11 +362,9 @@ export default function Dash({
       ? rateMetrics({
           entries, range, now,
           initialBalance: data.initialBalance,
-          totalOut: lane.totalOut,
-          income: lane.income,
         })
       : null,
-    [entries, range, now, data, lane.totalOut, lane.income]
+    [entries, range, now, data]
   );
   const pop = useMemo(
     () => deltaByLane(entries, range, kinds),
@@ -439,7 +437,7 @@ export default function Dash({
         </div>
       </div>
 
-      {rate && rate.days >= 2 && (rate.dailyOut > 0 || rate.dailyIncome > 0) && (
+      {rate && rate.validWindow && rate.days >= 2 && (rate.dailyOut > 0 || rate.dailyIncome > 0) && (
         <div className="dash-rate" title={`${rate.days} days in range`}>
           <span className="dash-rate-bit">
             <span className="dash-rate-v">{fmtCompact(rate.dailyOut, symbol)}</span>

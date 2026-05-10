@@ -213,31 +213,33 @@ export function deltaByLane(entries, range, kinds) {
 
 // Rate metrics for the active range: daily averages + runway.
 //
-//   days        — duration in days (max 1)
-//   dailyOut    — average outflow per day in range
-//   dailyIncome — average income per day in range
-//   dailyNet    — (income − outflow) per day in range
+//   days        — number of days the past-only window covers (≥ 1)
+//   dailyOut    — average past outflow per day in window
+//   dailyIncome — average past income  per day in window
+//   dailyNet    — (income − outflow) per day, both past-only
 //   balanceAtNow — running balance walked through entries up to `now`
-//   runwayDays  — how long balanceAtNow lasts at the current dailyNet,
-//                 only computed when burning (dailyNet < 0). null otherwise.
+//   runwayDays  — how long balanceAtNow lasts at the current dailyNet
+//                 (only when burning, i.e. dailyNet < 0). null otherwise.
 //
-// For "all time" ranges we use [earliestEntry, now] as the window so the
-// average isn't dominated by far-future projections.
-export function rateMetrics({ entries, range, now, initialBalance, totalOut, income }) {
-  const isAllTime = !isFinite(range.start);
+// **Past-only by design.** `entries` includes future-materialized
+// recurring occurrences (the chart needs them to project forward), so
+// summing them and dividing by past days inflates the daily rate. We
+// always clamp the window to (max(rangeStart, earliestPastEntry), min(rangeEnd, now)]
+// and recompute the income/outflow over THAT window — which means the
+// rate strip answers "what have I actually been doing?", not "what does
+// the model predict if my recurrences play out".
+//
+// For futureOnly ranges (window entirely in the future) we return a
+// flagged empty result; the caller hides the strip.
+export function rateMetrics({ entries, range, now, initialBalance }) {
   const nowMs = now.getTime();
 
-  let earliest = nowMs;
+  let earliest = Infinity;
   for (const e of entries) {
     const t = new Date(e.when).getTime();
+    if (t > nowMs) continue;
     if (t < earliest) earliest = t;
   }
-
-  const startMs = isAllTime ? earliest : range.start;
-  const endMs   = isAllTime
-    ? nowMs
-    : (isFinite(range.end) ? range.end : nowMs);
-  const days = Math.max(1, Math.ceil((endMs - startMs) / MS_PER_DAY));
 
   let balanceAtNow = initialBalance;
   for (const e of entries) {
@@ -248,14 +250,41 @@ export function rateMetrics({ entries, range, now, initialBalance, totalOut, inc
     if (e.dir === "merge") balanceAtNow -= e.amount;
   }
 
-  const dailyOut    = totalOut / days;
-  const dailyIncome = income / days;
-  const dailyNet    = (income - totalOut) / days;
+  const isAllTime = !isFinite(range.start);
+  const rawStart  = isAllTime ? earliest : Math.max(range.start, isFinite(earliest) ? earliest : range.start);
+  const rawEnd    = isFinite(range.end) ? Math.min(range.end, nowMs) : nowMs;
+
+  if (!isFinite(rawStart) || rawEnd <= rawStart) {
+    return {
+      days: 0, dailyOut: 0, dailyIncome: 0, dailyNet: 0,
+      balanceAtNow, runwayDays: null,
+      isAllTime, validWindow: false,
+    };
+  }
+
+  const days = Math.max(1, Math.ceil((rawEnd - rawStart) / MS_PER_DAY));
+
+  let windowOut = 0, windowIncome = 0;
+  for (const e of entries) {
+    if (e.dir === "merge") continue;
+    const t = new Date(e.when).getTime();
+    if (t < rawStart || t > rawEnd) continue;
+    if (e.dir === "in")  windowIncome += e.amount;
+    if (e.dir === "out") windowOut    += e.amount;
+  }
+
+  const dailyOut    = windowOut    / days;
+  const dailyIncome = windowIncome / days;
+  const dailyNet    = (windowIncome - windowOut) / days;
   const runwayDays  = (dailyNet < 0 && balanceAtNow > 0)
     ? Math.floor(balanceAtNow / -dailyNet)
     : null;
 
-  return { days, dailyOut, dailyIncome, dailyNet, balanceAtNow, runwayDays, isAllTime };
+  return {
+    days, dailyOut, dailyIncome, dailyNet,
+    balanceAtNow, runwayDays,
+    isAllTime, validWindow: true,
+  };
 }
 
 // Filter entries to drill into a specific lane or tag.
