@@ -619,9 +619,12 @@ export default function MoneyGraph({
     // — the diamond at xMain — rather than at xK on the lane.
     const hitX = g.isMerge ? g.xM : g.xK;
     const dotR = g.isMerge ? 0 : Math.max(2.2, Math.min(6, 2 + g.w * 0.22));
-    // Larger transparent hit ring so taps land reliably on touch devices and
+    // Transparent hit ring so taps land reliably on touch devices and
     // the dot isn't shadowed by overlapping paths from neighbouring lanes.
-    const hitR = Math.max(dotR + 8, 14);
+    // Sized to ~22px diameter — smaller than Apple's 44pt guideline but
+    // larger hit zones overlapped neighbours when entries cluster on a
+    // day, causing the wrong dot to fire.
+    const hitR = Math.max(dotR + 5, 11);
     return (
       <g key={`d-${e.id}`} style={{ opacity: g.op }}>
         <circle
